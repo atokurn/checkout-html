@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran - ScutiEX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+        }
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out, visibility 0.3s;
+            overflow: hidden;
+            visibility: hidden;
+        }
+        .accordion-content.open {
+            grid-template-rows: 1fr;
+            visibility: visible;
+        }
+        .accordion-inner {
+            min-height: 0;
+            /* Ensure content doesn't overflow during transition */
+            overflow: hidden;
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white pb-24">
+    <!-- Header -->
+    <header class="sticky top-0 w-full bg-white z-20 border-b">
+        <div class="max-w-md mx-auto flex items-center p-4">
+            <a href="checkout.html" class="mr-4">
+                <i data-lucide="arrow-left" class="w-6 h-6"></i>
+            </a>
+            <h1 class="text-xl font-bold">Metode Pembayaran</h1>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto">
+        <!-- Dompet Digital -->
+        <div class="border-b">
+            <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors accordion-trigger" data-target="dompet-digital">
+                <span class="font-bold text-gray-900">Dompet Digital</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform"></i>
+            </button>
+            <div id="dompet-digital" class="accordion-content">
+                <div class="accordion-inner px-4 pb-4 space-y-6">
+                    <!-- Jago -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Logo_Bank_Jago.svg" alt="Jago" class="w-8 h-8 mr-4">
+                            <span class="text-sm font-medium text-gray-800">Jago / Jago Syariah</span>
+                        </div>
+                        <input type="radio" name="payment-method" class="w-5 h-5 accent-green-600 border-gray-300">
+                    </label>
+
+                    <!-- GoPay -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay" class="w-8 h-8 mr-4">
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-sm font-medium text-gray-800">GoPay</span>
+                                    <span class="text-xs text-gray-400 font-normal">(Saldo: Rp15.455)</span>
+                                </div>
+                                <p class="text-[11px] text-gray-400">Bisa digabung metode lain</p>
+                            </div>
+                        </div>
+                        <input type="radio" name="payment-method" class="w-5 h-5 accent-green-600 border-gray-300">
+                    </label>
+
+                    <!-- OVO -->
+                    <label class="flex items-center justify-between opacity-50 cursor-not-allowed">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="w-8 h-8 mr-4 grayscale">
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-sm font-medium text-gray-800">OVO</span>
+                                    <span class="text-xs text-gray-400 font-normal">(Saldo: Rp694)</span>
+                                </div>
+                                <p class="text-[11px] text-gray-400">Saldo tidak cukup</p>
+                            </div>
+                        </div>
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-200"></div>
+                    </label>
+
+                    <!-- DANA -->
+                    <label class="flex items-center justify-between opacity-50 cursor-not-allowed">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_DANA.svg" alt="DANA" class="w-8 h-8 mr-4 grayscale">
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-sm font-medium text-gray-800">DANA</span>
+                                    <span class="text-xs text-gray-400 font-normal">(Saldo: Rp29.471)</span>
+                                </div>
+                                <p class="text-[11px] text-gray-400">Saldo tidak cukup</p>
+                            </div>
+                        </div>
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-200"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Virtual Account -->
+        <div class="border-b">
+            <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors accordion-trigger" data-target="virtual-account">
+                <span class="font-bold text-gray-900">Virtual Account</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform"></i>
+            </button>
+            <div id="virtual-account" class="accordion-content open">
+                <div class="accordion-inner px-4 pb-4 space-y-6">
+                    <!-- BCA -->
+                    <div class="space-y-2">
+                        <label class="flex items-center justify-between cursor-pointer group">
+                            <div class="flex items-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="w-8 h-8 mr-4">
+                                <span class="text-sm font-medium text-gray-800">BCA Virtual Account</span>
+                            </div>
+                            <input type="radio" name="payment-method" class="w-5 h-5 accent-green-600 border-gray-300" checked>
+                        </label>
+                        <div class="flex items-start gap-2 pl-12">
+                            <i data-lucide="info" class="w-3.5 h-3.5 text-gray-400 mt-0.5"></i>
+                            <p class="text-[11px] text-gray-400 leading-tight">Transaksi >Rp50 juta perlu dibayar di KlikBCA/ATM</p>
+                        </div>
+                    </div>
+
+                    <!-- Mandiri -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="w-8 h-8 mr-4">
+                            <span class="text-sm font-medium text-gray-800">Mandiri Virtual Account</span>
+                        </div>
+                        <input type="radio" name="payment-method" class="w-5 h-5 accent-green-600 border-gray-300">
+                    </label>
+
+                    <!-- BRI -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_Logo.svg" alt="BRI" class="w-8 h-8 mr-4">
+                            <span class="text-sm font-medium text-gray-800">BRI Virtual Account</span>
+                        </div>
+                        <input type="radio" name="payment-method" class="w-5 h-5 accent-green-600 border-gray-300">
+                    </label>
+
+                    <!-- BNI -->
+                    <label class="flex items-center justify-between cursor-pointer group">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Negara_Indonesia.svg" alt="BNI" class="w-8 h-8 mr-4">
+                            <span class="text-sm font-medium text-gray-800">BNI Virtual Account</span>
+                        </div>
+                        <input type="radio" name="payment-method" class="w-5 h-5 accent-green-600 border-gray-300">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sections with Accordions -->
+        <div class="border-b">
+            <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors accordion-trigger" data-target="kartu-kredit">
+                <span class="font-bold text-gray-900">Kartu Kredit / Debit</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform"></i>
+            </button>
+            <div id="kartu-kredit" class="accordion-content">
+                <div class="accordion-inner px-4 pb-4">
+                    <p class="text-sm text-gray-500">Metode pembayaran tidak tersedia.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-b">
+            <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors accordion-trigger" data-target="paylater">
+                <span class="font-bold text-gray-900">PayLater</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform"></i>
+            </button>
+            <div id="paylater" class="accordion-content">
+                <div class="accordion-inner px-4 pb-4">
+                    <p class="text-sm text-gray-500">Metode pembayaran tidak tersedia.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-b">
+            <button class="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors accordion-trigger" data-target="bayar-di-tempat">
+                <span class="font-bold text-gray-900">Bayar di Tempat</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform"></i>
+            </button>
+            <div id="bayar-di-tempat" class="accordion-content">
+                <div class="accordion-inner px-4 pb-4">
+                    <p class="text-sm text-gray-500">Metode pembayaran tidak tersedia.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 w-full bg-white border-t z-20">
+        <div class="max-w-md mx-auto p-4 flex items-center justify-between">
+            <div class="flex flex-col">
+                <span class="text-xs text-gray-500">Total Bayar</span>
+                <span class="font-bold text-lg text-gray-900">Rp4.176.400</span>
+            </div>
+            <a href="checkout.html" class="bg-[#00AA5B] text-white font-bold py-2.5 px-12 rounded-lg hover:opacity-90 active:scale-95 transition-all">
+                Pilih
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Accordion Logic
+        document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+            const targetId = trigger.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            
+            if (!content) return;
+
+            // Find the icon (Lucide replaces <i> with <svg>)
+            const getIcon = () => trigger.querySelector('svg, i');
+
+            // Initial rotation for open items
+            if (content.classList.contains('open')) {
+                const icon = getIcon();
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+
+            trigger.addEventListener('click', () => {
+                const isOpen = content.classList.contains('open');
+                const icon = getIcon();
+                
+                // Toggle current
+                if (isOpen) {
+                    content.classList.remove('open');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.classList.add('open');
+                    if (icon) icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

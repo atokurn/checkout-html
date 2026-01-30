@@ -66,23 +66,29 @@
                     <div class="flex-1">
                         <h3 class="text-sm text-gray-800 line-clamp-2 mb-1">5D4N Adventure Djawatan dan Savana Bekol...</h3>
                         <span class="inline-block bg-blue-50 text-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded mb-2">Gratis pengembalian</span>
-                        <div class="flex items-baseline gap-1">
-                            <span class="font-bold text-sm">Rp</span>
-                            <span id="price-per-unit" class="font-bold text-lg">3.919.000</span>
-                            <span class="text-gray-400 text-sm">x 1</span>
+                        
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="font-bold text-sm">Rp</span>
+                                    <span id="price-per-unit" class="font-bold text-lg">3.919.000</span>
+                                    <span class="text-gray-400 text-sm">x 1</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-400 text-xs line-through">Rp5.500.000</span>
+                                    <span class="text-red-500 text-[10px] font-bold bg-red-50 px-1 rounded">29%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col items-end gap-1">
+                                <div class="flex items-center border rounded-md">
+                                    <button id="btn-minus" class="p-1 px-2 text-gray-400 hover:text-gray-600">-</button>
+                                    <input type="text" id="quantity" value="1" class="w-8 text-center text-sm font-semibold outline-none bg-transparent" readonly>
+                                    <button id="btn-plus" class="p-1 px-2 text-gray-400 hover:text-gray-600">+</button>
+                                </div>
+                                <span class="text-[10px] text-gray-400">1-20 pax</span>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-gray-400 text-xs line-through">Rp5.500.000</span>
-                            <span class="text-red-500 text-[10px] font-bold bg-red-50 px-1 rounded">29%</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-end gap-1">
-                        <div class="flex items-center border rounded-md">
-                            <button id="btn-minus" class="p-1 px-2 text-gray-400 hover:text-gray-600">-</button>
-                            <input type="text" id="quantity" value="1" class="w-8 text-center text-sm font-semibold outline-none bg-transparent" readonly>
-                            <button id="btn-plus" class="p-1 px-2 text-gray-400 hover:text-gray-600">+</button>
-                        </div>
-                        <span class="text-[10px] text-gray-400">1-20 pax</span>
                     </div>
                 </div>
             </section>
@@ -151,7 +157,7 @@
             <section class="p-4">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="font-bold text-sm">Metode pembayaran</h2>
-                    <button class="text-blue-600 text-xs font-bold">Lihat Semua</button>
+                    <a href="payment-methods.html" class="text-blue-600 text-xs font-bold">Lihat Semua</a>
                 </div>
 
                 <div class="space-y-4">
