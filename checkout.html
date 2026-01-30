@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ScutiEX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f3f5;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            margin: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-32 bg-[#f1f3f5]">
+    <!-- Header -->
+    <header class="sticky top-0 w-full bg-white z-20 border-b">
+        <div class="max-w-md mx-auto flex items-center p-4">
+            <button class="mr-4">
+                <i data-lucide="arrow-left" class="w-6 h-6"></i>
+            </button>
+            <h1 class="text-xl font-bold">Checkout</h1>
+        </div>
+    </header>
+
+    <main class="py-2 max-w-md mx-auto">
+        <!-- 1. Primary Detail Traveller -->
+        <div class="card">
+            <section class="p-4 cursor-pointer hover:bg-gray-50 transition-colors">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="font-bold text-sm mb-2 text-gray-400 uppercase tracking-wider">Primary Detail Traveller</h2>
+                        <div class="flex items-center text-blue-600 font-semibold mb-1">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-1 fill-current"></i>
+                            <span>Atok</span>
+                        </div>
+                        <p class="text-gray-500 text-sm">6285881738468 - test@gmail.com</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400 mt-1"></i>
+                </div>
+            </section>
+        </div>
+
+        <!-- 2. Trip Details, Date Picker, Notes -->
+        <div class="card">
+            <!-- Trip Item -->
+            <section class="p-4 border-b border-gray-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-5 h-5 bg-purple-600 rounded flex items-center justify-center mr-2">
+                        <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                    </div>
+                    <span class="font-bold text-sm">Private Trip</span>
+                </div>
+
+                <div class="flex gap-4">
+                    <img src="https://placehold.co/80x80" alt="Trip Image" class="w-20 h-20 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h3 class="text-sm text-gray-800 line-clamp-2 mb-1">5D4N Adventure Djawatan dan Savana Bekol...</h3>
+                        <span class="inline-block bg-blue-50 text-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded mb-2">Gratis pengembalian</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="font-bold text-sm">Rp</span>
+                            <span id="price-per-unit" class="font-bold text-lg">3.919.000</span>
+                            <span class="text-gray-400 text-sm">x 1</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-400 text-xs line-through">Rp5.500.000</span>
+                            <span class="text-red-500 text-[10px] font-bold bg-red-50 px-1 rounded">29%</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <div class="flex items-center border rounded-md">
+                            <button id="btn-minus" class="p-1 px-2 text-gray-400 hover:text-gray-600">-</button>
+                            <input type="text" id="quantity" value="1" class="w-8 text-center text-sm font-semibold outline-none bg-transparent" readonly>
+                            <button id="btn-plus" class="p-1 px-2 text-gray-400 hover:text-gray-600">+</button>
+                        </div>
+                        <span class="text-[10px] text-gray-400">1-20 pax</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Date Picker -->
+            <section class="p-4 border-b border-gray-100">
+                <button id="date-picker-trigger" class="w-full flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-all active:scale-[0.99]">
+                    <div class="flex items-center text-gray-700">
+                        <i data-lucide="calendar" class="w-5 h-5 mr-3 text-gray-400"></i>
+                        <span id="selected-date-text" class="text-sm font-medium">Pilih tanggal perjalanan</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                </button>
+                <p id="date-error" class="text-red-500 text-xs mt-1 hidden">Harap pilih tanggal perjalanan</p>
+            </section>
+
+            <!-- Notes -->
+            <section class="p-4">
+                <div id="notes-container" class="hidden mb-3">
+                    <textarea id="notes-input" class="w-full border rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-blue-500" placeholder="Tulis catatan di sini..."></textarea>
+                </div>
+                <button id="notes-trigger" class="w-full flex items-center justify-between py-1 hover:opacity-70 transition-opacity">
+                    <div class="flex items-center text-gray-700">
+                        <i data-lucide="file-text" class="w-5 h-5 mr-3 text-gray-400"></i>
+                        <span class="text-sm font-medium">Kasih Catatan</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400 transition-transform" id="notes-chevron"></i>
+                </button>
+            </section>
+        </div>
+
+        <!-- 3. Promo -->
+        <div class="card">
+            <section class="p-4">
+                <button class="w-full flex items-center justify-between py-1">
+                    <div class="flex items-center text-gray-700">
+                        <i data-lucide="ticket" class="w-5 h-5 mr-3 text-gray-400"></i>
+                        <span class="text-sm font-medium">Pakai promo biar makin hemat!</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                </button>
+            </section>
+        </div>
+
+        <!-- DP / Pembayaran Sebagian -->
+        <div class="card">
+            <section class="p-4 flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-yellow-400 rounded-md flex items-center justify-center mr-3">
+                        <i data-lucide="banknote" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900">DP / Pembayaran Sebagian</h3>
+                        <p class="text-[11px] text-gray-500">Minimum pembayaran 30%</p>
+                    </div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="dp-toggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+            </section>
+        </div>
+
+        <!-- 4. Metode Pembayaran -->
+        <div class="card">
+            <section class="p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-bold text-sm">Metode pembayaran</h2>
+                    <button class="text-blue-600 text-xs font-bold">Lihat Semua</button>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Mandiri -->
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors payment-option">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="w-8 mr-3">
+                            <span class="text-sm text-gray-700">Mandiri Virtual Account</span>
+                        </div>
+                        <input type="radio" name="payment" value="mandiri" checked class="w-5 h-5 accent-blue-600">
+                    </label>
+
+                    <!-- Jago -->
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors payment-option">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Logo_Bank_Jago.svg" alt="Jago" class="w-8 mr-3">
+                            <div class="flex flex-col">
+                                <span class="text-sm text-gray-700 font-medium">Jago / Jago Syariah</span>
+                                <span class="text-gray-400 text-[10px]">Facebook Adsense</span>
+                            </div>
+                        </div>
+                        <input type="radio" name="payment" value="jago" class="w-5 h-5 accent-blue-600">
+                    </label>
+
+                    <!-- BCA -->
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors payment-option">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="w-8 mr-3">
+                            <span class="text-sm text-gray-700">BCA Virtual Account</span>
+                        </div>
+                        <input type="radio" name="payment" value="bca" class="w-5 h-5 accent-blue-600">
+                    </label>
+
+                    <!-- BRI -->
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors payment-option">
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_Logo.svg" alt="BRI" class="w-8 mr-3">
+                            <span class="text-sm text-gray-700">BRI Virtual Account</span>
+                        </div>
+                        <input type="radio" name="payment" value="bri" class="w-5 h-5 accent-blue-600">
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <!-- 5. Summary -->
+        <div class="card mb-8">
+            <section class="p-4 space-y-2">
+                <h2 class="font-bold text-sm mb-3">Cek ringkasan transaksimu, yuk</h2>
+                
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Total Harga (1 Barang)</span>
+                    <span id="summary-total-price" class="text-gray-700">Rp5.500.000</span>
+                </div>
+                
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Total Ongkos Kirim</span>
+                    <span class="text-gray-700">Rp230.500</span>
+                </div>
+
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-500">Total Asuransi Pengiriman</span>
+                    <span class="text-gray-700">Rp24.900</span>
+                </div>
+
+                <div class="flex justify-between text-sm items-center">
+                    <div class="flex items-center text-gray-500">
+                        <span>Biaya Layanan</span>
+                        <i data-lucide="info" class="w-3 h-3 ml-1"></i>
+                    </div>
+                    <span class="text-gray-700">Rp1.000</span>
+                </div>
+
+                <div class="flex justify-between text-sm items-center">
+                    <div class="flex items-center text-gray-500">
+                        <span>Biaya Jasa Aplikasi</span>
+                        <i data-lucide="info" class="w-3 h-3 ml-1"></i>
+                    </div>
+                    <span class="text-gray-700">Rp1.000</span>
+                </div>
+
+                <div class="flex justify-between text-sm">
+                    <div class="flex items-center text-gray-500">
+                        <span>Diskon</span>
+                        <img src="https://img.icons8.com/color/48/000000/discount.png" class="w-4 h-4 ml-1 mr-1">
+                        <i data-lucide="chevron-up" class="w-3 h-3"></i>
+                    </div>
+                </div>
+
+                <div class="flex justify-between text-sm pl-4">
+                    <span class="text-gray-400">Diskon Barang</span>
+                    <span id="summary-discount" class="text-red-500">-Rp1.581.000</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 w-full bg-white border-t shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+        <div class="max-w-md mx-auto p-4 flex items-center justify-between">
+            <div class="flex flex-col">
+                <span class="text-xs text-gray-500">Total Tagihan</span>
+                <div class="flex items-center">
+                    <span id="final-total" class="font-bold text-lg">Rp4.176.400</span>
+                    <img src="https://img.icons8.com/color/48/000000/discount.png" class="w-4 h-4 ml-1">
+                </div>
+                <span id="savings" class="text-[10px] text-red-500">Kamu Hemat Rp1.5jt!</span>
+            </div>
+            <button id="btn-pay" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-xl flex items-center gap-2 hover:bg-blue-700 active:scale-95 transition-all">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+                Bayar Sekarang
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Constants
+        const PRICE_PER_UNIT = 3919000;
+        const ORIGINAL_PRICE_PER_UNIT = 5500000;
+        const SHIPPING_FEE = 230500;
+        const INSURANCE_FEE = 24900;
+        const SERVICE_FEE = 1000;
+        const APP_FEE = 1000;
+
+        // Elements
+        const quantityInput = document.getElementById('quantity');
+        const dpToggle = document.getElementById('dp-toggle');
+        const btnMinus = document.getElementById('btn-minus');
+        const btnPlus = document.getElementById('btn-plus');
+        const summaryTotalPrice = document.getElementById('summary-total-price');
+        const summaryDiscount = document.getElementById('summary-discount');
+        const finalTotal = document.getElementById('final-total');
+        const savings = document.getElementById('savings');
+        const btnPay = document.getElementById('btn-pay');
+        const datePickerTrigger = document.getElementById('date-picker-trigger');
+        const selectedDateText = document.getElementById('selected-date-text');
+        const dateError = document.getElementById('date-error');
+        const notesTrigger = document.getElementById('notes-trigger');
+        const notesContainer = document.getElementById('notes-container');
+        const notesChevron = document.getElementById('notes-chevron');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+
+        let isDateSelected = false;
+
+        // Functions
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number).replace('IDR', 'Rp');
+        }
+
+        function updateSummary() {
+            const qty = parseInt(quantityInput.value);
+            const totalOriginal = ORIGINAL_PRICE_PER_UNIT * qty;
+            const totalDiscounted = PRICE_PER_UNIT * qty;
+            const discountAmount = totalOriginal - totalDiscounted;
+            
+            let bill = totalDiscounted + SHIPPING_FEE + INSURANCE_FEE + SERVICE_FEE + APP_FEE;
+            
+            if (dpToggle && dpToggle.checked) {
+                bill = bill * 0.3;
+                savings.textContent = 'DP 30% Diaktifkan';
+            } else {
+                const savingsText = `Kamu Hemat Rp${(discountAmount / 1000000).toFixed(1)}jt!`;
+                savings.textContent = savingsText;
+            }
+
+            summaryTotalPrice.textContent = formatRupiah(totalOriginal).replace(/\s/g, '');
+            summaryDiscount.textContent = '-' + formatRupiah(discountAmount).replace(/\s/g, '');
+            finalTotal.textContent = formatRupiah(bill).replace(/\s/g, '');
+        }
+
+        // Event Listeners
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                paymentOptions.forEach(opt => opt.classList.remove('bg-blue-50', 'border-blue-200', 'border'));
+                option.classList.add('bg-blue-50', 'border-blue-200', 'border');
+            });
+        });
+
+        // Set initial payment state
+        document.querySelector('.payment-option input:checked').parentElement.classList.add('bg-blue-50', 'border-blue-200', 'border');
+
+        btnMinus.addEventListener('click', () => {
+            let val = parseInt(quantityInput.value);
+            if (val > 1) {
+                quantityInput.value = val - 1;
+                updateSummary();
+                // Visual feedback
+                btnMinus.classList.add('bg-gray-100');
+                setTimeout(() => btnMinus.classList.remove('bg-gray-100'), 100);
+            }
+        });
+
+        btnPlus.addEventListener('click', () => {
+            let val = parseInt(quantityInput.value);
+            if (val < 20) {
+                quantityInput.value = val + 1;
+                updateSummary();
+                // Visual feedback
+                btnPlus.classList.add('bg-gray-100');
+                setTimeout(() => btnPlus.classList.remove('bg-gray-100'), 100);
+            }
+        });
+
+        datePickerTrigger.addEventListener('click', () => {
+            // Simulate date selection
+            const today = new Date();
+            const selectedDate = new Date(today.setDate(today.getDate() + 7));
+            const formattedDate = selectedDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            selectedDateText.textContent = formattedDate;
+            selectedDateText.classList.remove('text-gray-700');
+            selectedDateText.classList.add('text-blue-600', 'font-bold');
+            dateError.classList.add('hidden');
+            isDateSelected = true;
+
+            // Visual feedback
+            datePickerTrigger.classList.add('border-blue-500', 'bg-blue-50');
+        });
+
+        notesTrigger.addEventListener('click', () => {
+            const isHidden = notesContainer.classList.contains('hidden');
+            if (isHidden) {
+                notesContainer.classList.remove('hidden');
+                notesChevron.style.transform = 'rotate(90deg)';
+            } else {
+                notesContainer.classList.add('hidden');
+                notesChevron.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        btnPay.addEventListener('click', () => {
+            if (!isDateSelected) {
+                dateError.classList.remove('hidden');
+                datePickerTrigger.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                datePickerTrigger.classList.add('border-red-500', 'animate-pulse');
+                setTimeout(() => datePickerTrigger.classList.remove('animate-pulse'), 1000);
+                return;
+            }
+
+            // Show loading state
+            const originalContent = btnPay.innerHTML;
+            btnPay.disabled = true;
+            btnPay.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Memproses...';
+            lucide.createIcons();
+
+            setTimeout(() => {
+                alert('Pesanan Anda berhasil dikonfirmasi! Terima kasih telah memilih ScutiEX.');
+                btnPay.disabled = false;
+                btnPay.innerHTML = originalContent;
+                lucide.createIcons();
+            }, 2000);
+        });
+
+        if (dpToggle) {
+            dpToggle.addEventListener('change', updateSummary);
+        }
+
+        // Initial call
+        updateSummary();
+    </script>
+</body>
+</html>
