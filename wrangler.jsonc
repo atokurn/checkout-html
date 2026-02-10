@@ -2,8 +2,7 @@
   "name": "antigravity-test-html",
   "compatibility_date": "2024-09-23",
   "assets": {
-    "directory": ".",
-    "binding": "ASSETS"
+    "directory": "."
   },
   "observability": {
     "enabled": true
