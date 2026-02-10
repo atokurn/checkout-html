@@ -478,16 +478,35 @@
                 </div>
             </div>
             <script>
-                setInterval(function() {
-                    const carousel = document.getElementById('reviewCarousel');
-                    if (carousel) {
-                        if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 5) {
-                            carousel.scrollTo({left: 0, behavior: 'smooth'});
-                        } else {
-                            carousel.scrollBy({left: 272, behavior: 'smooth'});
+                const carousel = document.getElementById('reviewCarousel');
+                if (carousel) {
+                    // Clone items for infinity effect
+                    const originalChildren = Array.from(carousel.children);
+                    originalChildren.forEach(child => {
+                        carousel.appendChild(child.cloneNode(true));
+                    });
+
+                    // Calculate width of one set of items
+                    // gap-3 = 0.75rem = 12px
+                    const gap = 12;
+                    let originalWidth = 0;
+                    originalChildren.forEach(child => {
+                        originalWidth += child.offsetWidth + gap;
+                    });
+
+                    setInterval(function() {
+                        // Check if we need to reset position (infinity loop logic)
+                        // If current position matches or exceeds the start of the cloned set
+                        if (carousel.scrollLeft >= originalWidth) {
+                            carousel.scrollLeft -= originalWidth;
                         }
-                    }
-                }, 3000);
+                        
+                        // Scroll to next item
+                        // Assumes all items have same width for simplicity, or use first item
+                        const itemWidth = carousel.children[0].offsetWidth + gap;
+                        carousel.scrollBy({left: itemWidth, behavior: 'smooth'});
+                    }, 3000);
+                }
             </script>
         </section>
 
