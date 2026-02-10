@@ -240,8 +240,13 @@
 
             function updateIconScroll() {
                 const { scrollLeft, scrollWidth, clientWidth } = iconMenu;
+                if (scrollWidth <= clientWidth) {
+                    iconProgress.style.width = '100%';
+                    iconProgress.style.transform = 'translateX(0)';
+                    return;
+                }
+                iconProgress.style.width = '1rem';
                 const maxScroll = scrollWidth - clientWidth;
-                if (maxScroll <= 0) return;
                 const scrollPercentage = scrollLeft / maxScroll;
                 const thumbPosition = scrollPercentage * (48 - 16);
                 iconProgress.style.transform = `translateX(${thumbPosition}px)`;
@@ -257,8 +262,13 @@
 
             function updateDurationScroll() {
                 const { scrollLeft, scrollWidth, clientWidth } = durationMenu;
+                if (scrollWidth <= clientWidth) {
+                    durationProgress.style.width = '100%';
+                    durationProgress.style.transform = 'translateX(0)';
+                    return;
+                }
+                durationProgress.style.width = '1rem';
                 const maxScroll = scrollWidth - clientWidth;
-                if (maxScroll <= 0) return;
                 const scrollPercentage = scrollLeft / maxScroll;
                 const thumbPosition = scrollPercentage * (48 - 16);
                 durationProgress.style.transform = `translateX(${thumbPosition}px)`;
