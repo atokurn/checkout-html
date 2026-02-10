@@ -2,32 +2,15 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mockup Shopee - Antigravity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Antigravity Project</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'shopee-blue': '#3b82f6', // blue-500
-                    }
-                }
-            }
-        }
-    </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body {
-            background-color: #f5f5f5;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        .shopee-blue {
-            color: #3b82f6;
-        }
-        .bg-shopee-blue {
-            background-color: #3b82f6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f2f5;
         }
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
@@ -36,617 +19,132 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
     </style>
-</head>
-<body class="max-w-md mx-auto bg-white min-h-screen pb-20">
-
-    <!-- Header -->
-    <header class="sticky top-0 z-50 bg-shopee-blue p-3 flex items-center">
-        <div class="w-full bg-white rounded-sm flex items-center px-3 py-1.5 gap-2">
-            <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-            <input type="text" placeholder="Daftar & Dapat Voucher Gratis" class="text-sm outline-none w-full text-gray-600">
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Banner Carousel (Placeholder) -->
-        <section class="relative">
-            <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner" class="w-full aspect-[2/1] object-cover">
-            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                <div class="w-2 h-1 bg-shopee-blue rounded-full"></div>
-                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
-                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
-            </div>
-        </section>
-
-        <!-- Main Icons Menu -->
-        <section class="relative bg-white pt-4">
-            <div id="iconMenu" class="flex overflow-x-auto hide-scrollbar px-2 text-center gap-0 scroll-smooth">
-                <!-- Open Trip -->
-                <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                    <div class="w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-                        <i class="hgi-stroke hgi-mountain text-shopee-blue text-xl"></i>
-                    </div>
-                    <span class="text-[10px] leading-tight text-gray-700">Open Trip</span>
-                </div>
-                <!-- Private Trip -->
-                <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                    <div class="w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-                        <i class="hgi-stroke hgi-passport text-shopee-blue text-xl"></i>
-                    </div>
-                    <span class="text-[10px] leading-tight text-gray-700">Private Trip</span>
-                </div>
-                <!-- Gathering -->
-                <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                    <div class="w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-                        <i class="hgi-stroke hgi-user-group text-shopee-blue text-xl"></i>
-                    </div>
-                    <span class="text-[10px] leading-tight text-gray-700">Gathering</span>
-                </div>
-                <!-- City Tour -->
-                <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                    <div class="w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-                        <i class="hgi-stroke hgi-city-01 text-shopee-blue text-xl"></i>
-                    </div>
-                    <span class="text-[10px] leading-tight text-gray-700">City Tour</span>
-                </div>
-                <!-- Rental -->
-                <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                    <div class="w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-                        <i class="hgi-stroke hgi-car-01 text-shopee-blue text-xl"></i>
-                    </div>
-                    <span class="text-[10px] leading-tight text-gray-700">Rental</span>
-                </div>
-                <!-- Travel -->
-                <div class="flex flex-col items-center gap-1 min-w-[70px]">
-                    <div class="w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
-                        <i class="hgi-stroke hgi-airplane-01 text-shopee-blue text-xl"></i>
-                    </div>
-                    <span class="text-[10px] leading-tight text-gray-700">Travel</span>
-                </div>
-            </div>
-
-            <!-- Scroll Indicator Progress Bar -->
-            <div class="flex justify-center items-center py-3">
-                <div class="w-12 h-1 bg-gray-200 rounded-full relative">
-                    <div id="scroll-progress" class="absolute left-0 top-0 h-full w-4 bg-shopee-blue rounded-full"></div>
-                </div>
-            </div>
-        </section>
-
-
-
-        <!-- Trending this week -->
-        <section class="bg-white py-3">
-            <div class="flex justify-between items-center px-3 mb-3">
-                <h2 class="text-shopee-blue font-bold text-sm uppercase">Trending this week</h2>
-                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Semua <i class="fa-solid fa-chevron-right ml-1"></i></a>
-            </div>
-            <div class="flex overflow-x-auto hide-scrollbar px-3 gap-3">
-                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
-                    <img src="./img/Gemini_Generated_Image_ak92r8ak92r8ak92.png" class="w-full aspect-[3/4] object-cover" alt="Trending">
-                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-shopee-blue text-white text-[8px] px-1.5 py-0.5 rounded-sm font-bold">
-                        <i class="fa-solid fa-fire text-yellow-400"></i>
-                        <span>TRENDING</span>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="text-white text-[10px] font-medium line-clamp-1">SUNRISE KAWAH IJEN</div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
-                    <img src="./img/Gemini_Generated_Image_j8qhi3j8qhi3j8qh.png" class="w-full aspect-[3/4] object-cover" alt="Trending">
-                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-shopee-blue text-white text-[8px] px-1.5 py-0.5 rounded-sm font-bold">
-                        <i class="fa-solid fa-fire text-yellow-400"></i>
-                        <span>TRENDING</span>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="text-white text-[10px] font-medium line-clamp-1">EKSPLOR BALURAN: AFRICA VAN JAVA</div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
-                    <img src="./img/Gemini_Generated_Image_vpt03zvpt03zvpt0.png" class="w-full aspect-[3/4] object-cover" alt="Trending">
-                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-shopee-blue text-white text-[8px] px-1.5 py-0.5 rounded-sm font-bold">
-                        <i class="fa-solid fa-fire text-yellow-400"></i>
-                        <span>TRENDING</span>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="text-white text-[10px] font-medium line-clamp-1">PULAU MERAH: SUNSET EXPLORE</div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
-                    <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" class="w-full aspect-[3/4] object-cover" alt="Trending">
-                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-shopee-blue text-white text-[8px] px-1.5 py-0.5 rounded-sm font-bold">
-                        <i class="fa-solid fa-fire text-yellow-400"></i>
-                        <span>TRENDING</span>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="text-white text-[10px] font-medium line-clamp-1">CITY TOUR BANYUWANGI</div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
-                    <img src="./img/Gemini_Generated_Image_451hh3451hh3451h.png" class="w-full aspect-[3/4] object-cover" alt="Trending">
-                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-shopee-blue text-white text-[8px] px-1.5 py-0.5 rounded-sm font-bold">
-                        <i class="fa-solid fa-fire text-yellow-400"></i>
-                        <span>TRENDING</span>
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                        <div class="text-white text-[10px] font-medium line-clamp-1">SUKAMADE: TURTLE CONSERVATION</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="h-2 bg-gray-100 w-full"></div>
-
-        <!-- Durasi Trip -->
-        <section class="bg-white py-3">
-            <div class="flex justify-between items-center px-3 mb-3">
-                <h2 class="text-shopee-blue font-bold text-sm uppercase">Durasi Trip</h2>
-                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Semua <i class="fa-solid fa-chevron-right ml-1"></i></a>
-            </div>
-            <div id="durationMenu" class="flex overflow-x-auto hide-scrollbar px-3 gap-3 scroll-smooth">
-                <!-- 1 Day Trip -->
-                <div class="flex-shrink-0 w-44 border border-gray-100 p-2 flex flex-col gap-2 rounded-md">
-                    <div class="grid grid-cols-2 gap-1">
-                        <img src="./img/Gemini_Generated_Image_wo8fk4wo8fk4wo8f.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                        <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                    </div>
-                    <div class="text-[11px] text-gray-800 text-center font-medium">1 Day Trip</div>
-                </div>
-                <!-- 2 Day 1 Night -->
-                <div class="flex-shrink-0 w-44 border border-gray-100 p-2 flex flex-col gap-2 rounded-md">
-                    <div class="grid grid-cols-2 gap-1">
-                        <img src="./img/Gemini_Generated_Image_ak92r8ak92r8ak92.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                        <img src="./img/Gemini_Generated_Image_j8qhi3j8qhi3j8qh.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                    </div>
-                    <div class="text-[11px] text-gray-800 text-center font-medium">2 Day 1 Night</div>
-                </div>
-                <!-- 3 Day 2 Night -->
-                <div class="flex-shrink-0 w-44 border border-gray-100 p-2 flex flex-col gap-2 rounded-md">
-                    <div class="grid grid-cols-2 gap-1">
-                        <img src="./img/Gemini_Generated_Image_vpt03zvpt03zvpt0.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                        <img src="./img/Gemini_Generated_Image_451hh3451hh3451h.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                    </div>
-                    <div class="text-[11px] text-gray-800 text-center font-medium">3 Day 2 Night</div>
-                </div>
-                <!-- 4 Day 3 Night -->
-                <div class="flex-shrink-0 w-44 border border-gray-100 p-2 flex flex-col gap-2 rounded-md">
-                    <div class="grid grid-cols-2 gap-1">
-                        <img src="./img/Gemini_Generated_Image_wo8fk4wo8fk4wo8f.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                        <img src="./img/Gemini_Generated_Image_ak92r8ak92r8ak92.png" class="w-full aspect-square object-cover rounded-sm" alt="Trip">
-                    </div>
-                    <div class="text-[11px] text-gray-800 text-center font-medium">4 Day 3 Night</div>
-                </div>
-            </div>
-            <!-- Scroll Indicator Progress Bar for Duration Trip -->
-            <div class="flex justify-center items-center py-3">
-                <div class="w-12 h-1 bg-gray-200 rounded-full relative">
-                    <div id="duration-scroll-progress" class="absolute left-0 top-0 h-full w-4 bg-shopee-blue rounded-full"></div>
-                </div>
-            </div>
-        </section>
-
-        <script>
-            // Icon Menu Scroll
-            const iconMenu = document.getElementById('iconMenu');
-            const iconProgress = document.getElementById('scroll-progress');
-
-            function updateIconScroll() {
-                const { scrollLeft, scrollWidth, clientWidth } = iconMenu;
-                const maxScroll = scrollWidth - clientWidth;
-                if (maxScroll <= 0) return;
-                const scrollPercentage = scrollLeft / maxScroll;
-                const thumbPosition = scrollPercentage * (48 - 16);
-                iconProgress.style.transform = `translateX(${thumbPosition}px)`;
-            }
-
-            iconMenu.addEventListener('scroll', updateIconScroll);
-            window.addEventListener('resize', updateIconScroll);
-            updateIconScroll();
-
-            // Duration Trip Scroll
-            const durationMenu = document.getElementById('durationMenu');
-            const durationProgress = document.getElementById('duration-scroll-progress');
-
-            function updateDurationScroll() {
-                const { scrollLeft, scrollWidth, clientWidth } = durationMenu;
-                const maxScroll = scrollWidth - clientWidth;
-                if (maxScroll <= 0) return;
-                const scrollPercentage = scrollLeft / maxScroll;
-                const thumbPosition = scrollPercentage * (48 - 16);
-                durationProgress.style.transform = `translateX(${thumbPosition}px)`;
-            }
-
-            durationMenu.addEventListener('scroll', updateDurationScroll);
-            window.addEventListener('resize', updateDurationScroll);
-            updateDurationScroll();
-        </script>
-
-        <div class="h-2 bg-gray-100 w-full"></div>
-
-        <!-- Travel Schedule -->
-        <section class="bg-white py-3">
-            <div class="flex justify-between items-center px-3 mb-3">
-                <div class="flex items-center gap-2">
-                    <h2 class="text-shopee-blue font-bold text-sm uppercase italic">Travel Schedule</h2>
-                    <div class="bg-shopee-blue/10 px-2 py-0.5 rounded text-[10px] text-shopee-blue font-bold">
-                        HARI INI
-                    </div>
-                </div>
-                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Semua <i class="fa-solid fa-chevron-right ml-1"></i></a>
-            </div>
-            <div class="flex flex-col px-3 gap-3">
-                <!-- Schedule Item 1 -->
-                <div class="flex items-center gap-3 p-3 border border-gray-100 rounded-lg shadow-sm">
-                    <div class="flex flex-col items-center justify-center bg-gray-50 p-2 rounded min-w-[60px]">
-                        <span class="text-xs font-bold text-gray-800">08:00</span>
-                        <span class="text-[9px] text-gray-400 uppercase font-medium">Pagi</span>
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-bold text-gray-800">Jakarta → Bandung</h3>
-                            <span class="text-shopee-blue font-bold text-xs">Rp150.000</span>
-                        </div>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[10px] text-gray-500 flex items-center gap-1">
-                                <i class="fa-solid fa-car-side text-[9px]"></i> Toyota Hiace
-                            </span>
-                            <span class="text-gray-300">|</span>
-                            <span class="text-[10px] text-gray-500">Tersisa 4 Kursi</span>
-                        </div>
-                        <div class="relative h-1.5 bg-gray-100 rounded-full mt-2 overflow-hidden">
-                            <div class="absolute inset-0 bg-shopee-blue w-4/6"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Schedule Item 2 -->
-                <div class="flex items-center gap-3 p-3 border border-gray-100 rounded-lg shadow-sm">
-                    <div class="flex flex-col items-center justify-center bg-gray-50 p-2 rounded min-w-[60px]">
-                        <span class="text-xs font-bold text-gray-800">13:30</span>
-                        <span class="text-[9px] text-gray-400 uppercase font-medium">Siang</span>
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-bold text-gray-800">Bandung → Jakarta</h3>
-                            <span class="text-shopee-blue font-bold text-xs">Rp150.000</span>
-                        </div>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[10px] text-gray-500 flex items-center gap-1">
-                                <i class="fa-solid fa-car-side text-[9px]"></i> Toyota Hiace
-                            </span>
-                            <span class="text-gray-300">|</span>
-                            <span class="text-[10px] text-gray-500">Tersisa 8 Kursi</span>
-                        </div>
-                        <div class="relative h-1.5 bg-gray-100 rounded-full mt-2 overflow-hidden">
-                            <div class="absolute inset-0 bg-shopee-blue w-1/6"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Schedule Item 3 -->
-                <div class="flex items-center gap-3 p-3 border border-gray-100 rounded-lg shadow-sm">
-                    <div class="flex flex-col items-center justify-center bg-gray-50 p-2 rounded min-w-[60px]">
-                        <span class="text-xs font-bold text-gray-800">19:00</span>
-                        <span class="text-[9px] text-gray-400 uppercase font-medium">Malam</span>
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-bold text-gray-800">Jakarta → Sukabumi</h3>
-                            <span class="text-shopee-blue font-bold text-xs">Rp120.000</span>
-                        </div>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[10px] text-gray-500 flex items-center gap-1">
-                                <i class="fa-solid fa-bus text-[9px]"></i> Isuzu Elf
-                            </span>
-                            <span class="text-gray-300">|</span>
-                            <span class="text-[10px] text-gray-500">Tersisa 2 Kursi</span>
-                        </div>
-                        <div class="relative h-1.5 bg-gray-100 rounded-full mt-2 overflow-hidden">
-                            <div class="absolute inset-0 bg-shopee-blue w-5/6"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="h-2 bg-gray-100 w-full"></div>
-
-        <!-- Destinasi Wisata -->
-        <section class="bg-white py-3">
-            <div class="flex justify-between items-center px-3 mb-3 border-l-4 border-shopee-blue">
-                <h2 class="text-shopee-blue font-bold text-sm uppercase ml-2">Destinasi Populer</h2>
-                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Semua <i class="fa-solid fa-chevron-right ml-1"></i></a>
-            </div>
-            <div class="flex overflow-x-auto hide-scrollbar px-3 gap-3">
-                <!-- Djawatan -->
-                <div class="flex-shrink-0 w-32 border border-gray-100 rounded overflow-hidden shadow-sm">
-                    <img src="./img/Gemini_Generated_Image_vpt03zvpt03zvpt0.png" class="w-full aspect-square object-cover" alt="Djawatan">
-                    <div class="p-2">
-                        <div class="text-[11px] text-gray-800 font-bold line-clamp-1">De Djawatan</div>
-                        <div class="text-[10px] text-gray-400 mt-0.5">Banyuwangi</div>
-                    </div>
-                </div>
-                <!-- Kawah Ijen -->
-                <div class="flex-shrink-0 w-32 border border-gray-100 rounded overflow-hidden shadow-sm">
-                    <img src="./img/Gemini_Generated_Image_ak92r8ak92r8ak92.png" class="w-full aspect-square object-cover" alt="Kawah Ijen">
-                    <div class="p-2">
-                        <div class="text-[11px] text-gray-800 font-bold line-clamp-1">Kawah Ijen</div>
-                        <div class="text-[10px] text-gray-400 mt-0.5">Banyuwangi</div>
-                    </div>
-                </div>
-                <!-- Baluran -->
-                <div class="flex-shrink-0 w-32 border border-gray-100 rounded overflow-hidden shadow-sm">
-                    <img src="./img/Gemini_Generated_Image_j8qhi3j8qhi3j8qh.png" class="w-full aspect-square object-cover" alt="Baluran">
-                    <div class="p-2">
-                        <div class="text-[11px] text-gray-800 font-bold line-clamp-1">Baluran</div>
-                        <div class="text-[10px] text-gray-400 mt-0.5">Situbondo</div>
-                    </div>
-                </div>
-                <!-- Pulau Merah -->
-                <div class="flex-shrink-0 w-32 border border-gray-100 rounded overflow-hidden shadow-sm">
-                    <img src="./img/Gemini_Generated_Image_451hh3451hh3451h.png" class="w-full aspect-square object-cover" alt="Pulau Merah">
-                    <div class="p-2">
-                        <div class="text-[11px] text-gray-800 font-bold line-clamp-1">Pulau Merah</div>
-                        <div class="text-[10px] text-gray-400 mt-0.5">Banyuwangi</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="h-2 bg-gray-100 w-full"></div>
-
-        <!-- Review Carousel -->
-        <section class="bg-white py-3">
-            <div class="flex justify-between items-center px-3 mb-3">
-                <h2 class="text-shopee-blue font-bold text-sm uppercase">Review Pengunjung</h2>
-                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Semua <i class="fa-solid fa-chevron-right ml-1"></i></a>
-            </div>
-            <div id="reviewCarousel" class="flex overflow-x-auto hide-scrollbar px-3 gap-3">
-                <!-- Review Item 1 -->
-                <div class="flex-shrink-0 w-64 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-8 h-8 bg-shopee-blue rounded-full flex items-center justify-center text-white text-xs font-bold">A</div>
-                        <div>
-                            <div class="text-[10px] font-bold text-gray-800">Andi Pratama</div>
-                            <div class="flex text-[8px] text-yellow-400">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-gray-600 italic line-clamp-3">"Pengalaman luar biasa ke Kawah Ijen! Guide sangat ramah dan membantu saat trekking malam hari. Blue Fire-nya juara!"</p>
-                </div>
-                <!-- Review Item 2 -->
-                <div class="flex-shrink-0 w-64 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-8 h-8 bg-shopee-blue rounded-full flex items-center justify-center text-white text-xs font-bold">S</div>
-                        <div>
-                            <div class="text-[10px] font-bold text-gray-800">Siti Aminah</div>
-                            <div class="flex text-[8px] text-yellow-400">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-gray-600 italic line-clamp-3">"Baluran beneran kayak di Afrika. Anak-anak seneng banget liat rusa dan monyet liar. Pelayanan sangat memuaskan."</p>
-                </div>
-                <!-- Review Item 3 -->
-                <div class="flex-shrink-0 w-64 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-8 h-8 bg-shopee-blue rounded-full flex items-center justify-center text-white text-xs font-bold">B</div>
-                        <div>
-                            <div class="text-[10px] font-bold text-gray-800">Budi Santoso</div>
-                            <div class="flex text-[8px] text-yellow-400">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-gray-600 italic line-clamp-3">"City tour Banyuwangi seru banget, kulinernya mantap. Nasi Tempong-nya bikin nagih. Recomended banget buat liburan keluarga."</p>
-                </div>
-                <!-- Review Item 4 -->
-                <div class="flex-shrink-0 w-64 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-8 h-8 bg-shopee-blue rounded-full flex items-center justify-center text-white text-xs font-bold">R</div>
-                        <div>
-                            <div class="text-[10px] font-bold text-gray-800">Rina Wijaya</div>
-                            <div class="flex text-[8px] text-yellow-400">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-gray-600 italic line-clamp-3">"Sunset di Pulau Merah cantik banget! Foto-fotonya jadi estetik. Makasih tim guide sudah sabar fotoin kita terus."</p>
-                </div>
-            </div>
-            <script>
-                const carousel = document.getElementById('reviewCarousel');
-                if (carousel) {
-                    // Clone items for infinity effect
-                    const originalChildren = Array.from(carousel.children);
-                    originalChildren.forEach(child => {
-                        carousel.appendChild(child.cloneNode(true));
-                    });
-
-                    // Calculate width of one set of items
-                    // gap-3 = 0.75rem = 12px
-                    const gap = 12;
-                    let originalWidth = 0;
-                    originalChildren.forEach(child => {
-                        originalWidth += child.offsetWidth + gap;
-                    });
-
-                    setInterval(function() {
-                        // Check if we need to reset position (infinity loop logic)
-                        // If current position matches or exceeds the start of the cloned set
-                        if (carousel.scrollLeft >= originalWidth) {
-                            carousel.scrollLeft -= originalWidth;
-                        }
-                        
-                        // Scroll to next item
-                        // Assumes all items have same width for simplicity, or use first item
-                        const itemWidth = carousel.children[0].offsetWidth + gap;
-                        carousel.scrollBy({left: itemWidth, behavior: 'smooth'});
-                    }, 3000);
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                    }
                 }
-            </script>
-        </section>
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex justify-center bg-gray-100">
 
-        <div class="h-2 bg-gray-100 w-full"></div>
-
-        <!-- Rekomendasi Grid -->
-        <section class="bg-gray-100 py-3">
-            <div class="flex justify-between items-center px-3 mb-3 bg-white py-3 border-b border-gray-100">
-                <h2 class="text-shopee-blue font-bold text-sm uppercase">Rekomendasi</h2>
-                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Lainnya <i class="fa-solid fa-chevron-right ml-1"></i></a>
-            </div>
-            <div class="grid grid-cols-2 gap-2 px-2">
-                <!-- Recommendation Item 1 -->
-                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
-                    <div class="relative">
-                        <img src="./img/Gemini_Generated_Image_vpt03zvpt03zvpt0.png" class="w-full aspect-square object-cover" alt="Trip">
-                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-blue flex flex-col items-center">
-                            <span>-15%</span>
-                        </div>
-                    </div>
-                    <div class="p-2 flex-1 flex flex-col justify-between">
-                        <div>
-                        <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
-                                <span class="bg-shopee-blue text-white text-xs px-1 rounded mr-1">1 Day</span>
-                                Open Trip Kawah Ijen Sunrise - Blue Fire & Kawah Ijen...
-                            </div>
-                        </div>
-                        <div class="mt-2 flex items-end justify-between">
-                            <div class="flex-1">
-                                <div class="text-shopee-blue font-medium text-[10px] leading-tight mb-0.5">Start From</div>
-                                <div class="text-shopee-blue font-bold text-sm">Rp175.000</div>
-                            </div>
-                            <div class="text-[10px] text-gray-500 mb-0.5">
-                                <i class="fa-solid fa-star text-yellow-400 mr-0.5"></i>4.8
-                            </div>
-                        </div>
-                    </div>
+    <!-- Mobile Container -->
+    <div class="w-full max-w-md bg-white min-h-screen shadow-xl relative flex flex-col">
+        
+        <!-- Header / Status Bar Area -->
+        <header class="bg-white pt-6 pb-4 px-5 sticky top-0 z-10 border-b border-gray-50">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Antigravity</h1>
+                    <p class="text-xs text-gray-500 font-medium tracking-wide uppercase">Project Index</p>
                 </div>
-                <!-- Recommendation Item 2 -->
-                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
-                    <div class="relative">
-                        <img src="./img/Gemini_Generated_Image_ak92r8ak92r8ak92.png" class="w-full aspect-square object-cover" alt="Trip">
-                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-blue flex flex-col items-center">
-                            <span>-10%</span>
-                        </div>
-                    </div>
-                    <div class="p-2 flex-1 flex flex-col justify-between">
-                        <div>
-                        <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
-                                <span class="bg-shopee-blue text-white text-xs px-1 rounded mr-1">2D1N</span>
-                                Private Trip Baluran & Menjangan Island - All In...
-                            </div>
-                        </div>
-                        <div class="mt-2 flex items-end justify-between">
-                            <div class="flex-1">
-                                <div class="text-shopee-blue font-medium text-[10px] leading-tight mb-0.5">Start From</div>
-                                <div class="text-shopee-blue font-bold text-sm">Rp850.000</div>
-                            </div>
-                            <div class="text-[10px] text-gray-500 mb-0.5">
-                                <i class="fa-solid fa-star text-yellow-400 mr-0.5"></i>4.9
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Recommendation Item 3 -->
-                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
-                    <div class="relative">
-                        <img src="./img/Gemini_Generated_Image_j8qhi3j8qhi3j8qh.png" class="w-full aspect-square object-cover" alt="Trip">
-                    </div>
-                    <div class="p-2 flex-1 flex flex-col justify-between">
-                        <div>
-                        <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
-                                <span class="bg-shopee-blue text-white text-xs px-1 rounded mr-1">3D2N</span>
-                                Explore Banyuwangi Lengkap - Ijen, Baluran, Pulau Merah...
-                            </div>
-                        </div>
-                        <div class="mt-2 flex items-end justify-between">
-                            <div class="flex-1">
-                                <div class="text-shopee-blue font-medium text-[10px] leading-tight mb-0.5">Start From</div>
-                                <div class="text-shopee-blue font-bold text-sm">Rp1.250.000</div>
-                            </div>
-                            <div class="text-[10px] text-gray-500 mb-0.5">
-                                <i class="fa-solid fa-star text-yellow-400 mr-0.5"></i>5.0
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Recommendation Item 4 -->
-                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
-                    <div class="relative">
-                        <img src="./img/Gemini_Generated_Image_451hh3451hh3451h.png" class="w-full aspect-square object-cover" alt="Trip">
-                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-blue flex flex-col items-center">
-                            <span>-20%</span>
-                        </div>
-                    </div>
-                    <div class="p-2 flex-1 flex flex-col justify-between">
-                        <div>
-                        <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
-                                <span class="bg-shopee-blue text-white text-xs px-1 rounded mr-1">1 Day</span>
-                                City Tour Banyuwangi & Wisata Kuliner Khas...
-                            </div>
-                        </div>
-                        <div class="mt-2 flex items-end justify-between">
-                            <div class="flex-1">
-                                <div class="text-shopee-blue font-medium text-[10px] leading-tight mb-0.5">Start From</div>
-                                <div class="text-shopee-blue font-bold text-sm">Rp250.000</div>
-                            </div>
-                            <div class="text-[10px] text-gray-500 mb-0.5">
-                                <i class="fa-solid fa-star text-yellow-400 mr-0.5"></i>4.7
-                            </div>
-                        </div>
-                    </div>
+                <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-layer-group text-primary"></i>
                 </div>
             </div>
-        </section>
-    </main>
+            
+            <!-- Search / Filter Placeholder -->
+            <div class="relative">
+                <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" placeholder="Search pages..." class="w-full bg-gray-50 text-sm py-2.5 pl-9 pr-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all text-gray-700 placeholder-gray-400" disabled>
+            </div>
+        </header>
 
-    <!-- Bottom Navigation (Mobile Style) -->
-    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100 flex justify-around py-2 shadow-lg">
-        <div class="flex flex-col items-center text-shopee-blue">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px]">Beranda</span>
-        </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <i class="fa-solid fa-bag-shopping text-lg"></i>
-            <span class="text-[10px]">Mall</span>
-        </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <i class="fa-solid fa-video text-lg"></i>
-            <span class="text-[10px]">Live</span>
-        </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <i class="fa-solid fa-bell text-lg"></i>
-            <span class="text-[10px]">Notifikasi</span>
-        </div>
-        <div class="flex flex-col items-center text-gray-400">
-            <i class="fa-solid fa-user text-lg"></i>
-            <span class="text-[10px]">Saya</span>
-        </div>
-    </nav>
+        <!-- Content Scroll Area -->
+        <main class="flex-1 overflow-y-auto p-5 space-y-4">
+            
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Core Pages</div>
+
+            <!-- Main App Card -->
+            <a href="trips.html" class="block group">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-200 transform transition-transform active:scale-95">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                            <i class="fa-solid fa-plane-departure text-xl"></i>
+                        </div>
+                        <span class="bg-white/20 backdrop-blur-sm text-[10px] font-bold px-2 py-1 rounded-full">MAIN APP</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-1">Trips / Home</h3>
+                        <p class="text-blue-100 text-xs leading-relaxed">Halaman utama aplikasi travel dengan fitur rekomendasi & carousel.</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Transactions & Flow</div>
+
+            <!-- List Menu Style -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                
+                <!-- Checkout -->
+                <a href="checkout.html" class="flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 active:bg-gray-100">
+                    <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 mr-3 flex-shrink-0">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-gray-800">Checkout</h4>
+                        <p class="text-xs text-gray-500">Transaction summary page</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                </a>
+
+                <!-- Payment Methods -->
+                <a href="payment-methods.html" class="flex items-center p-4 hover:bg-gray-50 transition-colors active:bg-gray-100">
+                    <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500 mr-3 flex-shrink-0">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-gray-800">Payment Methods</h4>
+                        <p class="text-xs text-gray-500">Payment selection flow</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                </a>
+            </div>
+
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Experiments</div>
+
+            <!-- Masonry Layout -->
+            <a href="masonry.html" class="flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100">
+                <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 mr-3 flex-shrink-0">
+                    <i class="fa-solid fa-border-all"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-sm font-bold text-gray-800">Masonry Grid</h4>
+                    <p class="text-xs text-gray-500">Pinterest-style layout demo</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+            </a>
+
+        </main>
+
+        <!-- Bottom Navigation Simulation -->
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 pb-6 flex justify-between items-center text-xs font-medium text-gray-400">
+            <a href="#" class="flex flex-col items-center text-primary">
+                <i class="fa-solid fa-home text-lg mb-1"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="flex flex-col items-center hover:text-gray-600">
+                <i class="fa-regular fa-compass text-lg mb-1"></i>
+                <span>Explore</span>
+            </a>
+            <a href="#" class="flex flex-col items-center hover:text-gray-600">
+                <i class="fa-regular fa-bookmark text-lg mb-1"></i>
+                <span>Saved</span>
+            </a>
+            <a href="#" class="flex flex-col items-center hover:text-gray-600">
+                <i class="fa-regular fa-user text-lg mb-1"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+        
+    </div>
 
 </body>
 </html>
