@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup Shopee - Antigravity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .shopee-orange {
+            color: #ee4d2d;
+        }
+        .bg-shopee-orange {
+            background-color: #ee4d2d;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto bg-white min-h-screen pb-20">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-shopee-orange p-3 flex items-center gap-3">
+        <div class="flex-1 bg-white rounded-sm flex items-center px-3 py-1.5 gap-2">
+            <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+            <input type="text" placeholder="Daftar & Dapat Voucher Gratis" class="text-sm outline-none w-full text-gray-600">
+        </div>
+        <div class="flex gap-4 text-white text-xl">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <i class="fa-regular fa-comment-dots"></i>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Banner Carousel (Placeholder) -->
+        <section class="relative">
+            <img src="./placeholder.svg" alt="Banner" class="w-full aspect-[2/1] object-cover">
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                <div class="w-2 h-1 bg-shopee-orange rounded-full"></div>
+                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            </div>
+        </section>
+
+        <!-- Main Icons Menu -->
+        <section class="flex overflow-x-auto hide-scrollbar py-4 px-2 text-center bg-white gap-2">
+            <!-- Open Trip -->
+            <div class="flex flex-col items-center gap-1 min-w-[75px]">
+                <div class="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                    <i class="hgi-stroke hgi-mountain text-shopee-orange text-2xl"></i>
+                </div>
+                <span class="text-[10px] leading-tight text-gray-700">Open Trip</span>
+            </div>
+            <!-- Private Trip -->
+            <div class="flex flex-col items-center gap-1 min-w-[75px]">
+                <div class="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                    <i class="hgi-stroke hgi-passport text-shopee-orange text-2xl"></i>
+                </div>
+                <span class="text-[10px] leading-tight text-gray-700">Private Trip</span>
+            </div>
+            <!-- Gathering -->
+            <div class="flex flex-col items-center gap-1 min-w-[75px]">
+                <div class="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                    <i class="hgi-stroke hgi-user-group text-shopee-orange text-2xl"></i>
+                </div>
+                <span class="text-[10px] leading-tight text-gray-700">Gathering</span>
+            </div>
+            <!-- City Tour -->
+            <div class="flex flex-col items-center gap-1 min-w-[75px]">
+                <div class="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                    <i class="hgi-stroke hgi-city-01 text-shopee-orange text-2xl"></i>
+                </div>
+                <span class="text-[10px] leading-tight text-gray-700">City Tour</span>
+            </div>
+            <!-- Rental -->
+            <div class="flex flex-col items-center gap-1 min-w-[75px]">
+                <div class="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                    <i class="hgi-stroke hgi-car-01 text-shopee-orange text-2xl"></i>
+                </div>
+                <span class="text-[10px] leading-tight text-gray-700">Rental</span>
+            </div>
+            <!-- Travel -->
+            <div class="flex flex-col items-center gap-1 min-w-[75px]">
+                <div class="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                    <i class="hgi-stroke hgi-airplane-01 text-shopee-orange text-2xl"></i>
+                </div>
+                <span class="text-[10px] leading-tight text-gray-700">Travel</span>
+            </div>
+        </section>
+
+        <!-- Shopee Live -->
+        <section class="bg-white py-3">
+            <div class="flex justify-between items-center px-3 mb-3">
+                <h2 class="text-shopee-orange font-bold text-sm uppercase">Shopee Live</h2>
+                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Semua <i class="fa-solid fa-chevron-right ml-1"></i></a>
+            </div>
+            <div class="flex overflow-x-auto hide-scrollbar px-3 gap-3">
+                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
+                    <img src="./placeholder.svg" class="w-full aspect-[3/4] object-cover" alt="Live">
+                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-black/50 text-white text-[8px] px-1.5 py-0.5 rounded-sm">
+                        <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
+                        <span>LIVE</span>
+                        <span class="ml-1 border-l border-white/30 pl-1"><i class="fa-solid fa-eye mr-0.5"></i> 43</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                        <div class="text-white text-[10px] font-medium line-clamp-1">BIG SALE GAMIS CUCI GUDANG</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-40 relative rounded-md overflow-hidden">
+                    <img src="./placeholder.svg" class="w-full aspect-[3/4] object-cover" alt="Live">
+                    <div class="absolute top-2 left-2 flex items-center gap-1 bg-black/50 text-white text-[8px] px-1.5 py-0.5 rounded-sm">
+                        <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
+                        <span>LIVE</span>
+                        <span class="ml-1 border-l border-white/30 pl-1"><i class="fa-solid fa-eye mr-0.5"></i> 250</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                        <div class="text-white text-[10px] font-medium line-clamp-1">HP BARU 200 RIBUAN ORI BERGARANSI</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-2 bg-gray-100 w-full"></div>
+
+        <!-- Koleksi Pilihan -->
+        <section class="bg-white py-3">
+            <div class="flex justify-between items-center px-3 mb-3">
+                <h2 class="text-shopee-orange font-bold text-sm uppercase">Koleksi Pilihan</h2>
+                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Lainnya <i class="fa-solid fa-chevron-right ml-1"></i></a>
+            </div>
+            <div class="flex overflow-x-auto hide-scrollbar px-3 gap-3">
+                <div class="flex-shrink-0 w-44 border border-gray-100 p-2 flex flex-col gap-2">
+                    <div class="grid grid-cols-2 gap-1">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Item">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Item">
+                    </div>
+                    <div class="text-[11px] text-gray-800 text-center font-medium">Lipstik Maybelline Matte</div>
+                </div>
+                <div class="flex-shrink-0 w-44 border border-gray-100 p-2 flex flex-col gap-2">
+                    <div class="grid grid-cols-2 gap-1">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Item">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Item">
+                    </div>
+                    <div class="text-[11px] text-gray-800 text-center font-medium">Lip Tint Bpom</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-2 bg-gray-100 w-full"></div>
+
+        <!-- Flash Sale -->
+        <section class="bg-white py-3">
+            <div class="flex justify-between items-center px-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <h2 class="text-shopee-orange font-bold text-sm uppercase italic">Travel Seat</h2>
+                    <div class="flex gap-1">
+                        <span class="bg-black text-white text-[10px] px-1 rounded">05</span>
+                        <span class="bg-black text-white text-[10px] px-1 rounded">35</span>
+                        <span class="bg-black text-white text-[10px] px-1 rounded">21</span>
+                    </div>
+                </div>
+                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Lainnya <i class="fa-solid fa-chevron-right ml-1"></i></a>
+            </div>
+            <div class="flex overflow-x-auto hide-scrollbar px-3 gap-2">
+                <!-- Flash Sale Item 1 -->
+                <div class="flex-shrink-0 w-28">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-orange flex flex-col items-center">
+                            <span>25%</span>
+                            <span class="text-white uppercase leading-none">OFF</span>
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <div class="text-shopee-orange font-medium text-xs">Rp35.000</div>
+                        <div class="relative h-2.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                            <div class="absolute inset-0 bg-shopee-orange w-3/4"></div>
+                            <span class="absolute inset-0 text-[8px] text-white flex justify-center items-center uppercase font-bold">12 Terjual</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Flash Sale Item 2 -->
+                <div class="flex-shrink-0 w-28">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-orange flex flex-col items-center">
+                            <span>50%</span>
+                            <span class="text-white uppercase leading-none">OFF</span>
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <div class="text-shopee-orange font-medium text-xs">Rp152.500</div>
+                        <div class="relative h-2.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                            <div class="absolute inset-0 bg-shopee-orange w-1/2"></div>
+                            <span class="absolute inset-0 text-[8px] text-white flex justify-center items-center uppercase font-bold">20 Terjual</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Flash Sale Item 3 -->
+                <div class="flex-shrink-0 w-28">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-orange flex flex-col items-center">
+                            <span>12%</span>
+                            <span class="text-white uppercase leading-none">OFF</span>
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <div class="text-shopee-orange font-medium text-xs">Rp144.363</div>
+                        <div class="relative h-2.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                            <div class="absolute inset-0 bg-shopee-orange w-1/4"></div>
+                            <span class="absolute inset-0 text-[8px] text-white flex justify-center items-center uppercase font-bold">5 Terjual</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-2 bg-gray-100 w-full"></div>
+
+        <!-- Produk Terlaris -->
+        <section class="bg-white py-3">
+            <div class="flex justify-between items-center px-3 mb-3 border-l-4 border-shopee-orange">
+                <h2 class="text-shopee-orange font-bold text-sm uppercase ml-2">Produk Terlaris</h2>
+                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Lainnya <i class="fa-solid fa-chevron-right ml-1"></i></a>
+            </div>
+            <div class="flex overflow-x-auto hide-scrollbar px-3 gap-3">
+                <div class="flex-shrink-0 w-32 border border-gray-100">
+                    <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                    <div class="p-2">
+                        <div class="text-[11px] text-gray-800 line-clamp-1">Celana Cullote</div>
+                        <div class="text-[10px] text-gray-400 mt-0.5">22RB+ terjual</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-32 border border-gray-100">
+                    <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                    <div class="p-2">
+                        <div class="text-[11px] text-gray-800 line-clamp-1">Tempat Makan Lunch Box</div>
+                        <div class="text-[10px] text-gray-400 mt-0.5">20RB+ terjual</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-2 bg-gray-100 w-full"></div>
+
+        <!-- Kategori Grid -->
+        <section class="bg-white py-3">
+            <div class="flex justify-between items-center px-3 mb-3">
+                <h2 class="text-shopee-orange font-bold text-sm uppercase">Kategori</h2>
+                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Lainnya <i class="fa-solid fa-chevron-right ml-1"></i></a>
+            </div>
+            <div class="grid grid-cols-4 gap-y-6 px-3">
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
+                        <img src="./placeholder.svg" class="w-10 h-10 object-contain" alt="Kategori">
+                    </div>
+                    <span class="text-[10px] text-center text-gray-700">Elektronik</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
+                        <img src="./placeholder.svg" class="w-10 h-10 object-contain" alt="Kategori">
+                    </div>
+                    <span class="text-[10px] text-center text-gray-700">Komputer & Aksesoris</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
+                        <img src="./placeholder.svg" class="w-10 h-10 object-contain" alt="Kategori">
+                    </div>
+                    <span class="text-[10px] text-center text-gray-700">Handphone & Aksesoris</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100">
+                        <img src="./placeholder.svg" class="w-10 h-10 object-contain" alt="Kategori">
+                    </div>
+                    <span class="text-[10px] text-center text-gray-700">Pakaian Pria</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-2 bg-gray-100 w-full"></div>
+
+        <!-- Rekomendasi Grid -->
+        <section class="bg-gray-100 py-3">
+            <div class="flex justify-between items-center px-3 mb-3 bg-white py-3 border-b border-gray-100">
+                <h2 class="text-shopee-orange font-bold text-sm uppercase">Rekomendasi</h2>
+                <a href="#" class="text-gray-500 text-xs flex items-center">Lihat Lainnya <i class="fa-solid fa-chevron-right ml-1"></i></a>
+            </div>
+            <div class="grid grid-cols-2 gap-2 px-2">
+                <!-- Recommendation Item 1 -->
+                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-orange flex flex-col items-center">
+                            <span>-25%</span>
+                        </div>
+                    </div>
+                    <div class="p-2 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
+                                <span class="bg-shopee-orange text-white text-[8px] px-1 rounded mr-1">Star+</span>
+                                ALLDAY LOOSE PANTS PREMIUM / BAHAN SILK RAYON VISCOSE...
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="text-shopee-orange font-medium text-sm">Rp37.999</div>
+                            <div class="text-[10px] text-gray-400 mt-1">10RB+ terjual</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recommendation Item 2 -->
+                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-orange flex flex-col items-center">
+                            <span>-10%</span>
+                        </div>
+                    </div>
+                    <div class="p-2 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
+                                <span class="bg-shopee-orange text-white text-[8px] px-1 rounded mr-1">Star</span>
+                                CDO 100 Pcs Pita Rambut Rambut Anak Perempuan Karakter...
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="text-shopee-orange font-medium text-sm">Rp9.499</div>
+                            <div class="text-[10px] text-gray-400 mt-1">1RB+ terjual</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recommendation Item 3 -->
+                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                    </div>
+                    <div class="p-2 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
+                                <span class="bg-shopee-orange text-white text-[8px] px-1 rounded mr-1">Star</span>
+                                DHM WOMAN ORCHID I PARFUME WANITA TERLARIS...
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="text-shopee-orange font-medium text-sm">Rp9.025</div>
+                            <div class="text-[10px] text-gray-400 mt-1">5RB+ terjual</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Recommendation Item 4 -->
+                <div class="bg-white shadow-sm overflow-hidden flex flex-col">
+                    <div class="relative">
+                        <img src="./placeholder.svg" class="w-full aspect-square object-cover" alt="Product">
+                        <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-1 py-0.5 font-bold text-shopee-orange flex flex-col items-center">
+                            <span>-12%</span>
+                        </div>
+                    </div>
+                    <div class="p-2 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-gray-800 line-clamp-2 leading-tight">
+                                <span class="bg-shopee-orange text-white text-[8px] px-1 rounded mr-1">Star+</span>
+                                Lipstik Matte HANDAIYAN Original 12 Varian Warna...
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="text-shopee-orange font-medium text-sm">Rp13.500</div>
+                            <div class="text-[10px] text-gray-400 mt-1">2RB+ terjual</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation (Mobile Style) -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100 flex justify-around py-2 shadow-lg">
+        <div class="flex flex-col items-center text-shopee-orange">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px]">Beranda</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+            <span class="text-[10px]">Mall</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-video text-lg"></i>
+            <span class="text-[10px]">Live</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-bell text-lg"></i>
+            <span class="text-[10px]">Notifikasi</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-user text-lg"></i>
+            <span class="text-[10px]">Saya</span>
+        </div>
+    </nav>
+
+</body>
+</html>
