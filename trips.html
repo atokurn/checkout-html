@@ -56,13 +56,19 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Banner Carousel (Placeholder) -->
+        <!-- Banner Carousel -->
         <section class="relative">
-            <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner" class="w-full aspect-[2/1] object-cover">
-            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                <div class="w-2 h-1 bg-shopee-blue rounded-full"></div>
-                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
-                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <div id="bannerCarousel" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth">
+                <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner 1" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
+                <img src="./img/Gemini_Generated_Image_ae7t5xae7t5xae7t.png" alt="Banner 2" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
+                <img src="./img/Gemini_Generated_Image_12nkua12nkua12nk.png" alt="Banner 3" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
+                <!-- Clone of Banner 1 for infinite loop -->
+                <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner 1 Clone" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
+            </div>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1" id="bannerIndicators">
+                <div class="w-4 h-1 bg-shopee-blue rounded-full transition-all duration-300"></div>
+                <div class="w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-300"></div>
+                <div class="w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-300"></div>
             </div>
         </section>
 
@@ -115,7 +121,7 @@
 
             <!-- Scroll Indicator Progress Bar -->
             <div class="flex justify-center items-center py-3">
-                <div class="w-12 h-1 bg-gray-200 rounded-full relative">
+                <div class="w-12 h-1 bg-gray-200 rounded-full relative overflow-hidden">
                     <div id="scroll-progress" class="absolute left-0 top-0 h-full w-4 bg-shopee-blue rounded-full"></div>
                 </div>
             </div>
@@ -227,7 +233,7 @@
             </div>
             <!-- Scroll Indicator Progress Bar for Duration Trip -->
             <div class="flex justify-center items-center py-3">
-                <div class="w-12 h-1 bg-gray-200 rounded-full relative">
+                <div class="w-12 h-1 bg-gray-200 rounded-full relative overflow-hidden">
                     <div id="duration-scroll-progress" class="absolute left-0 top-0 h-full w-4 bg-shopee-blue rounded-full"></div>
                 </div>
             </div>
@@ -277,6 +283,108 @@
             durationMenu.addEventListener('scroll', updateDurationScroll);
             window.addEventListener('resize', updateDurationScroll);
             updateDurationScroll();
+
+            // Banner Carousel Logic
+            const bannerCarousel = document.getElementById('bannerCarousel');
+            const indicators = document.getElementById('bannerIndicators').children;
+            const totalRealSlides = indicators.length; // 3
+            let currentSlide = 0;
+            let autoPlayInterval;
+            let isTransitioning = false;
+            let scrollTimeout;
+
+            function updateIndicators(index) {
+                // Normalize index for indicators (handle clone index)
+                const activeIndex = index >= totalRealSlides ? 0 : index;
+                
+                for (let i = 0; i < totalRealSlides; i++) {
+                    if (i === activeIndex) {
+                        indicators[i].classList.remove('bg-gray-300', 'w-1.5');
+                        indicators[i].classList.add('bg-shopee-blue', 'w-4');
+                    } else {
+                        indicators[i].classList.remove('bg-shopee-blue', 'w-4');
+                        indicators[i].classList.add('bg-gray-300', 'w-1.5');
+                    }
+                }
+            }
+
+            function scrollToSlide(index, smooth = true) {
+                if (smooth) {
+                    bannerCarousel.classList.add('scroll-smooth');
+                } else {
+                    bannerCarousel.classList.remove('scroll-smooth');
+                }
+                
+                const scrollAmount = bannerCarousel.clientWidth * index;
+                bannerCarousel.scrollTo({
+                    left: scrollAmount,
+                    behavior: smooth ? 'smooth' : 'auto'
+                });
+                
+                updateIndicators(index);
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                if (isTransitioning) return;
+
+                if (currentSlide >= totalRealSlides - 1) {
+                    // Move to clone
+                    isTransitioning = true;
+                    currentSlide = totalRealSlides;
+                    scrollToSlide(currentSlide, true);
+                    
+                    // After animation, reset to 0 instantly
+                    setTimeout(() => {
+                        scrollToSlide(0, false);
+                        isTransitioning = false;
+                    }, 500); // 500ms matches typical smooth scroll duration
+                } else {
+                    currentSlide++;
+                    scrollToSlide(currentSlide, true);
+                }
+            }
+
+            // Auto play
+            function startAutoPlay() {
+                stopAutoPlay(); // Ensure no duplicate intervals
+                autoPlayInterval = setInterval(nextSlide, 3000);
+            }
+
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+
+            // Manual scroll detection
+            bannerCarousel.addEventListener('scroll', () => {
+                if (isTransitioning) return;
+
+                const scrollLeft = bannerCarousel.scrollLeft;
+                const width = bannerCarousel.clientWidth;
+                const index = Math.round(scrollLeft / width);
+                
+                // If user manually scrolled to the clone (last item)
+                if (index === totalRealSlides) {
+                    currentSlide = index;
+                    updateIndicators(0); // Show first indicator
+                    
+                    // Debounce reset to 0
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        scrollToSlide(0, false);
+                    }, 150);
+                } else if (index !== currentSlide) {
+                    currentSlide = index;
+                    updateIndicators(index);
+                }
+            });
+
+            // Touch events to pause/resume auto-play
+            bannerCarousel.addEventListener('touchstart', stopAutoPlay);
+            bannerCarousel.addEventListener('touchend', startAutoPlay);
+            
+            // Start auto play
+            startAutoPlay();
         </script>
 
         <div class="h-2 bg-gray-100 w-full"></div>
