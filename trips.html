@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mockup Shopee - Antigravity</title>
+    <title>Mockup Shopee - Tripkini</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
@@ -47,11 +47,15 @@
 <body class="max-w-md mx-auto bg-white min-h-screen pb-20">
 
     <!-- Header -->
-    <header class="sticky top-0 z-50 bg-shopee-blue p-3 flex items-center">
-        <div class="w-full bg-white rounded-sm flex items-center px-3 py-1.5 gap-2">
-            <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-            <input type="text" placeholder="Daftar & Dapat Voucher Gratis" class="text-sm outline-none w-full text-gray-600">
-        </div>
+    <header class="sticky top-0 z-50 bg-white p-4 flex items-center justify-between shadow-sm">
+        <button class="text-gray-800">
+             <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+        <h1 class="font-bold text-lg text-gray-900 tracking-wide">Tripkini</h1>
+        <button class="text-gray-800 relative">
+             <i class="fa-regular fa-bell text-xl"></i>
+             <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+        </button>
     </header>
 
     <!-- Main Content -->
@@ -59,16 +63,47 @@
         <!-- Banner Carousel -->
         <section class="relative">
             <div id="bannerCarousel" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth">
-                <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner 1" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
-                <img src="./img/Gemini_Generated_Image_ae7t5xae7t5xae7t.png" alt="Banner 2" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
-                <img src="./img/Gemini_Generated_Image_12nkua12nkua12nk.png" alt="Banner 3" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
+                <div class="w-full flex-shrink-0 snap-center relative">
+                    <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner 1" class="w-full aspect-[3/4] object-cover brightness-75">
+                </div>
+                <div class="w-full flex-shrink-0 snap-center relative">
+                    <img src="./img/Gemini_Generated_Image_ae7t5xae7t5xae7t.png" alt="Banner 2" class="w-full aspect-[3/4] object-cover brightness-75">
+                </div>
+                <div class="w-full flex-shrink-0 snap-center relative">
+                    <img src="./img/Gemini_Generated_Image_12nkua12nkua12nk.png" alt="Banner 3" class="w-full aspect-[3/4] object-cover brightness-75">
+                </div>
                 <!-- Clone of Banner 1 for infinite loop -->
-                <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner 1 Clone" class="w-full flex-shrink-0 snap-center aspect-[2/1] object-cover">
+                <div class="w-full flex-shrink-0 snap-center relative">
+                    <img src="./img/Gemini_Generated_Image_13h0pg13h0pg13h0.png" alt="Banner 1 Clone" class="w-full aspect-[3/4] object-cover brightness-75">
+                </div>
             </div>
-            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1" id="bannerIndicators">
-                <div class="w-4 h-1 bg-shopee-blue rounded-full transition-all duration-300"></div>
-                <div class="w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-300"></div>
-                <div class="w-1.5 h-1 bg-gray-300 rounded-full transition-all duration-300"></div>
+            
+            <!-- Text Overlay -->
+            <div class="absolute top-1/4 left-0 right-0 text-center text-white px-6 z-10 pointer-events-none">
+                <p class="text-orange-400 font-bold text-xs tracking-widest uppercase mb-2 drop-shadow-md">Welcome to Indonesia</p>
+                <h2 class="text-4xl font-bold leading-tight mb-2 drop-shadow-lg">Explore Beauty<br>of the Archipelago</h2>
+                <p class="text-gray-100 text-sm drop-shadow-md">Discover hidden gems and unforgettable journeys.</p>
+            </div>
+
+            <!-- Floating Search Bar -->
+            <div class="absolute bottom-6 left-4 right-4 bg-white rounded-2xl p-2 shadow-xl z-20 flex items-center gap-3">
+                <div class="pl-2">
+                     <i class="hgi-stroke hgi-location-01 text-shopee-blue text-2xl"></i>
+                </div>
+                <div class="flex-1 flex flex-col justify-center">
+                    <span class="text-[10px] text-gray-400 font-bold tracking-wide uppercase">Where to?</span>
+                    <input type="text" placeholder="Bali, Labuan Bajo..." class="text-sm font-semibold text-gray-800 outline-none w-full placeholder:font-normal placeholder:text-gray-300">
+                </div>
+                <button class="bg-shopee-blue w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-md active:scale-95 transition-transform">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <!-- Carousel Indicators -->
+            <div class="absolute bottom-24 left-1/2 -translate-x-1/2 flex gap-1 z-20" id="bannerIndicators">
+                <div class="w-4 h-1 bg-white rounded-full transition-all duration-300 shadow-sm"></div>
+                <div class="w-1.5 h-1 bg-white/50 rounded-full transition-all duration-300 shadow-sm"></div>
+                <div class="w-1.5 h-1 bg-white/50 rounded-full transition-all duration-300 shadow-sm"></div>
             </div>
         </section>
 
@@ -299,11 +334,11 @@
                 
                 for (let i = 0; i < totalRealSlides; i++) {
                     if (i === activeIndex) {
-                        indicators[i].classList.remove('bg-gray-300', 'w-1.5');
-                        indicators[i].classList.add('bg-shopee-blue', 'w-4');
+                        indicators[i].classList.remove('bg-white/50', 'w-1.5');
+                        indicators[i].classList.add('bg-white', 'w-4');
                     } else {
-                        indicators[i].classList.remove('bg-shopee-blue', 'w-4');
-                        indicators[i].classList.add('bg-gray-300', 'w-1.5');
+                        indicators[i].classList.remove('bg-white', 'w-4');
+                        indicators[i].classList.add('bg-white/50', 'w-1.5');
                     }
                 }
             }
@@ -740,9 +775,62 @@
                 </div>
             </div>
         </section>
+
+        <!-- Footer Information -->
+        <footer class="bg-gray-50 pt-10 pb-15 px-6 mt-6 border-t border-gray-100">
+            <div class="mb-8">
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-plane-departure text-shopee-blue text-xl"></i>
+                    <h3 class="text-shopee-blue font-bold text-xl tracking-tight">Tripkini</h3>
+                </div>
+                <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
+                    Platform travel terpercaya untuk menjelajahi keindahan Indonesia. 
+                    Temukan pengalaman liburan tak terlupakan bersama kami.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h4 class="text-gray-900 font-bold text-sm mb-4">Layanan</h4>
+                    <ul class="text-sm space-y-3 text-gray-500">
+                        <li><a href="#" class="hover:text-shopee-blue transition-colors">Bantuan</a></li>
+                        <li><a href="#" class="hover:text-shopee-blue transition-colors">Metode Pembayaran</a></li>
+                        <li><a href="#" class="hover:text-shopee-blue transition-colors">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-900 font-bold text-sm mb-4">Jelajahi</h4>
+                    <ul class="text-sm space-y-3 text-gray-500">
+                        <li><a href="#" class="hover:text-shopee-blue transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-shopee-blue transition-colors">Karir</a></li>
+                        <li><a href="#" class="hover:text-shopee-blue transition-colors">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="text-gray-900 font-bold text-sm mb-4">Ikuti Kami</h4>
+                <div class="flex items-center gap-3">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-shopee-blue hover:text-white hover:border-shopee-blue transition-all shadow-sm">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-shopee-blue hover:text-white hover:border-shopee-blue transition-all shadow-sm">
+                        <i class="fa-brands fa-tiktok text-lg"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-shopee-blue hover:text-white hover:border-shopee-blue transition-all shadow-sm">
+                        <i class="fa-brands fa-youtube text-lg"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-6 text-center">
+                <p class="text-xs text-gray-400 font-medium">© 2026 Tripkini. All rights reserved.</p>
+            </div>
+        </footer>
+
     </main>
 
-    <!-- Bottom Navigation (Mobile Style) -->
+    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-100 flex justify-around py-2 shadow-lg z-50">
         <div class="flex flex-col items-center text-shopee-blue">
             <i class="fa-solid fa-house text-lg"></i>
