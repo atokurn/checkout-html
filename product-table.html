@@ -183,11 +183,11 @@
 
         <!-- Table Container -->
         <div class="flex-1 px-6 pb-24 overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-[1000px]">
+            <table id="productTable" class="w-full text-left border-collapse min-w-[1000px]">
                 <thead>
                     <tr class="border-b border-gray-100 bg-gray-50/50">
                         <th class="px-4 py-3 w-12 text-center rounded-tl-lg">
-                            <input type="checkbox" class="custom-checkbox">
+                            <input type="checkbox" id="selectAll" class="custom-checkbox">
                         </th>
                         <th class="px-4 py-3 text-sm font-medium text-gray-500">Product</th>
                         <th class="px-4 py-3 text-sm font-medium text-gray-500">Price</th>
@@ -233,8 +233,8 @@
 
                     <!-- Row 2 (Selected) -->
                     <tr class="group bg-orange-50/30 border-b border-gray-50 relative">
-                        <td class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></td>
-                        <td class="px-4 py-4 text-center">
+                        <td class="px-4 py-4 text-center relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></div>
                             <input type="checkbox" class="custom-checkbox" checked>
                         </td>
                         <td class="px-4 py-4">
@@ -292,8 +292,8 @@
 
                     <!-- Row 4 (Selected) -->
                     <tr class="group bg-orange-50/30 border-b border-gray-50 relative">
-                        <td class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></td>
-                        <td class="px-4 py-4 text-center">
+                        <td class="px-4 py-4 text-center relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></div>
                             <input type="checkbox" class="custom-checkbox" checked>
                         </td>
                         <td class="px-4 py-4">
@@ -498,9 +498,9 @@
         </div>
 
         <!-- Floating Action Bar -->
-        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-2xl border border-gray-200 px-2 py-1.5 flex items-center gap-2 animate-bounce-in">
-            <div class="px-3 py-1.5 text-sm font-bold text-gray-800 border-r border-gray-200">
-                2 Selected
+        <div id="floatingActionBar" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-2xl border border-gray-200 px-2 py-1.5 flex items-center gap-2 animate-bounce-in transition-all duration-300">
+            <div id="selectedCount" class="px-3 py-1.5 text-sm font-bold text-gray-800 border-r border-gray-200">
+                0 Selected
             </div>
             <button class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg">
                 <i class="fa-solid fa-tag text-gray-400"></i>
@@ -525,5 +525,90 @@
 
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.getElementById('productTable');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const floatingActionBar = document.getElementById('floatingActionBar');
+            const selectedCountLabel = document.getElementById('selectedCount');
+            const rowCheckboxes = table.querySelectorAll('tbody input.custom-checkbox');
+
+            // Function to update row style
+            function updateRowStyle(row, isChecked) {
+                const firstCell = row.cells[0];
+                
+                if (isChecked) {
+                    // Add selected styles
+                    row.classList.add('bg-orange-50/30', 'relative');
+                    row.classList.remove('hover:bg-gray-50');
+                    
+                    // Add left border indicator if it doesn't exist
+                    if (!firstCell.querySelector('.absolute.left-0')) {
+                        const borderIndicator = document.createElement('div');
+                        borderIndicator.className = 'absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l';
+                        firstCell.classList.add('relative');
+                        firstCell.prepend(borderIndicator);
+                    }
+                } else {
+                    // Remove selected styles
+                    row.classList.remove('bg-orange-50/30', 'relative');
+                    row.classList.add('hover:bg-gray-50');
+                    
+                    // Remove left border indicator
+                    const borderIndicator = firstCell.querySelector('.absolute.left-0');
+                    if (borderIndicator) {
+                        borderIndicator.remove();
+                        firstCell.classList.remove('relative');
+                    }
+                }
+            }
+
+            // Function to update floating action bar
+            function updateFloatingBar() {
+                const checkedCount = Array.from(rowCheckboxes).filter(cb => cb.checked).length;
+                
+                selectedCountLabel.textContent = `${checkedCount} Selected`;
+                
+                if (checkedCount > 0) {
+                    floatingActionBar.classList.remove('translate-y-20', 'opacity-0');
+                    floatingActionBar.classList.add('translate-y-0', 'opacity-100');
+                } else {
+                    floatingActionBar.classList.add('translate-y-20', 'opacity-0');
+                    floatingActionBar.classList.remove('translate-y-0', 'opacity-100');
+                }
+
+                // Update select all checkbox state
+                const allChecked = checkedCount === rowCheckboxes.length;
+                const someChecked = checkedCount > 0 && checkedCount < rowCheckboxes.length;
+                
+                selectAllCheckbox.checked = allChecked;
+                selectAllCheckbox.indeterminate = someChecked;
+            }
+
+            // Event Listener for Select All
+            selectAllCheckbox.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                    updateRowStyle(checkbox.closest('tr'), isChecked);
+                });
+                updateFloatingBar();
+            });
+
+            // Event Listeners for Row Checkboxes
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    updateRowStyle(e.target.closest('tr'), e.target.checked);
+                    updateFloatingBar();
+                });
+            });
+
+            // Initialize styles based on default checked state
+            rowCheckboxes.forEach(checkbox => {
+                updateRowStyle(checkbox.closest('tr'), checkbox.checked);
+            });
+            updateFloatingBar();
+        });
+    </script>
 </body>
 </html>
