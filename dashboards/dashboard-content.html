@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>anibeam admin – Content Catalog</title>
+<style>
+:root{
+  /* Palette Tokens from Design System */
+  --ink: #000000;
+  --body: #222222;
+  --charcoal: #333333;
+  --mute: #666666;
+  --ash: #8a8a8a;
+  --stone: #c4c4c4;
+  --on-dark: #ffffff;
+  --on-dark-mute: rgba(255, 255, 255, 0.72);
+
+  /* Theme mappings */
+  --bg-main: #0c0c0c;
+  --bg-card: #141414;
+  --bg-card-hover: #1c1c1c;
+  --bg-sidebar: #101010;
+  --bg-sub: #161616;
+  --border: #242424;
+  --border-focus: #383838;
+  --text: var(--on-dark-mute);
+  --text-white: var(--on-dark);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+     color:var(--text);background:var(--bg-main);font-size:14px}
+button{font:inherit;background:none;border:none;cursor:pointer}
+a{text-decoration:none;color:inherit}
+svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ================= TOP BAR ================= */
+.topbar{display:flex;align-items:center;gap:22px;padding:10px 20px;color:var(--on-dark);
+  background:linear-gradient(90deg, #000000 0%, #141414 35%, #181818 70%, #0c0c0c 100%);
+  border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-logos{line-height:1.2}
+.brand-logos .logo-icon{width:28px;height:28px;background:var(--on-dark);color:var(--ink);font-weight:800;border-radius:6px;display:grid;place-items:center;font-size:15px}
+.brand-sep{width:1px;height:28px;background:var(--charcoal)}
+.brand-title strong{font-size:16px;display:block;color:var(--on-dark);font-weight:700}
+.brand-title small{font-size:11px;color:var(--ash)}
+.top-search{flex:0 0 380px;display:flex;align-items:center;gap:8px;background:var(--body);
+  border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--ash);font-size:13px;cursor:text}
+.top-search input{background:none;border:none;outline:none;color:var(--on-dark);font-size:13px;width:100%}
+.top-search input::placeholder{color:var(--ash)}
+.top-search .kbd{margin-left:auto;font-size:11px;background:var(--ink);color:var(--ash);padding:2px 6px;border-radius:4px;border:1px solid var(--charcoal)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:13px}
+.pill{display:flex;align-items:center;gap:8px;background:var(--body);border:1px solid var(--charcoal);border-radius:999px;padding:6px 12px;font-weight:600;font-size:12px;color:var(--on-dark)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--on-dark)}
+.icon-btn{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--on-dark-mute);transition:color 0.15s}
+.icon-btn:hover{color:var(--on-dark)}
+.help{width:22px;height:22px;border:1.6px solid var(--mute);border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;cursor:pointer}
+.badge{position:absolute;top:-8px;right:-10px;background:var(--on-dark);color:var(--ink);font-size:10px;font-weight:800;border-radius:999px;padding:2px 5px}
+.user{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--on-dark)}
+.avatar{width:30px;height:30px;border-radius:6px;background:var(--charcoal);color:var(--on-dark);display:grid;place-items:center;font-size:11px;font-weight:700;border:1px solid var(--border)}
+
+/* ================= BANNER ================= */
+.banner{background:var(--body);border-bottom:1px solid var(--charcoal);padding:10px 60px;text-align:center;color:var(--on-dark);position:relative;font-size:13px;transition:opacity 0.2s, max-height 0.2s}
+.banner .l1{font-weight:600;display:flex;justify-content:center;align-items:center;gap:6px}
+.banner .close{position:absolute;right:18px;top:10px;font-size:16px;cursor:pointer;opacity:0.8;color:var(--ash)}
+.banner .close:hover{opacity:1;color:var(--on-dark)}
+
+/* ================= LAYOUT ================= */
+.layout{display:flex;min-height:calc(100vh - 118px)}
+.sidebar{width:240px;background:var(--bg-sidebar);border-right:1px solid var(--border);padding:14px 12px;flex:none}
+.side-header{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--mute);letter-spacing:0.5px;padding:10px 12px 4px}
+.side-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;color:var(--on-dark-mute);font-size:13.5px;cursor:pointer;user-select:none;transition:background 0.15s, color 0.15s}
+.side-item:hover{background:var(--body);color:var(--on-dark)}
+.side-item.active{background:var(--body);color:var(--on-dark);font-weight:600;border:1px solid var(--charcoal)}
+.side-item.open{font-weight:600;color:var(--on-dark)}
+.side-item svg{width:17px;height:17px;color:var(--ash);flex-shrink:0}
+.side-sub-menu{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease}
+.side-nav-group.open .side-sub-menu{max-height:260px;opacity:1}
+.side-sub{display:block;padding:8px 12px 8px 40px;border-radius:8px;color:var(--on-dark-mute);font-size:13px;cursor:pointer;text-decoration:none;transition:background 0.15s, color 0.15s}
+.side-sub:hover{background:var(--body);color:var(--on-dark)}
+.side-sub.active{background:var(--charcoal);color:var(--on-dark);font-weight:600;border:1px solid var(--mute)}
+.divider{border:none;border-top:1px solid var(--border);margin:12px 6px}
+
+/* ================= CONTENT ================= */
+.content{flex:1;padding:24px 32px;background:var(--bg-main);min-width:0}
+.page-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.page-head-left .breadcrumb{font-size:10.5px;font-weight:700;letter-spacing:1px;color:var(--ash);text-transform:uppercase;margin-bottom:2px}
+h1{font-size:24px;font-weight:800;color:var(--on-dark)}
+.head-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:7px 12px;width:320px;color:var(--ash);font-size:13px}
+.search-box input{border:none;outline:none;background:none;font-size:13px;width:100%;color:var(--on-dark)}
+.search-box input::placeholder{color:var(--ash)}
+.btn{background:var(--body);border:1px solid var(--charcoal);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--on-dark);white-space:nowrap;transition:background 0.15s, border-color 0.15s, color 0.15s}
+.btn:hover{background:var(--charcoal);border-color:var(--mute);color:var(--on-dark)}
+.notice{display:flex;gap:8px;align-items:flex-start;color:var(--on-dark-mute);font-size:13px;margin:4px 0 16px}
+.notice svg{color:var(--on-dark);width:16px;height:16px;margin-top:1px}
+.notice a{color:var(--on-dark);font-weight:700;text-decoration:underline}
+
+/* ---- kartu statistik ---- */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;padding:18px 22px}
+.stat{cursor:pointer;padding:6px 8px;border-radius:6px;transition:background 0.15s}
+.stat:hover{background:var(--bg-card-hover)}
+.stat .label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ash);margin-bottom:8px;min-height:30px}
+.stat .value{font-size:20px;font-weight:800;color:var(--on-dark)}
+.perf{display:flex;align-items:center;gap:6px;border-top:1px solid var(--border);padding:12px 22px;font-size:13px;font-weight:600;color:var(--on-dark-mute);cursor:pointer}
+.perf:hover{color:var(--on-dark)}
+.qmark{width:15px;height:15px;border:1.4px solid var(--ash);border-radius:50%;display:inline-grid;place-items:center;font-size:9px;font-weight:700}
+
+/* ---- kartu katalog / tabel ---- */
+.orders{margin-top:16px;position:relative}
+.tabs{display:flex;gap:28px;padding:0 20px;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap}
+.tab{padding:14px 2px;color:var(--on-dark-mute);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;cursor:pointer;transition:color 0.15s}
+.tab:hover{color:var(--on-dark)}
+.tab .n{color:var(--mute);font-size:12px;font-weight:700;margin-left:4px}
+.tab.active{color:var(--on-dark);font-weight:700;border-color:var(--on-dark)}
+.tab.active .n{color:var(--on-dark)}
+
+/* ================= BARIS FILTER ================= */
+.filters-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:14px 16px 6px;position:relative}
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px 6px;align-items:center;flex:1 1 auto;min-width:0}
+.sort-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;margin-left:auto;position:relative}
+
+@media (max-width:768px){
+  .filters-row{flex-direction:column}
+  .sort-actions{width:100%;justify-content:flex-end}
+}
+
+.filter-btn{background:var(--body);border:1px solid var(--charcoal);border-radius:6px;padding:6px 9px;font-size:12px;font-weight:700;display:flex;gap:5px;align-items:center;white-space:nowrap;color:var(--on-dark);cursor:pointer;transition:background 0.15s}
+.filter-btn:hover{background:var(--charcoal)}
+.chip-wrapper{position:relative;display:inline-block}
+.chip{display:flex;align-items:center;gap:5px;border:1px solid var(--border);background:var(--body);border-radius:6px;padding:5px 8px;font-size:12px;color:var(--on-dark-mute);white-space:nowrap;cursor:pointer;transition:border-color 0.15s, background 0.15s}
+.chip:hover{border-color:var(--border-focus);background:var(--charcoal);color:var(--on-dark)}
+.chip.open, .chip.active{border-color:var(--stone);color:var(--on-dark);background:var(--charcoal)}
+.chip svg{width:11px;height:11px;color:var(--ash);transition:transform 0.2s}
+.chip.open svg{transform:rotate(180deg);color:var(--on-dark)}
+.chip .x{color:var(--ash);cursor:pointer;margin-left:2px;font-size:11px;padding:0 2px}
+.chip .x:hover{color:var(--on-dark);font-weight:bold}
+
+.sort-actions .btn{padding:5px 9px;font-size:12px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+
+/* ================= DROPDOWN FLOATING ================= */
+.dropdown-menu{position:absolute;top:calc(100% + 4px);left:0;background:var(--body);border:1px solid var(--charcoal);border-radius:8px;box-shadow:0 12px 28px rgba(0,0,0,0.8);z-index:900;min-width:180px;padding:6px 0;display:none;font-size:12.5px}
+.dropdown-menu.show{display:block;animation:fadeIn 0.15s ease}
+.dropdown-menu.right{left:auto;right:0}
+.dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 14px;color:var(--on-dark-mute);cursor:pointer;transition:background 0.1s}
+.dropdown-item:hover{background:var(--charcoal);color:var(--on-dark)}
+.dropdown-item.active{color:var(--on-dark);font-weight:600;background:var(--charcoal)}
+.dropdown-item .radio-dot{width:14px;height:14px;border:1.5px solid var(--mute);border-radius:50%;display:grid;place-items:center;flex:none}
+.dropdown-item.active .radio-dot{border-color:var(--on-dark)}
+.dropdown-item.active .radio-dot::after{content:"";width:6px;height:6px;background:var(--on-dark);border-radius:50%}
+.dropdown-divider{height:1px;background:var(--border);margin:5px 0}
+.dropdown-action{padding:6px 14px;color:var(--on-dark);font-size:12px;font-weight:600;cursor:pointer;display:block}
+.dropdown-action:hover{text-decoration:underline}
+
+/* Submenu Mode Tampilan */
+.has-submenu{position:relative}
+.has-submenu .menu-row{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}
+.submenu{position:absolute;top:0;right:calc(100% + 4px);background:var(--body);border:1px solid var(--charcoal);border-radius:8px;box-shadow:0 12px 28px rgba(0,0,0,0.8);z-index:910;min-width:140px;padding:6px 0;display:none}
+.has-submenu:hover .submenu, .has-submenu.open .submenu{display:block}
+
+/* ================= OPSI PROVIDER SOURCE ================= */
+.ship-row{display:flex;align-items:center;gap:10px;padding:8px 20px 14px;font-size:13px;color:var(--ash);flex-wrap:wrap}
+.ship-row .chip-btn{border:1px solid var(--border);background:var(--body);border-radius:6px;padding:5px 12px;font-size:12.5px;color:var(--on-dark-mute);cursor:pointer;transition:all 0.15s}
+.ship-row .chip-btn:hover{border-color:var(--border-focus);color:var(--on-dark)}
+.ship-row .chip-btn.active{border-color:var(--stone);background:var(--charcoal);color:var(--on-dark);font-weight:600}
+.ship-row .reset{width:28px;height:28px;border:1px solid var(--border);border-radius:6px;display:grid;place-items:center;background:var(--body);font-size:14px;cursor:pointer;color:var(--ash);transition:all 0.15s}
+.ship-row .reset:hover{background:var(--charcoal);color:var(--on-dark)}
+.ship-row .note{color:var(--ash)}
+
+/* ================= TABEL & CARD VIEW ================= */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+thead th{background:var(--body);text-align:left;font-weight:700;color:var(--ash);font-size:11.5px;
+  text-transform:uppercase;letter-spacing:0.5px;padding:12px 16px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody td{padding:16px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--on-dark-mute)}
+tbody tr:hover{background:var(--bg-card-hover)}
+.bold{font-weight:700;color:var(--on-dark)}
+.small{color:var(--ash);font-size:12px;margin-top:2px;font-family:monospace}
+.type-badge{display:inline-block;padding:2px 6px;font-size:10px;font-weight:700;color:var(--on-dark);background:var(--charcoal);border:1px solid var(--mute);border-radius:4px;font-family:monospace}
+.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600;background:var(--charcoal);color:var(--on-dark);border:1px solid var(--mute)}
+.status-pill .dot{width:5px;height:5px;background:var(--on-dark);border-radius:50%}
+.free-badge{background:var(--charcoal);color:var(--stone);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;border:1px solid var(--border)}
+.thumb{width:32px;height:40px;border-radius:4px;display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--on-dark);border:1px solid var(--charcoal);box-shadow:0 2px 4px rgba(0,0,0,0.4);flex-shrink:0}
+input[type=checkbox]{width:15px;height:15px;accent-color:var(--on-dark);cursor:pointer}
+
+/* Card View Mode */
+.cards-wrap{display:none;padding:16px 20px;gap:16px;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr))}
+.order-card-item{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--bg-card);font-size:13px;display:flex;flex-direction:column;gap:8px}
+.order-card-item .card-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:8px}
+.order-card-item .card-row{display:flex;justify-content:space-between;align-items:center}
+
+/* ---- footer tabel ---- */
+.table-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:14px 20px;color:var(--ash);font-size:12.5px;flex-wrap:wrap;border-top:1px solid var(--border)}
+.pager{display:flex;align-items:center;gap:8px}
+.arrow{color:var(--ash);font-size:14px;cursor:pointer;padding:4px 8px;border-radius:4px;user-select:none}
+.arrow:hover{background:var(--charcoal);color:var(--on-dark)}
+.arrow.disabled{color:var(--mute);cursor:not-allowed}
+.page{min-width:28px;height:28px;display:grid;place-items:center;background:var(--on-dark);border-radius:6px;font-weight:800;color:var(--ink);cursor:pointer}
+.pagesize-wrap{position:relative}
+.pagesize{border:1px solid var(--charcoal);border-radius:6px;padding:5px 9px;background:var(--body);color:var(--on-dark);display:flex;gap:6px;align-items:center;font-size:12px;cursor:pointer}
+
+/* ================= FILTER DRAWER (RIGHT PANEL) ================= */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-blur:sm;z-index:999;opacity:0;visibility:hidden;transition:opacity 0.25s, visibility 0.25s}
+.drawer-overlay.open{opacity:1;visibility:visible}
+.drawer-panel{position:fixed;top:0;right:-420px;bottom:0;width:400px;max-width:100%;background:var(--bg-card);border-left:1px solid var(--border);z-index:1000;display:flex;flex-direction:column;transition:right 0.3s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:-8px 0 32px rgba(0,0,0,0.8)}
+.drawer-panel.open{right:0}
+.drawer-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.drawer-head h3{font-size:15px;font-weight:700;color:var(--on-dark)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 20px}
+.drawer-foot{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:12px;justify-content:flex-end;background:var(--bg-main)}
+
+/* Accordion di dalam Drawer */
+.acc-group{border-bottom:1px solid var(--border);padding:14px 0}
+.acc-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--on-dark)}
+.acc-head svg{width:14px;height:14px;color:var(--ash);transition:transform 0.2s}
+.acc-group.open .acc-head svg{transform:rotate(180deg)}
+.acc-content{display:none;padding-top:12px}
+.acc-group.open .acc-content{display:block}
+.acc-checkbox-list{display:flex;flex-direction:column;gap:9px}
+.acc-label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--on-dark-mute);cursor:pointer}
+
+/* ================= TOAST NOTIFICATION ================= */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--body);border:1px solid var(--charcoal);color:var(--on-dark);padding:12px 18px;border-radius:8px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,0.8);z-index:9999;transform:translateY(80px);opacity:0;transition:all 0.25s ease;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{color:var(--on-dark);font-weight:bold}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logos">
+      <div class="logo-icon">A</div>
+    </div>
+    <div class="brand-sep"></div>
+    <div class="brand-title">
+      <strong>anibeam admin</strong>
+      <small>Control room</small>
+    </div>
+  </div>
+
+  <div class="top-search" onclick="document.getElementById('topSearchInput').focus()">
+    <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input type="text" id="topSearchInput" placeholder='Cari judul, slug, ID atau Anilist ID...'>
+    <span class="kbd">⌘+K</span>
+  </div>
+
+  <div class="top-actions">
+    <div class="pill">
+      <span class="dot"></span>
+      <span>Operational</span>
+    </div>
+    <div class="icon-btn" onclick="showToast('Membuka live site...');" title="Open site">
+      <svg width="17" height="17" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <span>Open site</span>
+    </div>
+    <div class="icon-btn" title="Help" onclick="showToast('Bantuan & Dokumentasi API')">
+      <span class="help">?</span>
+    </div>
+    <div class="icon-btn" title="Notifikasi" onclick="showToast('24 Pesan & Notifikasi Baru')">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="badge">24</span>
+    </div>
+    <div class="user" onclick="showToast('Akun: Aniflash* (ADMIN)')">
+      <div class="avatar">A</div>
+      <span>Aniflash*</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ BANNER ============ -->
+<div class="banner" id="promoBanner">
+  <div class="l1">
+    <span>⚠️ Content Ingest Pipeline Active — 3,955 items in review queue</span>
+  </div>
+  <span class="close" onclick="document.getElementById('promoBanner').style.display='none'">✕</span>
+</div>
+
+<div class="layout">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="side-header">Overview</div>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>Dashboard</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><span>Analytics</span></a>
+    <hr class="divider">
+    
+    <div class="side-header">Operations</div>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Users</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M6 7h12l1.5 14h-15L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span>Store</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>Monetization</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>Plans</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M18 4 7 9H3v6h4l11 5V4z"/></svg><span>Announcements</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg><span>Feature Flags</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>18+ Access</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span>Reward Rules</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span>Missions</span></a>
+    <hr class="divider">
+
+    <div class="side-header">Catalog Management</div>
+    <!-- Accordion Catalog Management -->
+    <div class="side-nav-group open" id="navGroupCatalog">
+      <div class="side-item open" onclick="toggleSidebarAccordion('navGroupCatalog', this, 'Catalog')">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Content Catalog</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub active" href="#" onclick="setActiveSubItem(this); return false;">Content Catalog</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Content Requests</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Review Queue</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Ingest Monitor</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Ingest Controls</a>
+      </div>
+    </div>
+
+    <!-- Accordion Ranking -->
+    <div class="side-header">Ranking</div>
+    <div class="side-nav-group" id="navGroupRanking">
+      <div class="side-item" onclick="toggleSidebarAccordion('navGroupRanking', this, 'Ranking')">
+        <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+        <span>Ranking</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Seasons</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Level Config</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Reward Policy</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Ranking Stats</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Trust &amp; Safety</span></a>
+  </aside>
+
+  <!-- ============ KONTEN ============ -->
+  <main class="content">
+    <div class="page-head">
+      <div class="page-head-left">
+        <div class="breadcrumb">CONTENT CATALOG</div>
+        <h1>Content Catalog</h1>
+      </div>
+      <div class="head-actions">
+        <div class="search-box">
+          <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="text" id="catalogSearchInput" placeholder="Search by canonical title, slug, ID or Anilist ID..." oninput="handleTableSearch(this.value)">
+        </div>
+        <button class="btn" onclick="showToast('Exporting catalog data...')">Export Data</button>
+        <button class="btn" onclick="showToast('Opening Ingest Controls...')">Ingest Controls</button>
+        <button class="btn" onclick="showToast('Pengaturan lainnya')">⋯</button>
+      </div>
+    </div>
+
+    <div class="notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Information: 125,712 items released without external source. <a href="#" onclick="showToast('Membuka dokumentasi pipeline...'); return false;">Learn more</a></span>
+    </div>
+
+    <!-- KARTU STATISTIK (6 METRIK) -->
+    <div class="card">
+      <div class="stats">
+        <div class="stat" onclick="selectTab('all')">
+          <span class="label">Total Items</span>
+          <span class="value">138,283</span>
+        </div>
+        <div class="stat" onclick="selectType('anime')">
+          <span class="label">Anime</span>
+          <span class="value">21,168</span>
+        </div>
+        <div class="stat" onclick="selectType('manga')">
+          <span class="label">Manga</span>
+          <span class="value">117,115</span>
+        </div>
+        <div class="stat" onclick="selectTab('review')">
+          <span class="label">In Review Queue</span>
+          <span class="value">3,955</span>
+        </div>
+        <div class="stat" onclick="selectTab('nosource')">
+          <span class="label">Released, No Source</span>
+          <span class="value">125,712</span>
+        </div>
+        <div class="stat" onclick="selectTab('unmapped')">
+          <span class="label">Unmapped</span>
+          <span class="value">0</span>
+        </div>
+      </div>
+      <div class="perf" onclick="showToast('Membuka Metrik Kualitas Katalog...')">
+        <span>Catalog Quality &amp; Verification Score</span>
+        <span class="qmark">?</span>
+        <span style="margin-left:auto">›</span>
+      </div>
+    </div>
+
+    <!-- KARTU TABEL CATALOG -->
+    <div class="card orders">
+      
+      <!-- TABS -->
+      <div class="tabs">
+        <div class="tab active" data-tab="all" onclick="switchTab(this)">All<span class="n">138,283</span></div>
+        <div class="tab" data-tab="releasing" onclick="switchTab(this)">Releasing<span class="n">2,266</span></div>
+        <div class="tab" data-tab="completed" onclick="switchTab(this)">Completed<span class="n">115,000</span></div>
+        <div class="tab" data-tab="review" onclick="switchTab(this)">In Review<span class="n">3,955</span></div>
+        <div class="tab" data-tab="draft" onclick="switchTab(this)">Draft<span class="n">1,240</span></div>
+        <div class="tab" data-tab="archived" onclick="switchTab(this)">Archived<span class="n">810</span></div>
+      </div>
+
+      <!-- BARIS FILTER CHIPS & SORT -->
+      <div class="filters-row">
+        
+        <div class="filter-chips">
+          
+          <!-- Tombol Filter Utama -->
+          <button class="filter-btn" onclick="openFilterDrawer()">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+            <span>Filter ( 7 )</span>
+          </button>
+
+          <!-- Chip 1: Type -->
+          <div class="chip-wrapper" id="chipWrapperType">
+            <div class="chip active" id="chipType" onclick="toggleDropdownMenu('dropdownType', event)">
+              <span id="chipTypeText">Type: All (138,283)</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="resetSingleChip('Type', event)" title="Hapus filter">✕</span>
+            </div>
+            <div class="dropdown-menu" id="dropdownType">
+              <div class="dropdown-item active" onclick="selectChipFilter('Type', 'All (138,283)', this)">
+                <span class="radio-dot"></span><span>All Types (138,283)</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Type', 'Manga (117,115)', this)">
+                <span class="radio-dot"></span><span>Manga (117,115)</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Type', 'Anime (21,168)', this)">
+                <span class="radio-dot"></span><span>Anime (21,168)</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="resetSingleChip('Type', event)">Hapus Filter</span>
+            </div>
+          </div>
+
+          <!-- Chip 2: Visibility -->
+          <div class="chip-wrapper" id="chipWrapperVisibility">
+            <div class="chip" id="chipVisibility" onclick="toggleDropdownMenu('dropdownVisibility', event)">
+              <span id="chipVisibilityText">Visibility: All</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="resetSingleChip('Visibility', event)" title="Hapus filter">✕</span>
+            </div>
+            <div class="dropdown-menu" id="dropdownVisibility">
+              <div class="dropdown-item active" onclick="selectChipFilter('Visibility', 'All', this)">
+                <span class="radio-dot"></span><span>All Visibility</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Visibility', 'Published', this)">
+                <span class="radio-dot"></span><span>Published</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Visibility', 'Draft', this)">
+                <span class="radio-dot"></span><span>Draft</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="resetSingleChip('Visibility', event)">Hapus Filter</span>
+            </div>
+          </div>
+
+          <!-- Chip 3: Monetization -->
+          <div class="chip-wrapper" id="chipWrapperMonetization">
+            <div class="chip" id="chipMonetization" onclick="toggleDropdownMenu('dropdownMonetization', event)">
+              <span id="chipMonetizationText">Monetization: All</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="resetSingleChip('Monetization', event)">✕</span>
+            </div>
+            <div class="dropdown-menu" id="dropdownMonetization">
+              <div class="dropdown-item active" onclick="selectChipFilter('Monetization', 'All', this)">
+                <span class="radio-dot"></span><span>All Monetization</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Monetization', 'Free', this)">
+                <span class="radio-dot"></span><span>Free</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Monetization', 'Premium', this)">
+                <span class="radio-dot"></span><span>Premium</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="resetSingleChip('Monetization', event)">Hapus Filter</span>
+            </div>
+          </div>
+
+          <!-- Chip 4: Availability -->
+          <div class="chip-wrapper" id="chipWrapperAvailability">
+            <div class="chip" id="chipAvailability" onclick="toggleDropdownMenu('dropdownAvailability', event)">
+              <span id="chipAvailabilityText">Availability: All</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="resetSingleChip('Availability', event)">✕</span>
+            </div>
+            <div class="dropdown-menu" id="dropdownAvailability">
+              <div class="dropdown-item active" onclick="selectChipFilter('Availability', 'All', this)">
+                <span class="radio-dot"></span><span>All Availability</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Availability', 'Available', this)">
+                <span class="radio-dot"></span><span>Available</span>
+              </div>
+              <div class="dropdown-item" onclick="selectChipFilter('Availability', 'Unavailable', this)">
+                <span class="radio-dot"></span><span>Unavailable</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="resetSingleChip('Availability', event)">Hapus Filter</span>
+            </div>
+          </div>
+
+          <!-- Chip 5: Release Status -->
+          <div class="chip-wrapper">
+            <div class="chip" onclick="showToast('Filter: Release Status')">
+              <span>Release Status</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x">✕</span>
+            </div>
+          </div>
+
+          <!-- Chip 6: Provider Source -->
+          <div class="chip-wrapper">
+            <div class="chip active" onclick="showToast('Filter: Provider Source')">
+              <span>Provider: Mangaindo</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x">✕</span>
+            </div>
+          </div>
+
+          <!-- Chip 7: Units -->
+          <div class="chip-wrapper">
+            <div class="chip" onclick="showToast('Filter: Minimum Units')">
+              <span>Units &gt;= 1</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x">✕</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Tombol Aksi Kanan (Urutkan, Ekspor, More) -->
+        <div class="sort-actions">
+          
+          <button class="btn" id="sortBtn" onclick="toggleDropdownMenu('dropdownSort', event)">
+            <svg width="12" height="12" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg>
+            <span id="sortBtnText">Sort: Updated Time</span>
+          </button>
+          
+          <!-- Dropdown Menu Urutkan 9 Kriteria -->
+          <div class="dropdown-menu right" id="dropdownSort">
+            <div class="dropdown-item active" onclick="selectSortCriteria('Updated Time', this)">
+              <span class="radio-dot"></span><span>Updated Time</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Created Time', this)">
+              <span class="radio-dot"></span><span>Created Time</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Title A-Z', this)">
+              <span class="radio-dot"></span><span>Title (A - Z)</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Title Z-A', this)">
+              <span class="radio-dot"></span><span>Title (Z - A)</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Anilist ID', this)">
+              <span class="radio-dot"></span><span>Anilist ID (Highest)</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Units Count', this)">
+              <span class="radio-dot"></span><span>Units Count (Most)</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Providers Count', this)">
+              <span class="radio-dot"></span><span>Providers Count</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Availability Status', this)">
+              <span class="radio-dot"></span><span>Availability Status</span>
+            </div>
+            <div class="dropdown-item" onclick="selectSortCriteria('Visibility Status', this)">
+              <span class="radio-dot"></span><span>Visibility Status</span>
+            </div>
+          </div>
+
+          <button class="btn" onclick="showToast('Mengekspor data katalog CSV/Excel...')">
+            <svg width="12" height="12" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span>Ekspor</span>
+          </button>
+
+          <button class="btn" onclick="toggleDropdownMenu('dropdownMore', event)">⋯</button>
+          <div class="dropdown-menu right" id="dropdownMore">
+            <div class="has-submenu">
+              <div class="dropdown-item menu-row">
+                <span>Mode Tampilan</span><span>›</span>
+              </div>
+              <div class="submenu">
+                <div class="dropdown-item active" id="viewModeTable" onclick="setViewMode('table')">Tabel</div>
+                <div class="dropdown-item" id="viewModeCard" onclick="setViewMode('card')">Kartu Grid</div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" onclick="showToast('Pengaturan Kolom Tabel')">Atur Kolom</div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- OPSI PROVIDER SOURCE -->
+      <div class="ship-row">
+        <span>Provider source:</span>
+        <button class="chip-btn active" onclick="toggleProvider(this, 'Mangaindo')">Mangaindo</button>
+        <button class="chip-btn" onclick="toggleProvider(this, 'Komikindo')">Komikindo</button>
+        <button class="chip-btn" onclick="toggleProvider(this, 'Bato')">Bato</button>
+        <button class="chip-btn" onclick="toggleProvider(this, 'Crunchyroll')">Crunchyroll</button>
+        <button class="chip-btn" onclick="showToast('Pilih opsi provider lainnya')">Opsi lain ⌵</button>
+        <div class="reset" title="Reset filter provider" onclick="resetProviderFilters()">↺</div>
+        <span class="note" id="providerNote">Ada 2,266 items</span>
+      </div>
+
+      <!-- TABEL DATA CATALOG -->
+      <div class="table-wrap" id="tableView">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)"></th>
+              <th style="width:100px">Type</th>
+              <th>Canonical Content</th>
+              <th>Availability</th>
+              <th>Visibility</th>
+              <th>Monetization</th>
+              <th>Anilist ID</th>
+              <th>Relations</th>
+              <th style="text-align:right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="catalogTableBody">
+            <!-- Rows rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CARD VIEW CONTAINER -->
+      <div class="cards-wrap" id="cardView">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- FOOTER TABEL & PAGINASI -->
+      <div class="table-foot">
+        <span id="showingText">Showing 1 - 9 of 2,266 items</span>
+        <div class="pager">
+          <span class="arrow disabled">‹</span>
+          <span class="page">1</span>
+          <span class="arrow" onclick="showToast('Halaman 2')">2</span>
+          <span class="arrow" onclick="showToast('Halaman 3')">3</span>
+          <span>...</span>
+          <span class="arrow" onclick="showToast('Halaman 252')">252</span>
+          <span class="arrow" onclick="showToast('Halaman berikutnya')">›</span>
+          <div class="pagesize-wrap">
+            <div class="pagesize" onclick="showToast('Pilihan 20/Page')">20/Page ⌵</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ FILTER DRAWER (RIGHT PANEL) ============ -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeFilterDrawer()"></div>
+<div class="drawer-panel" id="drawerPanel">
+  <div class="drawer-head">
+    <h3>Filter Parameter ( 7 )</h3>
+    <button class="btn" style="padding:4px 8px" onclick="closeFilterDrawer()">✕</button>
+  </div>
+  
+  <div class="drawer-body">
+    
+    <div class="acc-group open">
+      <div class="acc-head" onclick="toggleAccordion(this)">
+        <span>Type Content</span>
+        <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="acc-content">
+        <div class="acc-checkbox-list">
+          <label class="acc-label"><input type="checkbox" checked><span>Manga (117,115)</span></label>
+          <label class="acc-label"><input type="checkbox" checked><span>Anime (21,168)</span></label>
+          <label class="acc-label"><input type="checkbox"><span>Light Novel (4,210)</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-group open">
+      <div class="acc-head" onclick="toggleAccordion(this)">
+        <span>Release Status</span>
+        <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="acc-content">
+        <div class="acc-checkbox-list">
+          <label class="acc-label"><input type="checkbox" checked><span>RELEASING</span></label>
+          <label class="acc-label"><input type="checkbox" checked><span>COMPLETED</span></label>
+          <label class="acc-label"><input type="checkbox"><span>HIATUS</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-group open">
+      <div class="acc-head" onclick="toggleAccordion(this)">
+        <span>Provider Source</span>
+        <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="acc-content">
+        <div class="acc-checkbox-list">
+          <label class="acc-label"><input type="checkbox" checked><span>Mangaindo</span></label>
+          <label class="acc-label"><input type="checkbox"><span>Komikindo</span></label>
+          <label class="acc-label"><input type="checkbox"><span>Bato</span></label>
+          <label class="acc-label"><input type="checkbox"><span>Crunchyroll</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-group">
+      <div class="acc-head" onclick="toggleAccordion(this)">
+        <span>Monetization &amp; Visibility</span>
+        <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="acc-content">
+        <div class="acc-checkbox-list">
+          <label class="acc-label"><input type="checkbox" checked><span>Free</span></label>
+          <label class="acc-label"><input type="checkbox"><span>Premium</span></label>
+          <label class="acc-label"><input type="checkbox" checked><span>Published</span></label>
+          <label class="acc-label"><input type="checkbox"><span>Draft</span></label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="drawer-foot">
+    <button class="btn" onclick="resetAllDrawerFilters()">Reset Semua</button>
+    <button class="btn" style="background:var(--on-dark);color:var(--ink);border-color:var(--on-dark);font-weight:700" onclick="applyDrawerFilters()">Terapkan Filter</button>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="appToast">
+  <span class="toast-icon">✓</span>
+  <span id="toastMessage">Pesan Notifikasi</span>
+</div>
+
+<!-- ============ JAVASCRIPT LOGIC ============ -->
+<script>
+const rawCatalogData = [
+  {
+    id: "210113",
+    type: "MANGA",
+    title: "Keiyaku Mamahaha nanoni Boukun ga Kahogo Sugiru",
+    slug: "keiyaku-mamahaha-nanoni-boukun-ga-kahogo-sugiru-210113",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 22",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 21,
+    bgColor: "#222222",
+    initials: "KM"
+  },
+  {
+    id: "172932",
+    type: "MANGA",
+    title: "Heukbaengmuje",
+    slug: "heukbaengmuje-172932",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 63",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 63,
+    bgColor: "#262626",
+    initials: "HB"
+  },
+  {
+    id: "171146",
+    type: "MANGA",
+    title: "Furen Mei Tian Dou Zai Xian Da Lian",
+    slug: "furen-mei-tian-dou-zai-xian-da-lian-171146",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 11",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 11,
+    bgColor: "#1e1e1e",
+    initials: "FM"
+  },
+  {
+    id: "180410",
+    type: "MANGA",
+    title: "Gwicholli",
+    slug: "gwicholli-180410",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 101",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 1,
+    units: 101,
+    bgColor: "#242424",
+    initials: "GW"
+  },
+  {
+    id: "212613",
+    type: "MANGA",
+    title: "Mototensai Eiyuu, Academy de Yarinaosu",
+    slug: "mototensai-eiyuu-academy-de-yarinaosu-212613",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 32",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 32,
+    bgColor: "#202020",
+    initials: "MT"
+  },
+  {
+    id: "175502",
+    type: "MANGA",
+    title: "Hoegwihan Mawangeun Chakage Sanda",
+    slug: "hoegwihan-mawangeun-chakage-sanda-175502",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 59",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 59,
+    bgColor: "#282828",
+    initials: "HW"
+  },
+  {
+    id: "180760",
+    type: "MANGA",
+    title: "Gajang Sseogeun Geoseul Julge",
+    slug: "gajang-sseogeun-geoseul-julge-180760",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 96",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 1,
+    units: 96,
+    bgColor: "#222222",
+    initials: "GS"
+  },
+  {
+    id: "195498",
+    type: "MANGA",
+    title: "Wo! Shishang Zui Qiang Jin Zhou Shi",
+    slug: "wo-shishang-zui-qiang-jin-zhou-shi-195498",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 78",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 78,
+    bgColor: "#1a1a1a",
+    initials: "WS"
+  },
+  {
+    id: "171723",
+    type: "MANGA",
+    title: "Yeomragangrim",
+    slug: "yeomragangrim-171723",
+    status: "RELEASING",
+    availability: "AVAILABLE",
+    episodes: "Ep 138",
+    visibility: "published",
+    monetization: "FREE",
+    providers: 2,
+    units: 138,
+    bgColor: "#252525",
+    initials: "YG"
+  }
+];
+
+let state = {
+  currentTab: 'all',
+  filterType: 'all',
+  filterVisibility: 'all',
+  filterMonetization: 'all',
+  filterAvailability: 'all',
+  searchQuery: '',
+  provider: 'Mangaindo',
+  sortCriteria: 'Updated Time',
+  viewMode: 'table',
+  selectedIds: new Set()
+};
+
+function renderCatalog() {
+  const tbody = document.getElementById('catalogTableBody');
+  const cardsWrap = document.getElementById('cardView');
+  tbody.innerHTML = '';
+  cardsWrap.innerHTML = '';
+
+  let list = rawCatalogData.filter(item => {
+    const q = state.searchQuery.toLowerCase();
+    const matchQ = !q || item.title.toLowerCase().includes(q) || item.slug.toLowerCase().includes(q) || item.id.includes(q);
+    const matchType = state.filterType === 'all' || item.type.toLowerCase() === state.filterType;
+    const matchVis = state.filterVisibility === 'all' || item.visibility.toLowerCase() === state.filterVisibility;
+    const matchMon = state.filterMonetization === 'all' || item.monetization.toLowerCase() === state.filterMonetization;
+    const matchAvail = state.filterAvailability === 'all' || item.availability.toLowerCase() === state.filterAvailability;
+    return matchQ && matchType && matchVis && matchMon && matchAvail;
+  });
+
+  document.getElementById('providerNote').innerText = `Ada ${list.length === 9 ? '2,266' : list.length} items`;
+  document.getElementById('showingText').innerText = `Showing 1 - ${list.length} of ${list.length === 9 ? '2,266' : list.length} items`;
+
+  list.forEach(item => {
+    const isChecked = state.selectedIds.has(item.id);
+    
+    // Table Row
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectRow('${item.id}', this)"></td>
+      <td><span class="type-badge">${item.type}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="thumb" style="background:${item.bgColor}">${item.initials}</div>
+          <div style="min-width:0">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span class="bold">${item.title}</span>
+              <span class="type-badge" style="background:transparent;border-color:var(--stone)">${item.status}</span>
+            </div>
+            <div class="small">${item.slug}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div style="color:var(--on-dark);font-weight:700;font-size:11.5px">${item.availability}</div>
+        <div style="color:var(--ash);font-size:11px;margin-top:2px">${item.episodes}</div>
+      </td>
+      <td>
+        <span class="status-pill"><span class="dot"></span>${item.visibility}</span>
+      </td>
+      <td>
+        <span class="free-badge">${item.monetization}</span>
+      </td>
+      <td><span style="font-family:monospace;color:var(--on-dark)">${item.id}</span></td>
+      <td>
+        <div style="color:var(--on-dark);font-size:12px">🔗 ${item.providers} Providers</div>
+        <div style="color:var(--ash);font-size:11px;margin-top:2px">💾 ${item.units} Units</div>
+      </td>
+      <td style="text-align:right">
+        <button class="btn" style="padding:4px 8px;margin-right:4px" onclick="showToast('Settings for ${item.id}')">⚙</button>
+        <button class="btn" style="padding:4px 8px" onclick="showToast('Options for ${item.id}')">⋯</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+
+    // Card View Item
+    const card = document.createElement('div');
+    card.className = 'order-card-item';
+    card.innerHTML = `
+      <div class="card-head">
+        <span class="type-badge">${item.type}</span>
+        <span class="status-pill"><span class="dot"></span>${item.visibility}</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="thumb" style="background:${item.bgColor}">${item.initials}</div>
+        <div>
+          <div class="bold" style="font-size:13px">${item.title}</div>
+          <div class="small">${item.slug}</div>
+        </div>
+      </div>
+      <div class="card-row">
+        <span style="color:var(--ash)">Availability:</span>
+        <span style="color:var(--on-dark);font-weight:700">${item.availability} (${item.episodes})</span>
+      </div>
+      <div class="card-row">
+        <span style="color:var(--ash)">Anilist ID:</span>
+        <span style="font-family:monospace">${item.id}</span>
+      </div>
+      <div class="card-row">
+        <span style="color:var(--ash)">Providers &amp; Units:</span>
+        <span>${item.providers} Providers • ${item.units} Units</span>
+      </div>
+    `;
+    cardsWrap.appendChild(card);
+  });
+}
+
+function handleTableSearch(val) {
+  state.searchQuery = val.trim();
+  renderCatalog();
+}
+
+function selectChipFilter(type, val, el) {
+  const dropdown = el.closest('.dropdown-menu');
+  dropdown.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  
+  if (type === 'Type') {
+    state.filterType = val.startsWith('All') ? 'all' : val.split(' ')[0].toLowerCase();
+    document.getElementById('chipTypeText').innerText = `Type: ${val}`;
+    document.getElementById('chipType').classList.add('active');
+  } else if (type === 'Visibility') {
+    state.filterVisibility = val.toLowerCase() === 'all' ? 'all' : val.toLowerCase();
+    document.getElementById('chipVisibilityText').innerText = `Visibility: ${val}`;
+    document.getElementById('chipVisibility').classList.add('active');
+  } else if (type === 'Monetization') {
+    state.filterMonetization = val.toLowerCase() === 'all' ? 'all' : val.toLowerCase();
+    document.getElementById('chipMonetizationText').innerText = `Monetization: ${val}`;
+    document.getElementById('chipMonetization').classList.add('active');
+  } else if (type === 'Availability') {
+    state.filterAvailability = val.toLowerCase() === 'all' ? 'all' : val.toLowerCase();
+    document.getElementById('chipAvailabilityText').innerText = `Availability: ${val}`;
+    document.getElementById('chipAvailability').classList.add('active');
+  }
+  
+  closeAllDropdowns();
+  renderCatalog();
+  showToast(`Filter ${type} diterapkan: ${val}`);
+}
+
+function resetSingleChip(type, e) {
+  e.stopPropagation();
+  if (type === 'Type') {
+    state.filterType = 'all';
+    document.getElementById('chipTypeText').innerText = 'Type: All (138,283)';
+    document.getElementById('chipType').classList.remove('active');
+  } else if (type === 'Visibility') {
+    state.filterVisibility = 'all';
+    document.getElementById('chipVisibilityText').innerText = 'Visibility: All';
+    document.getElementById('chipVisibility').classList.remove('active');
+  } else if (type === 'Monetization') {
+    state.filterMonetization = 'all';
+    document.getElementById('chipMonetizationText').innerText = 'Monetization: All';
+    document.getElementById('chipMonetization').classList.remove('active');
+  } else if (type === 'Availability') {
+    state.filterAvailability = 'all';
+    document.getElementById('chipAvailabilityText').innerText = 'Availability: All';
+    document.getElementById('chipAvailability').classList.remove('active');
+  }
+  closeAllDropdowns();
+  renderCatalog();
+  showToast(`Filter ${type} direset`);
+}
+
+function selectSortCriteria(criteria, el) {
+  document.querySelectorAll('#dropdownSort .dropdown-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  state.sortCriteria = criteria;
+  document.getElementById('sortBtnText').innerText = `Sort: ${criteria}`;
+  closeAllDropdowns();
+  showToast(`Katalog diurutkan berdasarkan: ${criteria}`);
+}
+
+function toggleDropdownMenu(id, e) {
+  e.stopPropagation();
+  const dropdown = document.getElementById(id);
+  const isOpen = dropdown.classList.contains('show');
+  closeAllDropdowns();
+  if (!isOpen) dropdown.classList.add('show');
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('open'));
+}
+
+document.addEventListener('click', closeAllDropdowns);
+
+function toggleSidebarAccordion(groupId, itemEl, name) {
+  const group = document.getElementById(groupId);
+  const isOpen = group.classList.contains('open');
+  if (isOpen) {
+    group.classList.remove('open');
+    itemEl.classList.remove('open');
+    showToast(`Menu ${name} ditutup`);
+  } else {
+    group.classList.add('open');
+    itemEl.classList.add('open');
+    showToast(`Menu ${name} dibuka`);
+  }
+}
+
+function setActiveSubItem(el) {
+  document.querySelectorAll('.sidebar .side-item, .sidebar .side-sub').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  showToast(`Navigasi: ${el.innerText.trim()}`);
+}
+
+function setActiveSidebar(el) {
+  document.querySelectorAll('.sidebar .side-item, .sidebar .side-sub').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  showToast(`Navigasi: ${el.innerText.trim()}`);
+}
+
+function switchTab(el) {
+  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  state.currentTab = el.getAttribute('data-tab');
+  showToast(`Tab aktif: ${el.innerText.trim()}`);
+}
+
+function selectTab(tabKey) {
+  const tabEl = document.querySelector(`.tabs .tab[data-tab="${tabKey}"]`);
+  if (tabEl) switchTab(tabEl);
+}
+
+function selectType(type) {
+  state.filterType = type;
+  document.getElementById('chipTypeText').innerText = `Type: ${type.toUpperCase()}`;
+  document.getElementById('chipType').classList.add('active');
+  renderCatalog();
+  showToast(`Filter Type: ${type.toUpperCase()}`);
+}
+
+function toggleProvider(btn, name) {
+  document.querySelectorAll('.ship-row .chip-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.provider = name;
+  showToast(`Provider aktif: ${name}`);
+}
+
+function resetProviderFilters() {
+  document.querySelectorAll('.ship-row .chip-btn').forEach(b => b.classList.remove('active'));
+  const first = document.querySelector('.ship-row .chip-btn');
+  if (first) first.classList.add('active');
+  showToast('Filter provider direset');
+}
+
+function setViewMode(mode) {
+  state.viewMode = mode;
+  document.getElementById('viewModeTable').classList.toggle('active', mode === 'table');
+  document.getElementById('viewModeCard').classList.toggle('active', mode === 'card');
+  document.getElementById('tableView').style.display = (mode === 'table') ? 'block' : 'none';
+  document.getElementById('cardView').style.display = (mode === 'card') ? 'grid' : 'none';
+  closeAllDropdowns();
+  showToast(`Mode tampilan: ${mode === 'table' ? 'Tabel' : 'Kartu Grid'}`);
+}
+
+function openFilterDrawer() {
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('drawerPanel').classList.add('open');
+}
+
+function closeFilterDrawer() {
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('drawerPanel').classList.remove('open');
+}
+
+function toggleAccordion(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+function resetAllDrawerFilters() {
+  showToast('Semua filter drawer direset ke default');
+}
+
+function applyDrawerFilters() {
+  closeFilterDrawer();
+  renderCatalog();
+  showToast('Filter drawer berhasil diterapkan');
+}
+
+function toggleSelectAll(master) {
+  if (master.checked) {
+    rawCatalogData.forEach(item => state.selectedIds.add(item.id));
+  } else {
+    state.selectedIds.clear();
+  }
+  renderCatalog();
+}
+
+function toggleSelectRow(id, checkbox) {
+  if (checkbox.checked) state.selectedIds.add(id);
+  else state.selectedIds.delete(id);
+  const master = document.getElementById('selectAllCheckbox');
+  master.checked = (state.selectedIds.size === rawCatalogData.length);
+}
+
+let toastTimeout;
+function showToast(msg) {
+  const toast = document.getElementById('appToast');
+  const msgEl = document.getElementById('toastMessage');
+  msgEl.innerText = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Initial render
+renderCatalog();
+</script>
+</body>
+</html>

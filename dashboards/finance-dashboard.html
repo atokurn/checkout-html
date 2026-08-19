@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Findexa - Finance Dashboard</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0c0d10;
+            --sidebar-bg: #121419;
+            --card-bg: #1a1c22;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --primary-blue: #3b82f6;
+            --primary-dark: #2563eb;
+            --success-green: #10b981;
+            --error-red: #ef4444;
+            --border-color: #272a31;
+            --sidebar-width: 260px;
+            --header-height: 80px;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .logo-icon {
+            background-color: var(--primary-blue);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+        }
+
+        .nav-group {
+            margin-bottom: 32px;
+        }
+
+        .nav-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .nav-group a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        .nav-group a i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-group a:hover, .nav-group a.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--text-primary);
+        }
+
+        .nav-group a.active {
+            background-color: #1a1c22;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .has-badge {
+            position: relative;
+            justify-content: flex-start;
+        }
+
+        .badge {
+            position: absolute;
+            right: 16px;
+            background-color: #374151;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .upgrade-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .upgrade-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .upgrade-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .btn-upgrade {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            background-color: var(--bg-color);
+        }
+
+        .top-header {
+            height: var(--header-height);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-color);
+        }
+
+        .search-container {
+            background-color: #16181d;
+            border-radius: var(--radius-md);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 320px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-container input {
+            background: none;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-shortcut {
+            font-size: 11px;
+            background: #1f2937;
+            color: #9ca3af;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px;
+            background: #16181d;
+            border-radius: 30px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .content-body {
+            padding: 10px 40px 40px;
+        }
+
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 32px;
+        }
+
+        .welcome-text h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text p {
+            color: var(--text-secondary);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-date, .btn-export {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-date {
+            background-color: #16181d;
+            border: 1px solid var(--border-color);
+            color: white;
+        }
+
+        .btn-export {
+            background-color: var(--primary-blue);
+            border: none;
+            color: white;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stats-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stats-card.balance {
+            grid-column: span 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .header-icon i {
+            width: 20px;
+            height: 20px;
+            padding: 4px;
+            background: #272a31;
+            border-radius: 6px;
+            color: white;
+        }
+
+        .currency-selector {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #272a31;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .stats-card .amount {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .trend.up { color: var(--success-green); }
+        .trend.down { color: var(--error-red); }
+
+        .trend span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-primary, .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid var(--border-color);
+        }
+
+        .more-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        /* Middle Grid */
+        .middle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            font-size: 20px;
+        }
+
+        .btn-text {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .wallet-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .wallet-card {
+            background-color: #16181d;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .wallet-card.active {
+            border-color: #3b82f633;
+            background: linear-gradient(to bottom right, #16181d, #1a1c22);
+        }
+
+        .wc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .wc-currency {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .wc-amount {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .wc-status {
+            font-size: 12px;
+            color: var(--success-green);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .wc-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--success-green);
+            border-radius: 50%;
+        }
+
+        /* Overview Chart Area */
+        .overview-section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .chart-legend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .dot.earnings { color: var(--primary-blue); }
+
+        .dropdown {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #272a31;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+
+        /* Bottom Grid */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 24px;
+        }
+
+        .savings-plan, .transactions-section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .savings-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .savings-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .si-icon {
+            width: 48px;
+            height: 48px;
+            background: #272a31;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+        }
+
+        .si-info {
+            flex: 1;
+        }
+
+        .si-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .si-target {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .si-progress {
+            width: 140px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #272a31;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+        }
+
+        .si-progress span {
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-width: 30px;
+        }
+
+        /* Transaction Table */
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transaction-table th {
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 13px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-table td {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .transaction-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .activity-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-app { background: #3b82f622; color: #3b82f6; }
+        .brand-soft { background: #ef444422; color: #ef4444; }
+        .brand-grocery { background: #f59e0b22; color: #f59e0b; }
+
+        .status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background: #10b98122;
+            color: var(--success-green);
+        }
+
+        .btn-filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #16181d;
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .middle-grid, .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i data-lucide="layout-grid"></i>
+                    </div>
+                    <span>Findexa</span>
+                </div>
+                <button class="sidebar-toggle"><i data-lucide="chevrons-left"></i></button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <label>MAIN MENU</label>
+                    <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                    <a href="#"><i data-lucide="bar-chart-3"></i> Analytics</a>
+                    <a href="#" class="has-badge"><i data-lucide="mail"></i> Message <span class="badge">20</span></a>
+                    <a href="#"><i data-lucide="arrow-left-right"></i> Transactions</a>
+                    <a href="#"><i data-lucide="file-text"></i> Invoices</a>
+                </div>
+
+                <div class="nav-group">
+                    <label>FEATURES</label>
+                    <a href="#"><i data-lucide="repeat"></i> Recurring</a>
+                    <a href="#"><i data-lucide="credit-card"></i> Subscriptions</a>
+                    <a href="#"><i data-lucide="message-square"></i> Feedback</a>
+                </div>
+
+                <div class="nav-group">
+                    <label>GENERAL</label>
+                    <a href="#"><i data-lucide="settings"></i> Settings</a>
+                    <a href="#"><i data-lucide="help-circle"></i> Help Desk</a>
+                    <a href="#"><i data-lucide="log-out"></i> Log out</a>
+                </div>
+            </nav>
+
+            <div class="upgrade-card">
+                <h3>Upgrade Pro!</h3>
+                <p>Higher productivity with better organization</p>
+                <button class="btn-upgrade"><i data-lucide="crown"></i> Upgrade</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="search-container">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search">
+                    <span class="search-shortcut"><i data-lucide="command"></i> K</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i data-lucide="help-circle"></i></button>
+                    <button class="icon-btn"><i data-lucide="mail"></i></button>
+                    <button class="icon-btn"><i data-lucide="bell"></i></button>
+                    <div class="user-profile">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sajibur" alt="Profile">
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="content-body">
+                <div class="welcome-section">
+                    <div class="welcome-text">
+                        <h1>Welcome back Sajibur Rahman 👋</h1>
+                        <p>Monitor and control what happens with your money today for financial health.</p>
+                    </div>
+                    <div class="action-btns">
+                        <button class="btn-date"><i data-lucide="calendar"></i> Sun, 12 June 2026</button>
+                        <button class="btn-export"><i data-lucide="download"></i> Export</button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stats-card balance">
+                        <div class="card-header">
+                            <div class="header-icon"><i data-lucide="wallet"></i> Account Balance</div>
+                            <div class="currency-selector">
+                                <img src="https://flagcdn.com/w20/us.png" alt="USD">
+                                <span>USD</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="amount">$35,340.89</div>
+                        <div class="trend up"><i data-lucide="arrow-up-right"></i> +3.2% <span>from last month</span></div>
+                        <div class="card-footer">
+                            <button class="btn-primary"><i data-lucide="send"></i> Send Money</button>
+                            <button class="btn-secondary"><i data-lucide="arrow-down-left"></i> Request Money</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-header">
+                            <div class="header-icon"><i data-lucide="trending-up"></i> Total Expenses</div>
+                            <button class="more-btn"><i data-lucide="more-horizontal"></i></button>
+                        </div>
+                        <div class="amount">$9,845.20</div>
+                        <div class="trend down"><i data-lucide="arrow-down-right"></i> -2.1% <span>from last month</span></div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="card-header">
+                            <div class="header-icon"><i data-lucide="piggy-bank"></i> Total Savings</div>
+                            <button class="more-btn"><i data-lucide="more-horizontal"></i></button>
+                        </div>
+                        <div class="amount">$18,420.75</div>
+                        <div class="trend up"><i data-lucide="arrow-up-right"></i> +4.5% <span>from last month</span></div>
+                    </div>
+                </div>
+
+                <!-- Middle Grid -->
+                <div class="middle-grid">
+                    <div class="wallet-section">
+                        <div class="section-header">
+                            <h3>My Wallet</h3>
+                            <button class="btn-text">+ Add New</button>
+                        </div>
+                        <div class="wallet-cards">
+                            <div class="wallet-card active">
+                                <div class="wc-header">
+                                    <div class="wc-currency">
+                                        <img src="https://flagcdn.com/w20/us.png" alt="USD">
+                                        <span>USD</span>
+                                    </div>
+                                    <i data-lucide="more-vertical"></i>
+                                </div>
+                                <div class="wc-amount">$22,678.00</div>
+                                <div class="wc-status">Active</div>
+                            </div>
+                            <div class="wallet-card">
+                                <div class="wc-header">
+                                    <div class="wc-currency">
+                                        <img src="https://flagcdn.com/w20/eu.png" alt="EUR">
+                                        <span>EUR</span>
+                                    </div>
+                                    <i data-lucide="more-vertical"></i>
+                                </div>
+                                <div class="wc-amount">€18,345.00</div>
+                                <div class="wc-status">Active</div>
+                            </div>
+                            <div class="wallet-card">
+                                <div class="wc-header">
+                                    <div class="wc-currency">
+                                        <img src="https://flagcdn.com/w20/bd.png" alt="BDT">
+                                        <span>BDT</span>
+                                    </div>
+                                    <i data-lucide="more-vertical"></i>
+                                </div>
+                                <div class="wc-amount">৳1,22,678.00</div>
+                                <div class="wc-status">Active</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overview-section">
+                        <div class="section-header">
+                            <h3>Overview</h3>
+                            <div class="chart-controls">
+                                <span class="chart-legend"><i data-lucide="circle" class="dot earnings"></i> Earnings</span>
+                                <div class="dropdown">
+                                    <span>This Year</span>
+                                    <i data-lucide="chevron-down"></i>
+                                </div>
+                                <button class="more-btn"><i data-lucide="more-horizontal"></i></button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="overviewChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Grid -->
+                <div class="bottom-grid">
+                    <div class="savings-plan">
+                        <div class="section-header">
+                            <h3>My Savings Plan <i data-lucide="lightbulb" class="bulb-icon"></i></h3>
+                            <button class="more-btn"><i data-lucide="more-horizontal"></i></button>
+                        </div>
+                        <div class="savings-items">
+                            <div class="savings-item">
+                                <div class="si-icon"><i data-lucide="target"></i></div>
+                                <div class="si-info">
+                                    <div class="si-name">Investment Goal</div>
+                                    <div class="si-target">$15,600/$25,000</div>
+                                </div>
+                                <div class="si-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 62%;"></div></div>
+                                    <span>62%</span>
+                                </div>
+                            </div>
+                            <div class="savings-item">
+                                <div class="si-icon"><i data-lucide="layout"></i></div>
+                                <div class="si-info">
+                                    <div class="si-name">Emergency Fund</div>
+                                    <div class="si-target">$10,000/$20,000</div>
+                                </div>
+                                <div class="si-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 50%;"></div></div>
+                                    <span>50%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transactions-section">
+                        <div class="section-header">
+                            <h3>Recent Transaction <i data-lucide="arrow-down-up" class="trans-icon"></i></h3>
+                            <button class="btn-filter">Filter <i data-lucide="sliders-horizontal"></i></button>
+                        </div>
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th>Date</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="activity-cell">
+                                            <div class="icon-circle brand-app"><i data-lucide="app-window"></i></div>
+                                            <span>Mobile App Purchase</span>
+                                        </div>
+                                    </td>
+                                    <td>Wed, 12 Jun 2026</td>
+                                    <td>$806.50</td>
+                                    <td><span class="status success">Success</span></td>
+                                    <td><button class="more-btn"><i data-lucide="more-horizontal"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="activity-cell">
+                                            <div class="icon-circle brand-soft"><i data-lucide="shield-check"></i></div>
+                                            <span>Software License</span>
+                                        </div>
+                                    </td>
+                                    <td>Tue, 11 Jun 2026</td>
+                                    <td>$102.99</td>
+                                    <td><span class="status success">Success</span></td>
+                                    <td><button class="more-btn"><i data-lucide="more-horizontal"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="activity-cell">
+                                            <div class="icon-circle brand-grocery"><i data-lucide="shopping-basket"></i></div>
+                                            <span>Grocery Purchase</span>
+                                        </div>
+                                    </td>
+                                    <td>Sun, 09 Jun 2026</td>
+                                    <td>$2,500.00</td>
+                                    <td><span class="status success">Success</span></td>
+                                    <td><button class="more-btn"><i data-lucide="more-horizontal"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initOverviewChart();
+
+            // Simple Interaction for "Add New" Wallet
+            const addNewWallet = document.querySelector('.wallet-section .btn-text');
+            if (addNewWallet) {
+                addNewWallet.addEventListener('click', () => {
+                    alert('Add New Wallet feature coming soon!');
+                });
+            }
+        });
+
+        function initOverviewChart() {
+            const chartEl = document.getElementById('overviewChart');
+            if (!chartEl) return;
+            const ctx = chartEl.getContext('2d');
+            
+            const data = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Earnings',
+                    data: [15000, 20000, 25000, 18000, 30000, 22000, 28000, 42000, 25000, 35000, 30000, 38000],
+                    backgroundColor: (context) => {
+                        return context.dataIndex === 7 ? '#3b82f6' : 'rgba(59, 130, 246, 0.2)';
+                    },
+                    borderRadius: 8,
+                    borderSkipped: false,
+                    barThickness: 32,
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1a1c22',
+                            titleColor: '#94a3b8',
+                            bodyColor: '#ffffff',
+                            displayColors: false,
+                            padding: 12,
+                            borderColor: '#272a31',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { family: 'Outfit', size: 12 },
+                                callback: function(value) { return '$' + (value / 1000) + 'k'; }
+                            }
+                        },
+                        x: {
+                            grid: { display: false, drawBorder: false },
+                            ticks: { color: '#94a3b8', font: { family: 'Outfit', size: 12 } }
+                        }
+                    }
+                },
+            };
+
+            new Chart(ctx, config);
+        }
+    </script>
+</body>
+</html>

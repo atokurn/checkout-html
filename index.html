@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antigravity Project</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -33,142 +33,312 @@
         }
     </script>
 </head>
-<body class="min-h-screen flex justify-center bg-gray-100">
+<body class="min-h-screen bg-[#f0f2f5] text-gray-800 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
 
-    <!-- Mobile Container -->
-    <div class="w-full max-w-md bg-white min-h-screen shadow-xl relative flex flex-col">
+    <!-- Responsive Container -->
+    <div class="max-w-5xl mx-auto space-y-6">
         
-        <!-- Header / Status Bar Area -->
-        <header class="bg-white pt-6 pb-4 px-5 sticky top-0 z-10 border-b border-gray-50">
+        <!-- Header Card (Original Style) -->
+        <header class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 sticky top-4 z-20">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Antigravity</h1>
-                    <p class="text-xs text-gray-500 font-medium tracking-wide uppercase">Project Index</p>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Antigravity</h1>
+                    <p class="text-xs text-gray-500 font-medium tracking-wide uppercase mt-0.5">Project Index &bull; <span id="protoCountText">12 Prototypes</span></p>
                 </div>
-                <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-layer-group text-primary"></i>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-2xl flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-layer-group text-primary text-base sm:text-lg"></i>
                 </div>
             </div>
             
-            <!-- Search / Filter Placeholder -->
-            <div class="relative">
-                <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                <input type="text" placeholder="Search pages..." class="w-full bg-gray-50 text-sm py-2.5 pl-9 pr-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all text-gray-700 placeholder-gray-400" disabled>
+            <!-- Search Bar -->
+            <div class="relative mb-3">
+                <i class="fa-solid fa-search absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="searchInput" placeholder="Search pages..." oninput="handleSearch(this.value)" class="w-full bg-gray-50 text-sm py-2.5 pl-10 pr-9 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-gray-700 placeholder-gray-400 border border-gray-100">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs bg-gray-200 rounded-full w-5 h-5 flex items-center justify-center">✕</button>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar text-xs font-semibold pt-1">
+                <button class="cat-pill px-3 py-1.5 rounded-full bg-gray-900 text-white whitespace-nowrap transition-all" data-cat="all" onclick="filterCategory('all', this)">Semua</button>
+                <button class="cat-pill px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap transition-all" data-cat="dashboards" onclick="filterCategory('dashboards', this)">Dashboards</button>
+                <button class="cat-pill px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap transition-all" data-cat="travel" onclick="filterCategory('travel', this)">Transactions &amp; Flow</button>
+                <button class="cat-pill px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap transition-all" data-cat="games" onclick="filterCategory('games', this)">Games</button>
+                <button class="cat-pill px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap transition-all" data-cat="experiments" onclick="filterCategory('experiments', this)">Layout Experiments</button>
             </div>
         </header>
 
-        <!-- Content Scroll Area -->
-        <main class="flex-1 overflow-y-auto p-5 space-y-4">
+        <!-- Main Content Area -->
+        <main class="space-y-6" id="contentArea">
             
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Core Pages</div>
+            <!-- SECTION: CORE & FEATURED PAGES -->
+            <div class="proto-section" data-section-cat="dashboards travel">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Core Pages</div>
 
-            <!-- Main App Card -->
-            <a href="trips.html" class="block group">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-200 transform transition-transform active:scale-95">
-                    <div class="flex justify-between items-start mb-8">
-                        <div class="bg-white/20 backdrop-blur-sm p-2 rounded-lg">
-                            <i class="fa-solid fa-plane-departure text-xl"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Tokopedia / TikTok Shop Card -->
+                    <a href="dashboards/tiktok-shop.html" class="proto-card block group" data-category="dashboards" data-title="Tokopedia TikTok Shop Seller Center Kelola Pesanan" data-desc="Kelola pesanan lengkap dengan filter chip, side drawer, urutkan menurut, mode kartu/daftar & pencarian.">
+                        <div class="bg-gradient-to-br from-[#0f8f7a] to-[#095f51] rounded-2xl p-5 text-white shadow-lg shadow-teal-900/10 transform transition-transform active:scale-95 hover:scale-[1.01] h-full flex flex-col justify-between">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                                    <i class="fa-solid fa-store text-xl"></i>
+                                </div>
+                                <span class="bg-white/20 backdrop-blur-sm text-[10px] font-bold px-2 py-1 rounded-full uppercase">SELLER CENTER</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-1">Tokopedia &amp; TikTok Shop</h3>
+                                <p class="text-teal-100 text-xs leading-relaxed">Kelola pesanan lengkap dengan filter chip, side drawer, urutkan menurut, mode kartu/daftar &amp; pencarian.</p>
+                            </div>
                         </div>
-                        <span class="bg-white/20 backdrop-blur-sm text-[10px] font-bold px-2 py-1 rounded-full">MAIN APP</span>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold mb-1">Trips / Home</h3>
-                        <p class="text-blue-100 text-xs leading-relaxed">Halaman utama aplikasi travel dengan fitur rekomendasi & carousel.</p>
-                    </div>
+                    </a>
+
+                    <!-- Main App: Trips -->
+                    <a href="travel/trips.html" class="proto-card block group" data-category="travel" data-title="Trips Home Tripkini Travel Marketplace" data-desc="Halaman utama aplikasi travel dengan fitur rekomendasi & carousel.">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-200 transform transition-transform active:scale-95 hover:scale-[1.01] h-full flex flex-col justify-between">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                                    <i class="fa-solid fa-plane-departure text-xl"></i>
+                                </div>
+                                <span class="bg-white/20 backdrop-blur-sm text-[10px] font-bold px-2 py-1 rounded-full uppercase">MAIN APP</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-1">Trips / Home</h3>
+                                <p class="text-blue-100 text-xs leading-relaxed">Halaman utama aplikasi travel dengan fitur rekomendasi &amp; carousel.</p>
+                            </div>
+                        </div>
+                    </a>
+
                 </div>
-            </a>
-
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Transactions & Flow</div>
-
-            <!-- List Menu Style -->
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                
-                <!-- Checkout -->
-                <a href="checkout.html" class="flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 active:bg-gray-100">
-                    <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 mr-3 flex-shrink-0">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-sm font-bold text-gray-800">Checkout</h4>
-                        <p class="text-xs text-gray-500">Transaction summary page</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                </a>
-
-                <!-- Payment Methods -->
-                <a href="payment-methods.html" class="flex items-center p-4 hover:bg-gray-50 transition-colors active:bg-gray-100">
-                    <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500 mr-3 flex-shrink-0">
-                        <i class="fa-solid fa-credit-card"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-sm font-bold text-gray-800">Payment Methods</h4>
-                        <p class="text-xs text-gray-500">Payment selection flow</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                </a>
             </div>
 
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Experiments</div>
+            <!-- SECTION: TRANSACTIONS & FLOW -->
+            <div class="proto-section" data-section-cat="travel">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Transactions &amp; Flow</div>
 
-            <!-- Sales Dashboard (New) -->
-            <a href="dashboard-sales.html" class="flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100 mb-2">
-                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mr-3 flex-shrink-0">
-                    <i class="fa-solid fa-chart-pie"></i>
-                </div>
-                <div class="flex-1">
-                    <h4 class="text-sm font-bold text-gray-800">Sales Dashboard</h4>
-                    <p class="text-xs text-gray-500">Zendenta Sales UI Implementation</p>
-                </div>
-                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-            </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    
+                    <!-- Checkout -->
+                    <a href="travel/checkout.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="travel" data-title="Checkout Transaction Summary" data-desc="Transaction summary page">
+                        <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Checkout</h4>
+                            <p class="text-xs text-gray-500 truncate">Transaction summary page</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
 
-            <!-- Product Table (New) -->
-            <a href="product-table.html" class="flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100 mb-2">
-                <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 mr-3 flex-shrink-0">
-                    <i class="fa-solid fa-table"></i>
-                </div>
-                <div class="flex-1">
-                    <h4 class="text-sm font-bold text-gray-800">Product Table</h4>
-                    <p class="text-xs text-gray-500">Advanced Table with Actions</p>
-                </div>
-                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-            </a>
+                    <!-- Payment Methods -->
+                    <a href="travel/payment-methods.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="travel" data-title="Payment Methods Selector" data-desc="Payment selection flow">
+                        <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Payment Methods</h4>
+                            <p class="text-xs text-gray-500 truncate">Payment selection flow</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
 
-            <!-- Masonry Layout -->
-            <a href="masonry.html" class="flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100">
-                <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 mr-3 flex-shrink-0">
-                    <i class="fa-solid fa-border-all"></i>
                 </div>
-                <div class="flex-1">
-                    <h4 class="text-sm font-bold text-gray-800">Masonry Grid</h4>
-                    <p class="text-xs text-gray-500">Pinterest-style layout demo</p>
+            </div>
+
+            <!-- SECTION: DASHBOARD EXPERIMENTS -->
+            <div class="proto-section" data-section-cat="dashboards">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Dashboard Experiments</div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    
+                    <!-- Sales Dashboard (Zendenta) -->
+                    <a href="dashboards/dashboard-sales.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="dashboards" data-title="Sales Dashboard Zendenta" data-desc="Zendenta Sales UI Implementation">
+                        <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Sales Dashboard</h4>
+                            <p class="text-xs text-gray-500 truncate">Zendenta Sales UI Implementation</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+
+                    <!-- Finance Dashboard (Findexa) -->
+                    <a href="dashboards/finance-dashboard.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="dashboards" data-title="Finance Dashboard Findexa" data-desc="Premium Findexa UI Implementation">
+                        <div class="w-10 h-10 rounded-full bg-sky-50 flex items-center justify-center text-sky-600 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Finance Dashboard</h4>
+                            <p class="text-xs text-gray-500 truncate">Premium Findexa UI Implementation</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+
+                    <!-- Streamflix Dashboard -->
+                    <a href="dashboards/streamflix-dashboard.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="dashboards" data-title="Streamflix Dashboard" data-desc="Premium Netflix-style Admin UI Implementation">
+                        <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Streamflix Dashboard</h4>
+                            <p class="text-xs text-gray-500 truncate">Premium Netflix-style Admin UI</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+
+                    <!-- Product Table -->
+                    <a href="dashboards/product-table.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="dashboards" data-title="Product Table Inventory" data-desc="Advanced Table with Actions">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-table"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Product Table</h4>
+                            <p class="text-xs text-gray-500 truncate">Advanced Table with Actions</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+
+                    <!-- Content Catalog (Anibeam Admin) -->
+                    <a href="dashboards/dashboard-content.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="dashboards" data-title="Content Catalog Anibeam Admin Dark Mode" data-desc="Manga & Anime Content Catalog Dark Theme UI">
+                        <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Content Catalog</h4>
+                            <p class="text-xs text-gray-500 truncate">Anibeam Admin Dark Theme UI</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+
+                    <!-- Product Workspace -->
+                    <a href="dashboards/product-workspace.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="dashboards" data-title="Product Workspace" data-desc="Glossy browser-style product UI">
+                        <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-window-maximize"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Product Workspace</h4>
+                            <p class="text-xs text-gray-500 truncate">Glossy browser-style product UI</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+
                 </div>
-                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-            </a>
+            </div>
+
+            <!-- SECTION: GAMES & INTERACTIVE -->
+            <div class="proto-section" data-section-cat="games">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Games &amp; Interactive</div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <a href="games/game-tamagochi.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="games" data-title="Retro Tamagotchi Game Virtual Pet" data-desc="Virtual pet retro Tamagotchi mini game">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Retro Tamagotchi</h4>
+                            <p class="text-xs text-gray-500 truncate">Virtual Pet Simulation Mini Game</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SECTION: LAYOUT EXPERIMENTS -->
+            <div class="proto-section" data-section-cat="experiments">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Layout Experiments</div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <a href="experiments/masonry.html" class="proto-card flex items-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-gray-50 transition-colors active:bg-gray-100" data-category="experiments" data-title="Masonry Layout Marketplace Feed" data-desc="Marketplace-style category and product feed experiment">
+                        <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 mr-3 flex-shrink-0">
+                            <i class="fa-solid fa-grip"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-800 truncate">Masonry Layout</h4>
+                            <p class="text-xs text-gray-500 truncate">Marketplace category &amp; product feed</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- No Results State -->
+            <div id="noResults" class="hidden text-center py-12 bg-white rounded-2xl border border-gray-100 p-8">
+                <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-3 text-lg">
+                    <i class="fa-solid fa-search"></i>
+                </div>
+                <h5 class="text-sm font-bold text-gray-700 mb-1">Prototipe tidak ditemukan</h5>
+                <p class="text-xs text-gray-400 mb-4">Coba cari dengan kata kunci lain.</p>
+                <button onclick="clearSearch()" class="px-4 py-2 rounded-xl bg-gray-900 text-white text-xs font-semibold hover:bg-gray-800 transition-colors">
+                    Reset Pencarian
+                </button>
+            </div>
 
         </main>
 
-        <!-- Bottom Navigation Simulation -->
-        <nav class="bg-white border-t border-gray-100 px-6 py-3 pb-6 flex justify-between items-center text-xs font-medium text-gray-400">
-            <a href="#" class="flex flex-col items-center text-primary">
-                <i class="fa-solid fa-home text-lg mb-1"></i>
-                <span>Home</span>
-            </a>
-            <a href="#" class="flex flex-col items-center hover:text-gray-600">
-                <i class="fa-regular fa-compass text-lg mb-1"></i>
-                <span>Explore</span>
-            </a>
-            <a href="#" class="flex flex-col items-center hover:text-gray-600">
-                <i class="fa-regular fa-bookmark text-lg mb-1"></i>
-                <span>Saved</span>
-            </a>
-            <a href="#" class="flex flex-col items-center hover:text-gray-600">
-                <i class="fa-regular fa-user text-lg mb-1"></i>
-                <span>Profile</span>
-            </a>
-        </nav>
-        
+        <!-- Bottom Footer Info -->
+        <footer class="text-center py-4 text-xs text-gray-400 font-medium">
+            <span>Antigravity Project &bull; Responsive UI Collection</span>
+        </footer>
+
     </div>
 
+    <script>
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        function handleSearch(query) {
+            searchQuery = query.toLowerCase().trim();
+            document.getElementById('clearSearchBtn').classList.toggle('hidden', searchQuery.length === 0);
+            applyFilter();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            applyFilter();
+        }
+
+        function filterCategory(cat, el) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-pill').forEach(pill => {
+                pill.classList.remove('active', 'bg-gray-900', 'text-white');
+                pill.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            el.classList.add('active', 'bg-gray-900', 'text-white');
+            el.classList.remove('bg-gray-100', 'text-gray-600');
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const cards = document.querySelectorAll('.proto-card');
+            const sections = document.querySelectorAll('.proto-section');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                const title = (card.getAttribute('data-title') || '').toLowerCase();
+                const desc = (card.getAttribute('data-desc') || '').toLowerCase();
+
+                const matchesCat = (currentFilter === 'all' || cardCat === currentFilter);
+                const matchesSearch = (!searchQuery || title.includes(searchQuery) || desc.includes(searchQuery));
+
+                if (matchesCat && matchesSearch) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            sections.forEach(sec => {
+                const visibleInSec = sec.querySelectorAll('.proto-card:not([style*="display: none"])').length;
+                sec.style.display = visibleInSec > 0 ? '' : 'none';
+            });
+
+            document.getElementById('noResults').classList.toggle('hidden', visibleCount > 0);
+            document.getElementById('protoCountText').innerText = visibleCount + ' Prototypes';
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller Center – Kelola Pesanan</title>
+<style>
+:root{
+  --green:#0f8f7a; --green-dark:#0a5c49; --green-light:#e2eeeb;
+  --border:#e4e6e6; --muted:#7a8288; --text:#22282a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+     color:var(--text);background:#ececec;font-size:14px}
+button{font:inherit;background:none;border:none;cursor:pointer}
+a{text-decoration:none;color:inherit}
+svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ================= TOP BAR ================= */
+.topbar{display:flex;align-items:center;gap:22px;padding:10px 20px;color:#fff;
+  background:linear-gradient(90deg,#0a584a 0%,#0d3f34 14%,#101514 34%,#0c0e0d 100%)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-logos{line-height:1.2}
+.brand-logos .tp{font-weight:700;font-size:13px}
+.brand-logos .tt{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600}
+.brand-sep{width:1px;height:28px;background:rgba(255,255,255,.25)}
+.brand-title strong{font-size:17px;display:block}
+.brand-title small{font-size:11px;color:#cfd8d5}
+.top-search{flex:0 0 380px;display:flex;align-items:center;gap:8px;background:#252b29;
+  border:1px solid #3a423f;border-radius:8px;padding:8px 12px;color:#8fa09a;font-size:13px;cursor:text}
+.top-search input{background:none;border:none;outline:none;color:#fff;font-size:13px;width:100%}
+.top-search input::placeholder{color:#8fa09a}
+.top-search .kbd{margin-left:auto;font-size:11px;background:#181d1c;padding:2px 6px;border-radius:4px;border:1px solid #3a423f}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:13px}
+.pill{display:flex;align-items:center;gap:8px;background:#1d2321;border-radius:999px;padding:7px 14px;font-weight:600}
+.icon-btn{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer}
+.help{width:22px;height:22px;border:1.6px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;cursor:pointer}
+.badge{position:absolute;top:-8px;right:-10px;background:#e53935;color:#fff;font-size:10px;font-weight:700;border-radius:999px;padding:2px 5px}
+.user{display:flex;align-items:center;gap:8px;cursor:pointer}
+.avatar{width:30px;height:30px;border-radius:50%;background:#5c6b66;display:grid;place-items:center;font-size:9px;font-weight:700}
+
+/* ================= BANNER ================= */
+.banner{background:#7fbdbd;padding:10px 60px;text-align:center;color:#173230;position:relative;font-size:13px;transition:opacity 0.2s, max-height 0.2s}
+.banner .l1{font-weight:700;display:flex;justify-content:center;align-items:center;gap:6px}
+.banner .close{position:absolute;right:18px;top:12px;font-size:16px;cursor:pointer;opacity:0.8}
+.banner .close:hover{opacity:1}
+
+/* ================= LAYOUT ================= */
+.layout{display:flex;min-height:calc(100vh - 118px)}
+.sidebar{width:240px;background:#f7f8f8;border-right:1px solid var(--border);padding:14px 12px;flex:none}
+.side-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;color:#2c3234;font-size:14px;cursor:pointer;user-select:none;transition:background 0.15s}
+.side-item:hover{background:#eef1f0}
+.side-item.active{background:#e2eeeb;color:var(--green);font-weight:600}
+.side-item.open{font-weight:600}
+.side-item svg{width:18px;height:18px;color:#4b5552;flex-shrink:0}
+.side-sub-menu{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease}
+.side-nav-group.open .side-sub-menu{max-height:260px;opacity:1}
+.side-sub{display:block;padding:9px 12px 9px 42px;border-radius:8px;color:#3c4345;font-size:13.5px;cursor:pointer;text-decoration:none;transition:background 0.15s, color 0.15s}
+.side-sub:hover{background:#eef1f0;color:#2c3234}
+.side-sub.active{background:#e2eeeb;color:var(--green);font-weight:600}
+.divider{border:none;border-top:1px solid #e2e5e4;margin:12px 6px}
+
+/* ================= CONTENT ================= */
+.content{flex:1;padding:24px 32px;background:#efefef;min-width:0}
+.page-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+h1{font-size:24px;font-weight:800}
+.head-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #d8dcdb;border-radius:8px;padding:6px 12px;width:260px;color:#9aa5a1;font-size:13px}
+.search-box input{border:none;outline:none;background:none;font-size:13px;width:100%;color:#2c3234}
+.search-box input::placeholder{color:#9aa5a1}
+.btn{background:#f4f4f4;border:1px solid #e0e2e1;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:#2c3234;white-space:nowrap;transition:background 0.15s, border-color 0.15s}
+.btn:hover{background:#e9eaea;border-color:#d5d8d7}
+.notice{display:flex;gap:8px;align-items:flex-start;color:#6d7578;font-size:13px;margin:4px 0 16px}
+.notice svg{color:var(--green);width:16px;height:16px;margin-top:1px}
+.notice a{color:#2c3234;font-weight:700}
+
+/* ---- kartu statistik ---- */
+.card{background:#fff;border:1px solid var(--border);border-radius:10px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;padding:18px 22px}
+.stat{cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.15s}
+.stat:hover{background:#f7f9f8}
+.stat .label{display:block;font-size:12.5px;color:#5b6467;margin-bottom:10px;min-height:32px}
+.stat .value{font-size:18px;font-weight:800}
+.perf{display:flex;align-items:center;gap:6px;border-top:1px solid #edf0ef;padding:12px 22px;font-size:13px;font-weight:600;cursor:pointer}
+.qmark{width:15px;height:15px;border:1.4px solid #555;border-radius:50%;display:inline-grid;place-items:center;font-size:9px;font-weight:700}
+
+/* ---- kartu pesanan ---- */
+.orders{margin-top:16px;position:relative}
+.tabs{display:flex;gap:28px;padding:0 20px;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap}
+.tab{padding:14px 2px;color:#2c3234;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;cursor:pointer;transition:color 0.15s}
+.tab:hover{color:var(--green)}
+.tab .n{color:#98a1a4;font-size:12px;font-weight:700;margin-left:2px}
+.tab.active{color:var(--green);font-weight:700;border-color:var(--green)}
+.tab.active .n{color:var(--green)}
+
+/* =========================================================
+   BARIS FILTER
+   .filter-chips  : kiri (wrap ke baris ke-2 di bawah)
+   .sort-actions  : kanan atas (selalu sejajar baris ke-1)
+   ========================================================= */
+.filters-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:14px 16px 6px;position:relative}
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px 6px;align-items:center;flex:1 1 auto;min-width:0}
+.sort-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;margin-left:auto;position:relative}
+
+@media (max-width:768px){
+  .filters-row{flex-direction:column}
+  .sort-actions{width:100%;justify-content:flex-end}
+}
+
+.filter-btn{background:#e6e7e7;border-radius:6px;padding:5px 8px;font-size:12px;font-weight:700;display:flex;gap:5px;align-items:center;white-space:nowrap;color:#2c3234;cursor:pointer;transition:background 0.15s}
+.filter-btn:hover{background:#dadcda}
+.chip-wrapper{position:relative;display:inline-block}
+.chip{display:flex;align-items:center;gap:4px;border:1px solid #d5d9d8;background:#fff;border-radius:6px;padding:5px 7px;font-size:12px;color:#2c3234;white-space:nowrap;cursor:pointer;transition:border-color 0.15s, background 0.15s}
+.chip:hover{border-color:#b5bcba}
+.chip.open, .chip.active{border-color:var(--green);color:var(--text)}
+.chip.active{background:#f2f8f7}
+.chip svg{width:11px;height:11px;color:#8b9497;transition:transform 0.2s}
+.chip.open svg{transform:rotate(180deg);color:var(--green)}
+.chip .x{color:#98a1a4;cursor:pointer;margin-left:2px;font-size:11px;padding:0 2px}
+.chip .x:hover{color:#e53935;font-weight:bold}
+.chip.disabled{color:#8b9497}
+.chip.disabled .x,.chip.disabled svg{color:#a5aeb1}
+
+.sort-actions .btn{padding:5px 8px;font-size:12px;border-radius:6px;display:inline-flex;align-items:center;gap:5px}
+
+/* ================= DROPDOWN FLOATING ================= */
+.dropdown-menu{position:absolute;top:calc(100% + 4px);left:0;background:#ffffff;border:1px solid #d8dcdb;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.18);z-index:900;min-width:170px;padding:6px 0;display:none;font-size:12.5px}
+.dropdown-menu.show{display:block;animation:fadeIn 0.15s ease}
+.dropdown-menu.right{left:auto;right:0}
+.dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 14px;color:#2c3234;cursor:pointer;transition:background 0.1s}
+.dropdown-item:hover{background:#f2f5f4}
+.dropdown-item.active{color:var(--green);font-weight:600}
+.dropdown-item .radio-dot{width:14px;height:14px;border:1.5px solid #c2c9c7;border-radius:50%;display:grid;place-items:center;flex:none}
+.dropdown-item.active .radio-dot{border-color:var(--green)}
+.dropdown-item.active .radio-dot::after{content:"";width:6px;height:6px;background:var(--green);border-radius:50%}
+.dropdown-divider{height:1px;background:#edf0ef;margin:5px 0}
+.dropdown-action{padding:6px 14px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;display:block}
+.dropdown-action:hover{text-decoration:underline}
+
+/* Submenu Mode Tampilan */
+.has-submenu{position:relative}
+.has-submenu .menu-row{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}
+.submenu{position:absolute;top:0;right:calc(100% + 4px);background:#ffffff;border:1px solid #d8dcdb;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.18);z-index:910;min-width:140px;padding:6px 0;display:none}
+.has-submenu:hover .submenu, .has-submenu.open .submenu{display:block}
+
+/* ================= OPSI PENGANTARAN ================= */
+.ship-row{display:flex;align-items:center;gap:10px;padding:8px 20px 14px;font-size:13px;color:#3c4345;flex-wrap:wrap}
+.ship-row .chip-btn{border:1px solid #d5d9d8;background:#fff;border-radius:6px;padding:5px 12px;font-size:12.5px;color:#2c3234;cursor:pointer;transition:all 0.15s}
+.ship-row .chip-btn:hover{border-color:#b5bcba}
+.ship-row .chip-btn.active{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:600}
+.ship-row .reset{width:28px;height:28px;border:1px solid #d5d9d8;border-radius:6px;display:grid;place-items:center;background:#fff;font-size:14px;cursor:pointer;color:#4b5552;transition:background 0.15s}
+.ship-row .reset:hover{background:#f0f2f1;color:#111}
+.ship-row .note{color:#6d7578}
+
+/* ================= TABEL & CARD VIEW ================= */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+thead th{background:#fafbfa;text-align:left;font-weight:700;color:#4b5552;font-size:12.5px;
+  padding:12px 16px;border-top:1px solid #edf0ef;border-bottom:1px solid #edf0ef;white-space:nowrap}
+tbody td{padding:16px;border-bottom:1px solid #f0f2f1;vertical-align:top;color:#2c3234}
+tbody tr:hover{background:#fafbfa}
+.oid{font-weight:700}
+.time{color:#98a1a4;font-size:12px;margin-top:4px}
+.buyer{display:flex;align-items:center;gap:6px}
+.buyer svg{width:12px;height:12px;color:#98a1a4}
+.thumb{width:26px;height:26px;border:1px solid #e2e5e4;border-radius:6px;margin-top:6px;
+  background:#f4f4f2;display:grid;place-items:center;font-size:13px}
+.bold{font-weight:700}
+.small{color:#98a1a4;font-size:12px;margin-top:4px}
+input[type=checkbox]{width:15px;height:15px;accent-color:var(--green);cursor:pointer}
+
+/* Card View Mode */
+.cards-wrap{display:none;padding:16px 20px;gap:16px;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr))}
+.order-card-item{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:#fafbfa;font-size:13px;display:flex;flex-direction:column;gap:8px}
+.order-card-item .card-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #edf0ef;padding-bottom:8px}
+.order-card-item .card-row{display:flex;justify-content:space-between;align-items:center}
+.order-card-item .card-price{font-weight:700;color:var(--green);font-size:14px}
+
+/* Empty State */
+.empty-state{display:none;padding:60px 20px;text-align:center;color:#8b9497;font-size:13px;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.empty-icon{width:56px;height:44px;background:#f0f2f1;border-radius:6px;position:relative;display:flex;flex-direction:column;gap:5px;padding:10px 12px}
+.empty-icon::before{content:"";position:absolute;top:50%;left:-4px;transform:translateY(-50%);width:7px;height:7px;background:#45c8c2;border-radius:50%}
+.empty-icon::after{content:"";position:absolute;top:50%;right:-4px;transform:translateY(-50%);width:7px;height:7px;background:#ff6b6b;border-radius:50%}
+.empty-line{height:3px;background:#cfd5d3;border-radius:2px;width:100%}
+.empty-line.s{width:60%}
+
+/* ---- footer tabel ---- */
+.table-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:14px 20px;color:#6d7578;font-size:12.5px;flex-wrap:wrap}
+.pager{display:flex;align-items:center;gap:8px}
+.arrow{color:#7a8288;font-size:14px;cursor:pointer;padding:4px 8px;border-radius:4px;user-select:none}
+.arrow:hover{background:#e2e5e4;color:#111}
+.arrow.disabled{color:#cfd4d6;cursor:not-allowed}
+.page{min-width:28px;height:28px;display:grid;place-items:center;background:#e6e7e7;border-radius:6px;font-weight:700;color:#2c3234;cursor:pointer}
+.pagesize-wrap{position:relative}
+.pagesize{border:1px solid #d5d9d8;border-radius:6px;padding:5px 9px;background:#fff;display:flex;gap:6px;align-items:center;font-size:12px;cursor:pointer}
+
+/* ================= FILTER DRAWER (RIGHT PANEL) ================= */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:999;opacity:0;visibility:hidden;transition:opacity 0.25s, visibility 0.25s}
+.drawer-overlay.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:440px;max-width:90vw;background:#fff;z-index:1000;transform:translateX(100%);transition:transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,0.18)}
+.drawer.open{transform:translateX(0)}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.drawer-header h2{font-size:16px;font-weight:700;color:#171d1b}
+.drawer-close{font-size:18px;color:#8b9497;cursor:pointer;padding:4px}
+.drawer-close:hover{color:#111}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 22px;display:flex;flex-direction:column;gap:16px}
+.drawer-section-title{font-size:13px;font-weight:700;color:#2c3234;margin-bottom:8px}
+.drawer-radios{display:flex;flex-direction:column;gap:10px}
+.drawer-radio-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#2c3234;cursor:pointer}
+.drawer-radio-dot{width:16px;height:16px;border:1.5px solid #c2c9c7;border-radius:50%;display:grid;place-items:center;flex:none}
+.drawer-radio-item.active .drawer-radio-dot{border-color:var(--green)}
+.drawer-radio-item.active .drawer-radio-dot::after{content:"";width:8px;height:8px;background:var(--green);border-radius:50%}
+
+.date-range-row{display:flex;align-items:center;gap:8px;border:1px solid #d8dcdb;border-radius:6px;padding:7px 10px;background:#fff}
+.date-type-btn{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#2c3234;cursor:pointer;border-right:1px solid #edf0ef;padding-right:8px}
+.date-inputs{display:flex;align-items:center;gap:6px;flex:1;font-size:12.5px;color:#8b9497}
+.date-inputs input{border:none;outline:none;font-size:12px;width:70px;color:#2c3234}
+.date-inputs svg{margin-left:auto;color:#8b9497}
+
+.drawer-accordion{border-top:1px solid #edf0ef}
+.accordion-item{border-bottom:1px solid #edf0ef}
+.accordion-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:13px;color:#2c3234;cursor:pointer}
+.accordion-header:hover{color:var(--green)}
+.accordion-header svg{width:14px;height:14px;color:#8b9497;transition:transform 0.2s}
+.accordion-item.open .accordion-header svg{transform:rotate(180deg);color:var(--green)}
+.accordion-body{display:none;padding:0 0 12px;font-size:12.5px;color:#4b5552}
+.accordion-item.open .accordion-body{display:block}
+.accordion-body .drawer-input{width:100%;border:1px solid #d8dcdb;border-radius:6px;padding:7px 10px;font-size:12.5px;outline:none}
+.accordion-body .drawer-input:focus{border-color:var(--green)}
+.accordion-list{display:flex;flex-direction:column;gap:8px}
+.accordion-checkbox{display:flex;align-items:center;gap:8px;cursor:pointer}
+
+.drawer-input-row{display:flex;flex-direction:column;gap:6px;margin:4px 0}
+.drawer-input-label{font-size:13px;color:#2c3234;font-weight:500}
+.drawer-input-row input{border:1px solid #d8dcdb;border-radius:6px;padding:8px 10px;font-size:12.5px;outline:none}
+.drawer-input-row input:focus{border-color:var(--green)}
+
+.drawer-footer{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--border);background:#fff}
+.drawer-reset-btn{color:var(--green);font-size:13px;font-weight:600;cursor:pointer}
+.drawer-reset-btn:hover{text-decoration:underline}
+.drawer-actions{display:flex;gap:10px;align-items:center}
+.btn-secondary{background:#fff;border:1px solid #d8dcdb;border-radius:6px;padding:7px 16px;font-size:13px;font-weight:600;color:#2c3234;cursor:pointer}
+.btn-secondary:hover{background:#f5f7f6}
+.btn-primary{background:var(--green);border:1px solid var(--green);border-radius:6px;padding:7px 18px;font-size:13px;font-weight:600;color:#fff;cursor:pointer}
+.btn-primary:hover{background:var(--green-dark)}
+
+/* ================= TOAST NOTIFICATION ================= */
+.toast{position:fixed;bottom:24px;right:24px;background:#1b2422;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 6px 20px rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px;z-index:2000;transform:translateY(100px);opacity:0;transition:transform 0.25s, opacity 0.25s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast svg{color:#45c8c2;width:16px;height:16px}
+
+@keyframes fadeIn {
+  from{opacity:0;transform:translateY(-4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logos">
+      <div class="tp">tokopedia</div>
+      <div class="tt">♪ TikTok Shop</div>
+    </div>
+    <div class="brand-sep"></div>
+    <div class="brand-title">
+      <strong>Seller Center</strong>
+      <small>Dikelola oleh PT Tokopedia</small>
+    </div>
+  </div>
+
+  <div class="top-search">
+    <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    Cari: "ikuti campaign"
+    <span class="kbd">⌘+K</span>
+  </div>
+
+  <div class="top-actions">
+    <span class="pill">🎁 Rp10.9 Jt</span>
+    <span class="icon-btn">✦ Asisten</span>
+    <span class="help">?</span>
+    <span class="icon-btn">
+      <svg width="17" height="17" viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/></svg>
+      Pesan pembeli
+      <span class="badge">24</span>
+    </span>
+    <span class="user"><span class="avatar">M</span> Mayanacare</span>
+  </div>
+</header>
+
+<!-- ============ BANNER ============ -->
+<div class="banner">
+  <div class="l1">⚠ Listing Sexual Wellness &nbsp;|&nbsp; <a href="#">Lihat detailnya →</a></div>
+  <div>Mulai 30 Juni, kategori Sexual Wellness resmi dibuka. Upload produk via Seller Center.</div>
+  <span class="close">✕</span>
+</div>
+
+<div class="layout">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>Beranda</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg><span>Akses cepat</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><span>Smart Growth</span></a>
+    <hr class="divider">
+    
+    <!-- Accordion Pesanan -->
+    <div class="side-nav-group open" id="navGroupPesanan">
+      <div class="side-item open" onclick="toggleSidebarAccordion('navGroupPesanan', this, 'Pesanan')">
+        <svg viewBox="0 0 24 24"><path d="M6 7h12l1.5 14h-15L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span>Pesanan</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub active" href="#" onclick="setActiveSubItem(this); return false;">Kelola pesanan</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Kelola pengembalian barang</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Pengaturan purnajual</a>
+      </div>
+    </div>
+
+    <!-- Accordion Produk -->
+    <div class="side-nav-group" id="navGroupProduk">
+      <div class="side-item" onclick="toggleSidebarAccordion('navGroupProduk', this, 'Produk')">
+        <svg viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/></svg>
+        <span>Produk</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Kelola produk</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Tambah produk baru</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Pemeriksaan produk</a>
+      </div>
+    </div>
+
+    <!-- Accordion Logistik -->
+    <div class="side-nav-group" id="navGroupLogistik">
+      <div class="side-item" onclick="toggleSidebarAccordion('navGroupLogistik', this, 'Logistik')">
+        <svg viewBox="0 0 24 24"><path d="M1 5h13v11H1z"/><path d="M14 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+        <span>Logistik</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Pengiriman massal</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Pengaturan pengiriman</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Alamat penjemputan</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Accordion Pemasaran -->
+    <div class="side-nav-group" id="navGroupPemasaran">
+      <div class="side-item" onclick="toggleSidebarAccordion('navGroupPemasaran', this, 'Pemasaran')">
+        <svg viewBox="0 0 24 24"><path d="M18 4 7 9H3v6h4l11 5V4z"/></svg>
+        <span>Pemasaran</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Promosi &amp; Diskon</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Kupon toko</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Flash Sale</a>
+      </div>
+    </div>
+
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 15c2.6 0 5 1.7 5 4.6"/></svg><span>Afiliasi</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="m15 10 7-3v10l-7-3z"/></svg><span>LIVE &amp; Video</span></a>
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span>Pertumbuhan</span></a>
+    
+    <hr class="divider">
+
+    <!-- Accordion Analitik -->
+    <div class="side-nav-group" id="navGroupAnalitik">
+      <div class="side-item" onclick="toggleSidebarAccordion('navGroupAnalitik', this, 'Analitik')">
+        <svg viewBox="0 0 24 24"><path d="M5 20V10"/><path d="M11 20V4"/><path d="M17 20v-7"/><path d="M2 20h20"/></svg>
+        <span>Analitik</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Tinjauan bisnis</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Analisis pesanan</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Wawasan pembeli</a>
+      </div>
+    </div>
+
+    <a class="side-item" href="#" onclick="setActiveSidebar(this); return false;"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="m9 13-2 8 5-3 5 3-2-8"/></svg><span>Kinerja akun</span></a>
+    
+    <!-- Accordion Keuangan -->
+    <div class="side-nav-group" id="navGroupKeuangan">
+      <div class="side-item" onclick="toggleSidebarAccordion('navGroupKeuangan', this, 'Keuangan')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        <span>Keuangan</span>
+      </div>
+      <div class="side-sub-menu">
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Penghasilan &amp; Saldo</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Rekening bank</a>
+        <a class="side-sub" href="#" onclick="setActiveSubItem(this); return false;">Faktur &amp; Pajak</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ KONTEN ============ -->
+  <main class="content">
+    <div class="page-head">
+      <h1>Kelola pesanan</h1>
+      <div class="head-actions">
+        <div class="search-box">
+          <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="text" id="orderSearchInput" placeholder="Cari ID pesanan/ID produk," oninput="handleTableSearch(this.value)">
+        </div>
+        <button class="btn" onclick="showToast('Membuka menu Label Pengiriman...')">Label pengiriman</button>
+        <button class="btn" onclick="showToast('Membuka Program & Layanan...')">Program &amp; layanan</button>
+        <button class="btn" onclick="showToast('Pengaturan lainnya')">⋯</button>
+      </div>
+    </div>
+
+    <div class="notice">
+      <svg viewBox="0 0 24 24"><path d="M18 4 7 9H3v6h4l11 5V4z"/></svg>
+      <span>Perhatian bagi para penjual: Pastikan keamanan paket agar Anda tidak mengal… &nbsp;<a href="#" onclick="showToast('Membuka panduan keamanan paket...'); return false;">Pelajari Selengkapnya</a></span>
+    </div>
+
+    <!-- Statistik -->
+    <section class="card">
+      <div class="stats">
+        <div class="stat" onclick="selectTab('perlu-dikirim')"><span class="label">Perlu dikirim dalam 24 jam</span><span class="value">0</span></div>
+        <div class="stat" onclick="selectTab('perlu-dikirim')"><span class="label">Pembatalan otomatis dalam maks. 24 jam</span><span class="value">0</span></div>
+        <div class="stat" onclick="selectTab('dikirim')"><span class="label">Pengiriman terlambat</span><span class="value">0</span></div>
+        <div class="stat" onclick="selectTab('dibatalkan')"><span class="label">Pembatalan</span><span class="value">0</span></div>
+        <div class="stat" onclick="selectTab('perlu-dikirim'); setChipFilter('masalah-pengiriman', 'Logistik bermasalah')"><span class="label">Masalah pengiriman dan logistik</span><span class="value">1</span></div>
+        <div class="stat" onclick="selectTab('dibatalkan')"><span class="label">Pengembalian barang/dana diajukan.</span><span class="value">0</span></div>
+      </div>
+      <a class="perf" href="#" onclick="showToast('Membuka halaman Kinerja Pemenuhan Pesanan'); return false;">Kinerja pemenuhan pesanan <span class="qmark">?</span> ›</a>
+    </section>
+
+    <!-- Daftar pesanan -->
+    <section class="card orders">
+      <div class="tabs">
+        <button class="tab" data-tab="semua" onclick="switchTab(this)">Semua</button>
+        <button class="tab active" data-tab="perlu-dikirim" onclick="switchTab(this)">Perlu dikirim <span class="n">3</span></button>
+        <button class="tab" data-tab="dikirim" onclick="switchTab(this)">Dikirim <span class="n">5</span></button>
+        <button class="tab" data-tab="selesai" onclick="switchTab(this)">Selesai</button>
+        <button class="tab" data-tab="dalam-proses" onclick="switchTab(this)">Dalam proses</button>
+        <button class="tab" data-tab="dibatalkan" onclick="switchTab(this)">Dibatalkan</button>
+        <button class="tab" data-tab="pengantaran-gagal" onclick="switchTab(this)">Pengantaran gagal</button>
+      </div>
+
+      <!-- ===== BARIS FILTER ===== -->
+      <div class="filters-row">
+        <!-- Kolom 1: chip filter -->
+        <div class="filter-chips">
+          <button class="filter-btn" id="openDrawerBtn" onclick="openDrawer()">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M1 14h6m2-6h6m2 8h6"/></svg>
+            Filter&nbsp; (<span id="filterCountDisplay">7</span>)
+          </button>
+
+          <!-- Chip 1: Menunggu pengiriman -->
+          <div class="chip-wrapper">
+            <span class="chip active" id="chip-status-pesanan" onclick="toggleDropdown('drop-status-pesanan', this, event)">
+              <span class="chip-text">Menunggu pengiriman (1)</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('status-pesanan', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-status-pesanan">
+              <div class="dropdown-item active" onclick="selectChipOption('status-pesanan', 'Menunggu pengiriman (1)')">
+                <span class="radio-dot"></span> Menunggu pengiriman
+              </div>
+              <div class="dropdown-item" onclick="selectChipOption('status-pesanan', 'Menunggu pengambilan (1)')">
+                <span class="radio-dot"></span> Menunggu pengambilan
+              </div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('status-pesanan', event)">Hapus</span>
+            </div>
+          </div>
+
+          <!-- Chip 2: Status label -->
+          <div class="chip-wrapper">
+            <span class="chip" id="chip-status-label" onclick="toggleDropdown('drop-status-label', this, event)">
+              <span class="chip-text">Status label</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('status-label', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-status-label">
+              <div class="dropdown-item" onclick="selectChipOption('status-label', 'Belum Dicetak')">Belum Dicetak</div>
+              <div class="dropdown-item" onclick="selectChipOption('status-label', 'Dicetak')">Dicetak</div>
+              <div class="dropdown-item" onclick="selectChipOption('status-label', 'Pencetakan gagal')">Pencetakan gagal</div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('status-label', event)">Hapus</span>
+            </div>
+          </div>
+
+          <!-- Chip 3: Kurir -->
+          <div class="chip-wrapper">
+            <span class="chip disabled" id="chip-kurir" onclick="toggleDropdown('drop-kurir', this, event)">
+              <span class="chip-text">Kurir</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('kurir', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-kurir">
+              <div class="dropdown-item" onclick="selectChipOption('kurir', 'J&amp;T Express')">J&amp;T Express</div>
+              <div class="dropdown-item" onclick="selectChipOption('kurir', 'SiCepat')">SiCepat</div>
+              <div class="dropdown-item" onclick="selectChipOption('kurir', 'Ninja Van')">Ninja Van</div>
+              <div class="dropdown-item" onclick="selectChipOption('kurir', 'JNE')">JNE</div>
+              <div class="dropdown-item" onclick="selectChipOption('kurir', 'GoSend')">GoSend</div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('kurir', event)">Hapus</span>
+            </div>
+          </div>
+
+          <!-- Chip 4: Konten pesanan -->
+          <div class="chip-wrapper">
+            <span class="chip disabled" id="chip-konten-pesanan" onclick="toggleDropdown('drop-konten-pesanan', this, event)">
+              <span class="chip-text">Konten pesanan</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('konten-pesanan', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-konten-pesanan">
+              <div class="dropdown-item" onclick="selectChipOption('konten-pesanan', 'Produk tunggal')">Produk tunggal</div>
+              <div class="dropdown-item" onclick="selectChipOption('konten-pesanan', 'Multi produk')">Multi produk</div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('konten-pesanan', event)">Hapus</span>
+            </div>
+          </div>
+
+          <!-- Chip 5: Nama gudang -->
+          <div class="chip-wrapper">
+            <span class="chip disabled" id="chip-nama-gudang" onclick="toggleDropdown('drop-nama-gudang', this, event)">
+              <span class="chip-text">Nama gudang</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('nama-gudang', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-nama-gudang">
+              <div class="dropdown-item" onclick="selectChipOption('nama-gudang', 'Gudang Utama')">Gudang Utama</div>
+              <div class="dropdown-item" onclick="selectChipOption('nama-gudang', 'Gudang Jakarta')">Gudang Jakarta</div>
+              <div class="dropdown-item" onclick="selectChipOption('nama-gudang', 'Gudang Surabaya')">Gudang Surabaya</div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('nama-gudang', event)">Hapus</span>
+            </div>
+          </div>
+
+          <!-- Chip 6: Pengecualian pesanan -->
+          <div class="chip-wrapper">
+            <span class="chip disabled" id="chip-pengecualian" onclick="toggleDropdown('drop-pengecualian', this, event)">
+              <span class="chip-text">Pengecualian pesanan</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('pengecualian', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-pengecualian">
+              <div class="dropdown-item" onclick="selectChipOption('pengecualian', 'Ada pengecualian')">Ada pengecualian</div>
+              <div class="dropdown-item" onclick="selectChipOption('pengecualian', 'Normal')">Normal</div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('pengecualian', event)">Hapus</span>
+            </div>
+          </div>
+
+          <!-- Chip 7: Masalah pengiriman -->
+          <div class="chip-wrapper">
+            <span class="chip disabled" id="chip-masalah-pengiriman" onclick="toggleDropdown('drop-masalah-pengiriman', this, event)">
+              <span class="chip-text">Masalah pengiriman</span>
+              <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+              <span class="x" onclick="clearChipFilter('masalah-pengiriman', event)">✕</span>
+            </span>
+            <div class="dropdown-menu" id="drop-masalah-pengiriman">
+              <div class="dropdown-item" onclick="selectChipOption('masalah-pengiriman', 'Logistik bermasalah')">Logistik bermasalah</div>
+              <div class="dropdown-item" onclick="selectChipOption('masalah-pengiriman', 'Paket tertahan')">Paket tertahan</div>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-action" onclick="clearChipFilter('masalah-pengiriman', event)">Hapus</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom 2: aksi urutkan/ekspor -->
+        <div class="sort-actions">
+          <!-- Dropdown Urutkan -->
+          <div class="chip-wrapper">
+            <button class="btn" id="sortBtn" onclick="toggleDropdown('drop-sort', this, event)">
+              <svg width="13" height="13" viewBox="0 0 24 24"><path d="m3 16 4 4 4-4M7 20V4m14 4-4-4-4 4m4-4v16"/></svg>
+              <span id="sortLabel">Urutkan menurut</span>
+            </button>
+            <div class="dropdown-menu right" id="drop-sort" style="min-width:240px">
+              <div class="dropdown-item active" onclick="selectSortOption(this, 'Prioritas pengiriman')"><span class="radio-dot"></span> Prioritas pengiriman</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Tanggal kirim sebelum (terlama dulu)')"><span class="radio-dot"></span> Tanggal kirim sebelum (terlama dulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Tanggal kirim sebelum (terbaru dulu)')"><span class="radio-dot"></span> Tanggal kirim sebelum (terbaru dulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Waktu dibayar (terlama dahulu)')"><span class="radio-dot"></span> Waktu dibayar (terlama dahulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Waktu dibayar (terbaru dahulu)')"><span class="radio-dot"></span> Waktu dibayar (terbaru dahulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Waktu pembuatan (terlama dulu)')"><span class="radio-dot"></span> Waktu pembuatan (terlama dulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Waktu pembuatan (terbaru dulu)')"><span class="radio-dot"></span> Waktu pembuatan (terbaru dulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Total harga (terendah dulu)')"><span class="radio-dot"></span> Total harga (terendah dulu)</div>
+              <div class="dropdown-item" onclick="selectSortOption(this, 'Total harga (tertinggi dulu)')"><span class="radio-dot"></span> Total harga (tertinggi dulu)</div>
+            </div>
+          </div>
+
+          <!-- Tombol Ekspor -->
+          <button class="btn" onclick="handleExport()">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Ekspor
+          </button>
+
+          <!-- Tombol Menu Tampilan (...) -->
+          <div class="chip-wrapper">
+            <button class="btn" id="moreBtn" onclick="toggleDropdown('drop-more', this, event)">⋯</button>
+            <div class="dropdown-menu right" id="drop-more" style="min-width:160px">
+              <div class="has-submenu">
+                <div class="dropdown-item menu-row" onclick="toggleSubmenu(event)">
+                  <span style="display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> Mode tampilan</span>
+                  <span>›</span>
+                </div>
+                <div class="submenu" id="viewModeSubmenu">
+                  <div class="dropdown-item active" id="mode-daftar" onclick="setViewMode('table')"><span class="radio-dot"></span> Tampilan daftar</div>
+                  <div class="dropdown-item" id="mode-kartu" onclick="setViewMode('cards')"><span class="radio-dot"></span> Tampilan kartu</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPSI PENGANTARAN -->
+      <div class="ship-row">
+        <span>Opsi pengantaran:</span>
+        <button class="chip-btn" id="btnInstant" onclick="toggleDeliveryFilter(this, 'Instant')">Instant</button>
+        <div class="chip-wrapper">
+          <button class="chip-btn" id="btnOtherShipping" onclick="toggleDropdown('drop-shipping-other', this, event)">
+            <span id="labelOtherShipping">Opsi lain</span> <svg width="11" height="11" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="dropdown-menu" id="drop-shipping-other">
+            <div class="dropdown-item" onclick="selectOtherShipping('Same Day')">Same Day</div>
+            <div class="dropdown-item" onclick="selectOtherShipping('Pengiriman Standar')">Pengiriman Standar</div>
+            <div class="dropdown-item" onclick="selectOtherShipping('Hemat')">Hemat</div>
+            <div class="dropdown-item" onclick="selectOtherShipping('Kargo')">Kargo</div>
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-action" onclick="resetShippingOptions()">Reset Opsi</span>
+          </div>
+        </div>
+        <button class="reset" title="Reset filter pengantaran" onclick="resetAllFilters()">↺</button>
+        <span class="note" id="orderCountNote">Ada 1 pesanan</span>
+      </div>
+
+      <!-- TABEL PESANAN -->
+      <div class="table-wrap" id="tableView">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:36px"><input type="checkbox" id="masterCheckbox" onchange="toggleSelectAll(this.checked)"></th>
+              <th style="width:22%">Pesanan</th>
+              <th style="width:12%">Pembeli</th>
+              <th style="width:11%">Produk</th>
+              <th style="width:15%">Status pesanan</th>
+              <th style="width:15%">Metode pengiriman</th>
+              <th style="width:14%">Opsi pengiriman <span class="qmark" onclick="showToast('Opsi layanan pengiriman yang dipilih pembeli')">?</span></th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="orderTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CARD VIEW PESANAN -->
+      <div class="cards-wrap" id="cardsView">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">
+          <div class="empty-line"></div>
+          <div class="empty-line s"></div>
+        </div>
+        <div>Belum ada tiket</div>
+      </div>
+
+      <div class="table-foot">
+        <span>Menampilkan pesanan dari 12 bulan terakhir (09/08/2025 - 09/08/2026)</span>
+        <div class="pager">
+          <span class="arrow disabled" id="prevPageBtn" onclick="changePage(-1)">‹</span>
+          <span class="page" id="currentPageNum">1</span>
+          <span class="arrow disabled" id="nextPageBtn" onclick="changePage(1)">›</span>
+          <div class="pagesize-wrap">
+            <div class="pagesize" onclick="toggleDropdown('drop-pagesize', this, event)">
+              <span id="pageSizeDisplay">20/Page</span> <svg width="12" height="12" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="dropdown-menu right" id="drop-pagesize" style="bottom:calc(100% + 4px);top:auto;min-width:100px">
+              <div class="dropdown-item" onclick="setPageSize(10)">10/Page</div>
+              <div class="dropdown-item active" onclick="setPageSize(20)">20/Page</div>
+              <div class="dropdown-item" onclick="setPageSize(50)">50/Page</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ FILTER DRAWER ============ -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="filterDrawer">
+  <div class="drawer-header">
+    <h2>Filter</h2>
+    <span class="drawer-close" onclick="closeDrawer()">✕</span>
+  </div>
+  <div class="drawer-body">
+    <div>
+      <div class="drawer-section-title">Status pesanan</div>
+      <div class="drawer-radios">
+        <label class="drawer-radio-item active" onclick="toggleDrawerRadio(this, 'menunggu-kirim')">
+          <span class="drawer-radio-dot"></span> Menunggu pengiriman (0)
+        </label>
+        <label class="drawer-radio-item" onclick="toggleDrawerRadio(this, 'menunggu-ambil')">
+          <span class="drawer-radio-dot"></span> Menunggu pengambilan (0)
+        </label>
+      </div>
+    </div>
+
+    <!-- Date Range -->
+    <div>
+      <div class="date-range-row">
+        <span class="date-type-btn">Waktu dibuat <svg width="11" height="11" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
+        <div class="date-inputs">
+          <input type="text" placeholder="Dari" value="09/08/2025">
+          <span>-</span>
+          <input type="text" placeholder="Hingga" value="09/08/2026">
+          <svg width="14" height="14" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordions & Inputs matching Image 4 -->
+    <div class="drawer-accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Dipesan di</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Tokopedia</label>
+            <label class="accordion-checkbox"><input type="checkbox"> TikTok Shop</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Urgensi</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Perlu dikirim segera</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Normal</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Opsi pengantaran</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox" id="drawerChkInstant"> Instant</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Standar</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Same Day</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-input-row">
+        <label class="drawer-input-label">Nama pengguna pembeli</label>
+        <input type="text" placeholder="Nama pengguna pembeli" id="drawerBuyerInput">
+      </div>
+
+      <div class="drawer-input-row">
+        <label class="drawer-input-label">Produk</label>
+        <input type="text" placeholder="Masukkan nama produk/ID produk/SKU penjual/ID SKU" id="drawerProductInput">
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Metode pengiriman</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Dikirim melalui platform</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Dikirim oleh penjual</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Status label</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox" id="drawerChkBelumCetak"> Belum Dicetak</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Dicetak</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Pencetakan gagal</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Kurir</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> J&amp;T Express</label>
+            <label class="accordion-checkbox"><input type="checkbox"> SiCepat</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Ninja Van</label>
+            <label class="accordion-checkbox"><input type="checkbox"> JNE</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Konten pesanan</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Produk tunggal</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Multi produk</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Pesan Pembeli</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Ada pesan pembeli</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Tidak ada pesan pembeli</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Pesanan gabungan/terpisah</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Pesanan normal</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Pesanan gabungan</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Sumber pesanan</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Toko reguler</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Showcase</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-input-row">
+        <label class="drawer-input-label">Kreator</label>
+        <input type="text" placeholder="Nama/ID kreator">
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Nama gudang</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Gudang Utama</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Gudang Jakarta</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Catatan penjual</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Ada catatan</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Tanpa catatan</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Sesi LIVE</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Dari Sesi LIVE</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Bukan dari LIVE</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Channel pesanan</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Aplikasi Seller</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Web Browser</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Pembayaran</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Sudah dibayar</label>
+            <label class="accordion-checkbox"><input type="checkbox"> COD (Bayar di tempat)</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Label Pesanan</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Prioritas</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Normal</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Tag</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Flash Sale</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Kampanye</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>Pengecualian pesanan</span> <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-list">
+            <label class="accordion-checkbox"><input type="checkbox"> Ada pengecualian</label>
+            <label class="accordion-checkbox"><input type="checkbox"> Normal</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-footer">
+    <span class="drawer-reset-btn" onclick="resetDrawerFilters()">Hapus semua</span>
+    <div class="drawer-actions">
+      <button class="btn-secondary" onclick="closeDrawer()">Batal</button>
+      <button class="btn-primary" onclick="applyDrawerFilters()">Terapkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="appToast">
+  <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastMessage">Pesan notifikasi</span>
+</div>
+
+<script>
+/* ================= DATA STATE ================= */
+const sampleOrders = [
+  {
+    id: "585459728639690243",
+    time: "Hari ini 15.25.44",
+    buyer: "-*****5",
+    product: "1 produk",
+    icon: "🧴",
+    productName: "Mayana Body Lotion Glow 250ml",
+    status: "Menunggu pengiriman",
+    statusLabel: "Belum Dicetak",
+    method: "Dikirim melalui platform",
+    courier: "J&T Express",
+    shippingOption: "Pengiriman Standar",
+    total: "Rp56.822",
+    numericTotal: 56822,
+    tab: "perlu-dikirim",
+    isInstant: false,
+    warehouse: "Gudang Utama",
+    hasException: false,
+    hasIssue: false
+  },
+  {
+    id: "585459728639690244",
+    time: "Hari ini 14.10.12",
+    buyer: "k*****a",
+    product: "2 produk",
+    icon: "✨",
+    productName: "Brightening Face Serum 30ml",
+    status: "Menunggu pengiriman",
+    statusLabel: "Dicetak",
+    method: "Dikirim melalui platform",
+    courier: "SiCepat",
+    shippingOption: "Instant",
+    total: "Rp124.500",
+    numericTotal: 124500,
+    tab: "perlu-dikirim",
+    isInstant: true,
+    warehouse: "Gudang Jakarta",
+    hasException: false,
+    hasIssue: false
+  },
+  {
+    id: "585459728639690245",
+    time: "Hari ini 11.02.30",
+    buyer: "r*****9",
+    product: "1 produk",
+    icon: "💧",
+    productName: "Hydrating Facial Toner 100ml",
+    status: "Menunggu pengiriman",
+    statusLabel: "Belum Dicetak",
+    method: "Dikirim melalui platform",
+    courier: "Ninja Van",
+    shippingOption: "Pengiriman Standar",
+    total: "Rp78.000",
+    numericTotal: 78000,
+    tab: "perlu-dikirim",
+    isInstant: false,
+    warehouse: "Gudang Utama",
+    hasException: false,
+    hasIssue: true
+  },
+  {
+    id: "585459728639690111",
+    time: "Kemarin 18.20.10",
+    buyer: "d*****2",
+    product: "3 produk",
+    icon: "🧼",
+    productName: "Gentle Facial Wash 150ml",
+    status: "Sedang dikirim",
+    statusLabel: "Dicetak",
+    method: "Dikirim melalui platform",
+    courier: "JNE",
+    shippingOption: "Pengiriman Standar",
+    total: "Rp189.000",
+    numericTotal: 189000,
+    tab: "dikirim",
+    isInstant: false,
+    warehouse: "Gudang Jakarta",
+    hasException: false,
+    hasIssue: false
+  },
+  {
+    id: "585459728639690112",
+    time: "Kemarin 16.15.00",
+    buyer: "m*****1",
+    product: "1 produk",
+    icon: "☀️",
+    productName: "Sunscreen UV Shield SPF 50",
+    status: "Sedang dikirim",
+    statusLabel: "Dicetak",
+    method: "Dikirim melalui platform",
+    courier: "J&T Express",
+    shippingOption: "Pengiriman Standar",
+    total: "Rp65.000",
+    numericTotal: 65000,
+    tab: "dikirim",
+    isInstant: false,
+    warehouse: "Gudang Utama",
+    hasException: false,
+    hasIssue: false
+  }
+];
+
+let state = {
+  currentTab: "perlu-dikirim",
+  searchQuery: "",
+  filters: {
+    "status-pesanan": "Menunggu pengiriman (1)",
+    "status-label": null,
+    "kurir": null,
+    "konten-pesanan": null,
+    "nama-gudang": null,
+    "pengecualian": null,
+    "masalah-pengiriman": null
+  },
+  instantOnly: false,
+  otherShipping: null,
+  sortBy: "Prioritas pengiriman",
+  viewMode: "table",
+  pageSize: 20,
+  currentPage: 1,
+  selectedOrders: new Set()
+};
+
+/* ================= INITIALIZATION ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  renderOrders();
+  
+  // Close dropdowns when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".chip-wrapper") && !e.target.closest(".pagesize-wrap")) {
+      closeAllDropdowns();
+    }
+  });
+
+  // Global Keyboard shortcut ⌘+K / Ctrl+K
+  document.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      document.getElementById("topSearchInput").focus();
+    }
+    if (e.key === "Escape") {
+      closeDrawer();
+      closeAllDropdowns();
+    }
+  });
+});
+
+/* ================= TOAST NOTIFICATION ================= */
+let toastTimeout;
+function showToast(msg) {
+  const toast = document.getElementById("appToast");
+  const msgEl = document.getElementById("toastMessage");
+  msgEl.innerText = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2800);
+}
+
+/* ================= SIDEBAR INTERACTION ================= */
+function toggleSidebarAccordion(groupId, itemEl, menuName) {
+  const group = document.getElementById(groupId);
+  const name = menuName || itemEl.innerText.trim();
+  const isCurrentlyOpen = group.classList.contains('open');
+  if (isCurrentlyOpen) {
+    group.classList.remove('open');
+    itemEl.classList.remove('open');
+    showToast('Menu ' + name + ' ditutup');
+  } else {
+    group.classList.add('open');
+    itemEl.classList.add('open');
+    showToast('Menu ' + name + ' dibuka');
+  }
+}
+
+function setActiveSubItem(el) {
+  document.querySelectorAll(".sidebar .side-item, .sidebar .side-sub").forEach(item => item.classList.remove("active"));
+  el.classList.add("active");
+  showToast("Navigasi ke: " + el.innerText.trim());
+}
+
+function setActiveSidebar(el) {
+  document.querySelectorAll(".sidebar .side-item, .sidebar .side-sub").forEach(item => item.classList.remove("active"));
+  el.classList.add("active");
+  showToast("Navigasi ke: " + el.innerText.trim());
+}
+
+/* ================= TABS INTERACTION ================= */
+function switchTab(el) {
+  document.querySelectorAll(".tabs .tab").forEach(tab => tab.classList.remove("active"));
+  el.classList.add("active");
+  state.currentTab = el.getAttribute("data-tab");
+  state.currentPage = 1;
+  renderOrders();
+}
+
+function selectTab(tabKey) {
+  const tabEl = document.querySelector(`.tabs .tab[data-tab="${tabKey}"]`);
+  if (tabEl) switchTab(tabEl);
+}
+
+/* ================= DROPDOWN HANDLING ================= */
+function toggleDropdown(dropId, chipEl, e) {
+  e.stopPropagation();
+  const dropdown = document.getElementById(dropId);
+  const isShown = dropdown.classList.contains("show");
+  closeAllDropdowns();
+  if (!isShown) {
+    dropdown.classList.add("show");
+    if (chipEl) chipEl.classList.add("open");
+  }
+}
+
+function closeAllDropdowns() {
+  document.querySelectorAll(".dropdown-menu").forEach(d => d.classList.remove("show"));
+  document.querySelectorAll(".chip").forEach(c => c.classList.remove("open"));
+  document.querySelectorAll(".pagesize").forEach(p => p.classList.remove("open"));
+}
+
+function toggleSubmenu(e) {
+  e.stopPropagation();
+  const submenu = document.getElementById("viewModeSubmenu");
+  submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+}
+
+/* ================= CHIP FILTER ACTIONS ================= */
+function selectChipOption(filterKey, value) {
+  state.filters[filterKey] = value;
+  const chipEl = document.getElementById(`chip-${filterKey}`);
+  if (chipEl) {
+    chipEl.classList.add("active");
+    chipEl.classList.remove("disabled");
+    chipEl.querySelector(".chip-text").innerText = value;
+  }
+  updateFilterCount();
+  closeAllDropdowns();
+  renderOrders();
+  showToast(`Filter diterapkan: ${value}`);
+}
+
+function clearChipFilter(filterKey, e) {
+  if (e) e.stopPropagation();
+  state.filters[filterKey] = null;
+  const chipEl = document.getElementById(`chip-${filterKey}`);
+  if (chipEl) {
+    chipEl.classList.remove("active");
+    chipEl.classList.add("disabled");
+    const defaultLabels = {
+      "status-pesanan": "Menunggu pengiriman (0)",
+      "status-label": "Status label",
+      "kurir": "Kurir",
+      "konten-pesanan": "Konten pesanan",
+      "nama-gudang": "Nama gudang",
+      "pengecualian": "Pengecualian pesanan",
+      "masalah-pengiriman": "Masalah pengiriman"
+    };
+    chipEl.querySelector(".chip-text").innerText = defaultLabels[filterKey] || filterKey;
+  }
+  updateFilterCount();
+  closeAllDropdowns();
+  renderOrders();
+  showToast(`Filter dibersihkan.`);
+}
+
+function setChipFilter(filterKey, value) {
+  selectChipOption(filterKey, value);
+}
+
+function updateFilterCount() {
+  let count = 0;
+  Object.values(state.filters).forEach(val => { if (val) count++; });
+  if (state.instantOnly) count++;
+  if (state.otherShipping) count++;
+  document.getElementById("filterCountDisplay").innerText = Math.max(count, 0);
+}
+
+/* ================= SORT ACTIONS ================= */
+function selectSortOption(el, sortName) {
+  state.sortBy = sortName;
+  document.querySelectorAll("#drop-sort .dropdown-item").forEach(item => item.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById("sortLabel").innerText = sortName;
+  closeAllDropdowns();
+  renderOrders();
+  showToast(`Diurutkan berdasarkan: ${sortName}`);
+}
+
+/* ================= VIEW MODE ================= */
+function setViewMode(mode) {
+  state.viewMode = mode;
+  document.getElementById("mode-daftar").classList.toggle("active", mode === "table");
+  document.getElementById("mode-kartu").classList.toggle("active", mode === "cards");
+  document.getElementById("tableView").style.display = mode === "table" ? "block" : "none";
+  document.getElementById("cardsView").style.display = mode === "cards" ? "grid" : "none";
+  closeAllDropdowns();
+  showToast(`Mode tampilan: ${mode === 'table' ? 'Daftar' : 'Kartu'}`);
+  renderOrders();
+}
+
+/* ================= SHIPPING ROW FILTER ================= */
+function toggleDeliveryFilter(btn, type) {
+  state.instantOnly = !state.instantOnly;
+  btn.classList.toggle("active", state.instantOnly);
+  updateFilterCount();
+  renderOrders();
+  showToast(state.instantOnly ? "Menampilkan pesanan Instant" : "Filter Instant dimatikan");
+}
+
+function selectOtherShipping(optionName) {
+  state.otherShipping = optionName;
+  document.getElementById("btnOtherShipping").classList.add("active");
+  document.getElementById("labelOtherShipping").innerText = optionName;
+  closeAllDropdowns();
+  updateFilterCount();
+  renderOrders();
+  showToast(`Opsi pengiriman: ${optionName}`);
+}
+
+function resetShippingOptions() {
+  state.otherShipping = null;
+  document.getElementById("btnOtherShipping").classList.remove("active");
+  document.getElementById("labelOtherShipping").innerText = "Opsi lain";
+  closeAllDropdowns();
+  updateFilterCount();
+  renderOrders();
+}
+
+function resetAllFilters() {
+  Object.keys(state.filters).forEach(key => clearChipFilter(key));
+  state.instantOnly = false;
+  state.otherShipping = null;
+  state.searchQuery = "";
+  document.getElementById("btnInstant").classList.remove("active");
+  document.getElementById("btnOtherShipping").classList.remove("active");
+  document.getElementById("labelOtherShipping").innerText = "Opsi lain";
+  document.getElementById("orderSearchInput").value = "";
+  updateFilterCount();
+  renderOrders();
+  showToast("Semua filter telah direset");
+}
+
+/* ================= DRAWER HANDLING ================= */
+function openDrawer() {
+  document.getElementById("drawerOverlay").classList.add("open");
+  document.getElementById("filterDrawer").classList.add("open");
+}
+
+function closeDrawer() {
+  document.getElementById("drawerOverlay").classList.remove("open");
+  document.getElementById("filterDrawer").classList.remove("open");
+}
+
+function toggleAccordion(header) {
+  const item = header.closest(".accordion-item");
+  item.classList.toggle("open");
+}
+
+function toggleDrawerRadio(el, key) {
+  document.querySelectorAll(".drawer-radios .drawer-radio-item").forEach(r => r.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function resetDrawerFilters() {
+  document.querySelectorAll(".drawer-body input[type=checkbox]").forEach(cb => cb.checked = false);
+  document.querySelectorAll(".drawer-body input[type=text]").forEach(inp => inp.value = "");
+  resetAllFilters();
+  showToast("Filter dalam panel dibersihkan");
+}
+
+function applyDrawerFilters() {
+  const chkInstant = document.getElementById("drawerChkInstant").checked;
+  const chkBelumCetak = document.getElementById("drawerChkBelumCetak").checked;
+  const buyer = document.getElementById("drawerBuyerInput").value.trim();
+  const product = document.getElementById("drawerProductInput").value.trim();
+
+  if (chkInstant) {
+    state.instantOnly = true;
+    document.getElementById("btnInstant").classList.add("active");
+  }
+  if (chkBelumCetak) {
+    selectChipOption("status-label", "Belum Dicetak");
+  }
+  if (buyer) {
+    state.searchQuery = buyer;
+    document.getElementById("orderSearchInput").value = buyer;
+  }
+  if (product) {
+    state.searchQuery = product;
+    document.getElementById("orderSearchInput").value = product;
+  }
+
+  updateFilterCount();
+  closeDrawer();
+  renderOrders();
+  showToast("Filter berhasil diterapkan");
+}
+
+/* ================= SEARCH & PAGINATION ================= */
+function handleTableSearch(query) {
+  state.searchQuery = query.toLowerCase().trim();
+  state.currentPage = 1;
+  renderOrders();
+}
+
+function setPageSize(size) {
+  state.pageSize = size;
+  document.getElementById("pageSizeDisplay").innerText = `${size}/Page`;
+  document.querySelectorAll("#drop-pagesize .dropdown-item").forEach(item => {
+    item.classList.toggle("active", item.innerText.includes(size.toString()));
+  });
+  closeAllDropdowns();
+  renderOrders();
+  showToast(`Jumlah baris diubah menjadi ${size}/halaman`);
+}
+
+function changePage(delta) {
+  state.currentPage += delta;
+  renderOrders();
+}
+
+function toggleSelectAll(checked) {
+  const checkboxes = document.querySelectorAll("#orderTableBody input[type=checkbox]");
+  checkboxes.forEach(cb => {
+    cb.checked = checked;
+    const id = cb.getAttribute("data-id");
+    if (checked) state.selectedOrders.add(id);
+    else state.selectedOrders.delete(id);
+  });
+  showToast(checked ? "Semua pesanan dipilih" : "Pilihan dibatalkan");
+}
+
+function handleExport() {
+  showToast("Menyiapkan file ekspor pesanan... Berhasil diunduh!");
+}
+
+/* ================= RENDER LOGIC ================= */
+function renderOrders() {
+  let filtered = sampleOrders.filter(order => {
+    // Tab filter
+    if (state.currentTab !== "semua" && order.tab !== state.currentTab) return false;
+    
+    // Quick search
+    if (state.searchQuery) {
+      const matchId = order.id.includes(state.searchQuery);
+      const matchBuyer = order.buyer.toLowerCase().includes(state.searchQuery);
+      const matchProduct = order.productName.toLowerCase().includes(state.searchQuery);
+      if (!matchId && !matchBuyer && !matchProduct) return false;
+    }
+
+    // Instant filter
+    if (state.instantOnly && !order.isInstant) return false;
+
+    // Other shipping filter
+    if (state.otherShipping && order.shippingOption !== state.otherShipping) return false;
+
+    // Chip status label
+    if (state.filters["status-label"] && order.statusLabel !== state.filters["status-label"]) return false;
+
+    // Chip kurir
+    if (state.filters["kurir"] && order.courier !== state.filters["kurir"]) return false;
+
+    // Chip gudang
+    if (state.filters["nama-gudang"] && order.warehouse !== state.filters["nama-gudang"]) return false;
+
+    return true;
+  });
+
+  // Sorting
+  if (state.sortBy === "Total harga (terendah dulu)") {
+    filtered.sort((a, b) => a.numericTotal - b.numericTotal);
+  } else if (state.sortBy === "Total harga (tertinggi dulu)") {
+    filtered.sort((a, b) => b.numericTotal - a.numericTotal);
+  }
+
+  // Update note count
+  document.getElementById("orderCountNote").innerText = `Ada ${filtered.length} pesanan`;
+
+  const tbody = document.getElementById("orderTableBody");
+  const cardsWrap = document.getElementById("cardsView");
+  const emptyState = document.getElementById("emptyState");
+  const tableView = document.getElementById("tableView");
+
+  if (filtered.length === 0) {
+    if (tableView) tableView.style.display = "none";
+    if (cardsWrap) cardsWrap.style.display = "none";
+    if (emptyState) emptyState.style.display = "flex";
+    return;
+  }
+
+  emptyState.style.display = "none";
+  if (state.viewMode === "table") {
+    tableView.style.display = "block";
+    cardsWrap.style.display = "none";
+  } else {
+    tableView.style.display = "none";
+    cardsWrap.style.display = "grid";
+  }
+
+  // Render Table
+  tbody.innerHTML = filtered.map(order => `
+    <tr>
+      <td><input type="checkbox" data-id="${order.id}" ${state.selectedOrders.has(order.id) ? 'checked' : ''} onchange="state.selectedOrders.has('${order.id}') ? state.selectedOrders.delete('${order.id}') : state.selectedOrders.add('${order.id}')"></td>
+      <td><div class="oid">${order.id}</div><div class="time">${order.time}</div></td>
+      <td><span class="buyer">${order.buyer} <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></td>
+      <td>${order.product}<div class="thumb" title="${order.productName}">${order.icon}</div></td>
+      <td class="bold">${order.status}</td>
+      <td>${order.method}<div class="small">${order.courier}</div></td>
+      <td>${order.shippingOption}</td>
+      <td class="bold">${order.total}</td>
+    </tr>
+  `).join("");
+
+  // Render Cards
+  cardsWrap.innerHTML = filtered.map(order => `
+    <div class="order-card-item">
+      <div class="card-head">
+        <div><strong style="color:var(--green)">#${order.id}</strong><div class="small">${order.time}</div></div>
+        <span class="badge" style="position:static;background:var(--green);font-size:11px">${order.status}</span>
+      </div>
+      <div class="card-row">
+        <span>Pembeli: <strong>${order.buyer}</strong></span>
+        <span>${order.product} ${order.icon}</span>
+      </div>
+      <div class="card-row">
+        <span class="small">${order.courier} (${order.shippingOption})</span>
+        <span class="card-price">${order.total}</span>
+      </div>
+    </div>
+  `).join("");
+}
+</script>
+
+</body>
+</html>

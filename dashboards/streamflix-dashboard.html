@@ -1,0 +1,2205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streamflix Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+      :root {
+        --bg-main: #050607;
+        --bg-card: #101113;
+        --bg-sidebar: #08090a;
+        --primary: #e50914;
+        --primary-hover: #ff1f2d;
+        --text-main: #ffffff;
+        --text-muted: #92949b;
+        --border: #24262b;
+        --accent-green: #22c55e;
+        --accent-blue: #3b82f6;
+        --accent-orange: #f59e0b;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        background:
+          radial-gradient(
+            circle at 80% 0%,
+            rgba(229, 9, 20, 0.07),
+            transparent 28%
+          ),
+          linear-gradient(180deg, #040505 0%, #08090a 100%);
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        width: 270px;
+        background: linear-gradient(
+          180deg,
+          rgba(13, 14, 16, 0.98),
+          rgba(6, 7, 8, 0.98)
+        );
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        padding: 22px 16px;
+        overflow-y: auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 34px;
+        padding: 0 8px;
+      }
+
+      .logo-text {
+        color: var(--primary);
+        font-weight: 800;
+        font-size: 26px;
+        letter-spacing: -0.5px;
+        text-transform: uppercase;
+        text-shadow: 0 0 18px rgba(229, 9, 20, 0.2);
+      }
+
+      .logo-sub {
+        font-size: 10px;
+        color: #f2f2f2;
+        letter-spacing: 8px;
+        margin-top: -1px;
+        padding-left: 24px;
+      }
+
+      .nav-group {
+        margin-bottom: 25px;
+      }
+
+      .nav-label {
+        font-size: 11px;
+        color: #c7c8cc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        padding: 0 12px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 13px;
+        color: var(--text-muted);
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.2s;
+        margin-bottom: 6px;
+      }
+
+      .nav-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: var(--text-main);
+      }
+
+      .nav-item.active {
+        background: linear-gradient(
+          90deg,
+          rgba(229, 9, 20, 0.95) -40%,
+          rgba(117, 30, 35, 0.52) 54%,
+          rgba(229, 9, 20, 0.28) 100%
+        );
+        color: var(--text-main);
+        border-left: 4px solid #ff1724;
+        box-shadow: inset 22px 0 28px rgba(255, 23, 36, 0.14);
+      }
+
+      .nav-item i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .badge-soon {
+        font-size: 9px;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: auto;
+        color: var(--text-muted);
+      }
+
+      .upgrade-card {
+        margin-top: auto;
+        background: linear-gradient(135deg, #17181b 0%, #0e0f11 100%);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 17px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .upgrade-card h4 {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      .upgrade-card p {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+      }
+
+      .upgrade-btn {
+        width: 100%;
+        background-color: transparent;
+        border: 1px solid var(--primary);
+        color: var(--text-main);
+        padding: 8px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .upgrade-btn:hover {
+        background-color: var(--primary);
+      }
+
+      /* Main Content Styles */
+      .main-content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      header {
+        height: 98px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 26px;
+        background: rgba(5, 6, 7, 0.88);
+        backdrop-filter: blur(16px);
+      }
+
+      .header-left h1 {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .header-left p {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .search-bar {
+        background: linear-gradient(180deg, #141518, #101113);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        width: 326px;
+        height: 46px;
+      }
+
+      .search-bar input {
+        background: none;
+        border: none;
+        color: var(--text-main);
+        font-size: 14px;
+        margin-left: 10px;
+        width: 100%;
+        outline: none;
+      }
+
+      .filter-btn {
+        background: linear-gradient(180deg, #141518, #101113);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 10px 16px;
+        border-radius: 9px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+      }
+
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--border);
+      }
+
+      .user-info .name {
+        font-size: 13px;
+        font-weight: 600;
+        display: block;
+      }
+
+      .user-info .role {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      /* Dashboard Body */
+      .dashboard-body {
+        flex: 1;
+        padding: 20px 24px 18px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-gap: 16px;
+      }
+
+      /* Stats Cards */
+      .stats-card {
+        grid-column: span 1;
+        min-width: 0;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(21, 22, 25, 0.98),
+            rgba(13, 14, 16, 0.98)
+          ),
+          radial-gradient(
+            circle at 85% 88%,
+            rgba(229, 9, 20, 0.18),
+            transparent 40%
+          );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 18px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 184px;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.03),
+          0 10px 26px rgba(0, 0, 0, 0.18);
+      }
+
+      .stats-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-muted);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stats-header i {
+        width: 18px;
+        height: 18px;
+        padding: 8px;
+        border-radius: 999px;
+        box-sizing: content-box;
+        background: rgba(229, 9, 20, 0.14);
+        box-shadow: 0 0 18px rgba(229, 9, 20, 0.18);
+      }
+
+      .stats-value {
+        font-size: 30px;
+        font-weight: 700;
+      }
+
+      .stats-change {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .stats-change.up {
+        color: var(--accent-green);
+      }
+      .stats-change.down {
+        color: var(--primary);
+      }
+
+      .stats-card:nth-child(2) .stats-header i {
+        background: rgba(25, 118, 243, 0.16);
+        box-shadow: 0 0 18px rgba(25, 118, 243, 0.2);
+      }
+      .stats-card:nth-child(3) .stats-header i {
+        background: rgba(124, 58, 237, 0.18);
+        box-shadow: 0 0 18px rgba(124, 58, 237, 0.22);
+      }
+      .stats-card:nth-child(4) .stats-header i {
+        background: rgba(234, 88, 12, 0.18);
+        box-shadow: 0 0 18px rgba(234, 88, 12, 0.2);
+      }
+      .stats-card:nth-child(5) .stats-header i {
+        background: rgba(34, 197, 94, 0.16);
+        box-shadow: 0 0 18px rgba(34, 197, 94, 0.2);
+      }
+      .stats-card:nth-child(6) .stats-header i {
+        background: rgba(234, 179, 8, 0.17);
+        box-shadow: 0 0 18px rgba(234, 179, 8, 0.2);
+      }
+
+      .sparkline {
+        height: 48px;
+        margin-top: auto;
+      }
+
+      /* Large Widget */
+      .widget-trend {
+        grid-column: span 4;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-top-titles {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-audience {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-regional {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-calendar {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-status {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-cdn {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-activity {
+        grid-column: span 2;
+        min-width: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(19, 20, 23, 0.98),
+          rgba(13, 14, 16, 0.98)
+        );
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .widget-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .widget-title {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .widget-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .view-all {
+        color: var(--primary);
+        font-size: 12px;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* List Items (Titles) */
+      .title-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .title-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .title-rank {
+        font-size: 14px;
+        color: var(--text-muted);
+        width: 20px;
+      }
+
+      .title-poster {
+        width: 42px;
+        height: 48px;
+        border-radius: 5px;
+        object-fit: cover;
+        background-color: var(--border);
+      }
+
+      .title-info {
+        flex: 1;
+      }
+
+      .title-name {
+        font-size: 12px;
+        font-weight: 600;
+        display: block;
+      }
+
+      .title-meta {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .title-stats {
+        text-align: right;
+        font-size: 12px;
+      }
+
+      .title-views {
+        font-weight: 600;
+        display: block;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--bg-main);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #333;
+      }
+
+      /* Content Calendar Items */
+      .calendar-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .calendar-poster {
+        width: 74px;
+        height: 48px;
+        border-radius: 6px;
+        object-fit: cover;
+        background-color: var(--border);
+      }
+
+      .calendar-info {
+        flex: 1;
+      }
+
+      .tag-series {
+        font-size: 9px;
+        background-color: #b91c1c;
+        padding: 1px 6px;
+        border-radius: 4px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .calendar-date {
+        text-align: right;
+        font-size: 12px;
+      }
+
+      .calendar-date .day {
+        font-weight: 600;
+        display: block;
+      }
+
+      .calendar-date .relative {
+        color: var(--text-muted);
+        font-size: 10px;
+      }
+
+      /* System Status Checklist */
+      .status-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px 18px;
+      }
+
+      .status-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+      }
+
+      .dot-green {
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent-green);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--accent-green);
+      }
+
+      .status-overall {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent-green);
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 18px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .header-shell {
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        margin: 12px 10px 0 10px;
+        overflow: hidden;
+      }
+
+      .website-pill {
+        min-height: 46px;
+        border-radius: 999px !important;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-size: 11px;
+      }
+
+      .top-table-header,
+      .top-title-row {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr) 52px 78px 72px;
+        align-items: center;
+        column-gap: 14px;
+      }
+
+      .top-table-header {
+        color: var(--text-muted);
+        font-size: 11px;
+        font-weight: 700;
+        padding-bottom: 10px;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .top-title-row {
+        padding: 11px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+      }
+
+      .rank-cell {
+        color: #f5f5f5;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .title-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .title-name,
+      .title-meta,
+      .metric-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .metric-cell {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .progress-pair {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .mini-bar {
+        width: 40px;
+        height: 4px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #25272c;
+      }
+
+      .mini-bar span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: #ff1f2d;
+      }
+
+      .mini-bar.blue span {
+        background: #1976f3;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: -4px;
+        margin-bottom: 18px;
+      }
+
+      .tab {
+        padding-bottom: 10px;
+        color: var(--text-muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .tab.active {
+        color: #ff2734;
+        border-bottom: 2px solid #ff2734;
+      }
+
+      .audience-grid {
+        display: grid;
+        grid-template-columns: 140px minmax(0, 0.9fr) minmax(0, 1.15fr);
+        align-items: center;
+        gap: 20px;
+      }
+
+      .legend-row,
+      .device-row,
+      .country-row,
+      .edge-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 12px;
+        margin-bottom: 9px;
+      }
+
+      .legend-left,
+      .device-left,
+      .country-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+      }
+
+      .device-bar,
+      .edge-bar {
+        width: 76px;
+        height: 4px;
+        background: #25272c;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .device-bar span,
+      .edge-bar span {
+        display: block;
+        height: 100%;
+        background: #4b5563;
+      }
+
+      .map-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: 18px;
+        align-items: center;
+      }
+
+      .world-map {
+        height: 172px;
+        border-radius: 10px;
+        opacity: 0.94;
+        background:
+          radial-gradient(
+            ellipse at 17% 42%,
+            rgba(255, 38, 48, 0.86) 0 9%,
+            transparent 10%
+          ),
+          radial-gradient(
+            ellipse at 33% 50%,
+            rgba(255, 38, 48, 0.72) 0 8%,
+            transparent 9%
+          ),
+          radial-gradient(
+            ellipse at 48% 37%,
+            rgba(255, 38, 48, 0.68) 0 6%,
+            transparent 7%
+          ),
+          radial-gradient(
+            ellipse at 60% 48%,
+            rgba(255, 38, 48, 0.86) 0 12%,
+            transparent 13%
+          ),
+          radial-gradient(
+            ellipse at 73% 50%,
+            rgba(255, 38, 48, 0.7) 0 10%,
+            transparent 11%
+          ),
+          radial-gradient(
+            ellipse at 86% 68%,
+            rgba(255, 38, 48, 0.75) 0 7%,
+            transparent 8%
+          ),
+          radial-gradient(
+            ellipse at 24% 22%,
+            rgba(255, 255, 255, 0.07) 0 12%,
+            transparent 13%
+          ),
+          linear-gradient(135deg, #131416, #0b0c0e);
+        filter: saturate(1.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .world-map::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 28px 28px;
+        mask-image: radial-gradient(
+          ellipse at center,
+          black 35%,
+          transparent 78%
+        );
+      }
+
+      .report-btn {
+        border-color: #ff1f2d !important;
+        color: #fff;
+        height: 42px;
+        margin-top: 12px;
+      }
+
+      .cdn-wrap {
+        display: grid;
+        grid-template-columns: 160px minmax(0, 1fr);
+        align-items: center;
+        gap: 18px;
+      }
+
+      .cdn-globe {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background:
+          radial-gradient(
+            circle at 42% 38%,
+            rgba(255, 255, 255, 0.1),
+            transparent 18%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 255, 255, 0.04),
+            transparent 62%
+          ),
+          linear-gradient(135deg, #202225, #070809);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        position: relative;
+        box-shadow: inset -18px -22px 42px rgba(0, 0, 0, 0.58);
+        overflow: hidden;
+      }
+
+      .cdn-globe::before {
+        content: "";
+        position: absolute;
+        inset: 20px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 20% 48%, #ff2630 0 4px, transparent 5px),
+          radial-gradient(circle at 52% 55%, #ff2630 0 6px, transparent 7px),
+          radial-gradient(circle at 76% 30%, #ff2630 0 5px, transparent 6px),
+          radial-gradient(circle at 55% 86%, #ff2630 0 5px, transparent 6px),
+          conic-gradient(
+            from 230deg,
+            transparent 0 8%,
+            rgba(255, 38, 48, 0.85) 8% 9%,
+            transparent 9% 21%,
+            rgba(255, 38, 48, 0.65) 21% 22%,
+            transparent 22% 50%,
+            rgba(255, 38, 48, 0.8) 50% 51%,
+            transparent 51%
+          );
+        filter: drop-shadow(0 0 8px rgba(255, 38, 48, 0.45));
+      }
+
+      .activity-item {
+        display: flex;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+      }
+
+      .activity-icon {
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      @media (max-width: 1400px) {
+        body {
+          overflow: auto;
+          height: auto;
+        }
+        .dashboard-body {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .widget-trend,
+        .widget-top-titles,
+        .widget-audience,
+        .widget-regional,
+        .widget-calendar,
+        .widget-status,
+        .widget-cdn,
+        .widget-activity {
+          grid-column: span 3;
+        }
+        header {
+          height: auto;
+          padding: 18px 24px;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        .header-actions {
+          flex-wrap: wrap;
+          justify-content: flex-end;
+        }
+      }
+
+      @media (max-width: 900px) {
+        body {
+          display: block;
+        }
+        .sidebar {
+          width: 100%;
+          max-height: none;
+        }
+        .dashboard-body {
+          grid-template-columns: 1fr;
+        }
+        .stats-card,
+        .widget-trend,
+        .widget-top-titles,
+        .widget-audience,
+        .widget-regional,
+        .widget-calendar,
+        .widget-status,
+        .widget-cdn,
+        .widget-activity {
+          grid-column: span 1;
+        }
+        .header-actions,
+        header,
+        .audience-grid,
+        .map-panel,
+        .cdn-wrap {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .search-bar {
+          width: 100%;
+        }
+        .top-table-header {
+          display: none;
+        }
+        .top-title-row {
+          grid-template-columns: 26px 1fr;
+          row-gap: 8px;
+        }
+        .metric-cell,
+        .progress-pair {
+          grid-column: 2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div>
+          <div class="logo-text">Streamflix</div>
+          <div class="logo-sub">ADMIN</div>
+        </div>
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            margin-left: auto;
+            cursor: pointer;
+          "
+        >
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div
+          class="nav-item website-pill"
+          style="
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid var(--border);
+            margin-bottom: 18px;
+          "
+        >
+          <span>Website</span>
+          <span
+            style="
+              color: var(--accent-green);
+              font-size: 12px;
+              font-weight: 600;
+              margin-left: auto;
+            "
+            >• ACTIVE</span
+          >
+        </div>
+
+        <div class="nav-label">Main Menu</div>
+        <a href="#" class="nav-item active">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Overview</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="bar-chart-3"></i>
+          <span>Analytics</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="wallet"></i>
+          <span>Revenue</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Content</div>
+        <a href="#" class="nav-item">
+          <i data-lucide="clapperboard"></i>
+          <span>Content</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="users"></i>
+          <span>Actors</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="refresh-cw"></i>
+          <span>Sync Jobs</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="smartphone"></i>
+          <span>Mobile App</span>
+          <span class="badge-soon">SOON</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">Management</div>
+        <a href="#" class="nav-item">
+          <i data-lucide="user-cog"></i>
+          <span>Users</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="coins"></i>
+          <span>Monetization</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">System</div>
+        <a href="#" class="nav-item">
+          <i data-lucide="send"></i>
+          <span>Telegram</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="file-text"></i>
+          <span>Logs</span>
+        </a>
+        <a href="#" class="nav-item">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </a>
+      </div>
+
+      <div class="upgrade-card">
+        <div
+          style="
+            background: rgba(229, 9, 20, 0.2);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+          "
+        >
+          <i
+            data-lucide="crown"
+            style="color: var(--primary); width: 18px; height: 18px"
+          ></i>
+        </div>
+        <h4>Pro Plan</h4>
+        <p>Enterprise</p>
+        <div style="margin-bottom: 12px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 10px;
+              margin-bottom: 4px;
+            "
+          >
+            <span>Storage</span>
+            <span>2.4 TB / 10 TB</span>
+          </div>
+          <div
+            style="
+              width: 100%;
+              height: 4px;
+              background: #333;
+              border-radius: 2px;
+            "
+          >
+            <div
+              style="
+                width: 24%;
+                height: 100%;
+                background: var(--primary);
+                border-radius: 2px;
+              "
+            ></div>
+          </div>
+        </div>
+        <button class="upgrade-btn">Upgrade Plan</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header>
+        <div class="header-left">
+          <h1>Streaming Overview</h1>
+          <p>Real-time performance of your streaming platform</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-bar">
+            <i
+              data-lucide="search"
+              style="width: 18px; color: var(--text-muted)"
+            ></i>
+            <input
+              type="text"
+              placeholder="Search for titles, users, episodes..."
+            />
+          </div>
+          <button class="filter-btn">
+            <i data-lucide="calendar" style="width: 16px"></i>
+            May 4 - May 10, 2025
+            <i data-lucide="chevron-down" style="width: 14px"></i>
+          </button>
+          <button class="filter-btn">
+            <i data-lucide="monitor" style="width: 16px"></i>
+            All Platforms
+            <i data-lucide="chevron-down" style="width: 14px"></i>
+          </button>
+          <div style="position: relative">
+            <i data-lucide="bell" style="width: 20px; cursor: pointer"></i>
+            <span
+              style="
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background: var(--primary);
+                color: white;
+                font-size: 8px;
+                padding: 1px 4px;
+                border-radius: 10px;
+                font-weight: 700;
+              "
+              >11</span
+            >
+          </div>
+          <div class="user-profile">
+            <div class="user-info" style="text-align: right">
+              <span class="name">Admin User</span>
+              <span class="role">Super Administrator</span>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100"
+              alt="Avatar"
+              class="user-avatar"
+            />
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-body">
+        <!-- Stats Row -->
+        <div class="stats-card">
+          <div class="stats-header">
+            <i data-lucide="dollar-sign" style="color: var(--primary)"></i>
+            Monthly Revenue
+          </div>
+          <div class="stats-value">Rp 3.24B</div>
+          <div class="stats-change up">
+            <i data-lucide="trending-up" style="width: 14px"></i>
+            14.8%
+            <span
+              style="
+                color: var(--text-muted);
+                font-size: 10px;
+                margin-left: 4px;
+              "
+              >vs Apr 4 - Apr 10</span
+            >
+          </div>
+          <div id="sparkline-revenue" class="sparkline"></div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-header">
+            <i data-lucide="users" style="color: var(--accent-blue)"></i>
+            Active Subscribers
+          </div>
+          <div class="stats-value">1.28M</div>
+          <div class="stats-change up">
+            <i data-lucide="trending-up" style="width: 14px"></i>
+            8.3%
+            <span
+              style="
+                color: var(--text-muted);
+                font-size: 10px;
+                margin-left: 4px;
+              "
+              >vs Apr 4 - Apr 10</span
+            >
+          </div>
+          <div id="sparkline-subscribers" class="sparkline"></div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-header">
+            <i data-lucide="gift" style="color: #8b5cf6"></i>
+            Watch Hours
+          </div>
+          <div class="stats-value">12.6M</div>
+          <div class="stats-change up">
+            <i data-lucide="trending-up" style="width: 14px"></i>
+            12.1%
+            <span
+              style="
+                color: var(--text-muted);
+                font-size: 10px;
+                margin-left: 4px;
+              "
+              >vs Apr 4 - Apr 10</span
+            >
+          </div>
+          <div id="sparkline-watch" class="sparkline"></div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-header">
+            <i data-lucide="user-minus" style="color: var(--accent-orange)"></i>
+            Churn Rate
+          </div>
+          <div class="stats-value">2.35%</div>
+          <div class="stats-change down">
+            <i data-lucide="trending-down" style="width: 14px"></i>
+            0.42pp
+            <span
+              style="
+                color: var(--text-muted);
+                font-size: 10px;
+                margin-left: 4px;
+              "
+              >vs Apr 4 - Apr 10</span
+            >
+          </div>
+          <div id="sparkline-churn" class="sparkline"></div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-header">
+            <i data-lucide="user-plus" style="color: var(--accent-green)"></i>
+            New Signups
+          </div>
+          <div class="stats-value">156.2K</div>
+          <div class="stats-change up">
+            <i data-lucide="trending-up" style="width: 14px"></i>
+            18.9%
+            <span
+              style="
+                color: var(--text-muted);
+                font-size: 10px;
+                margin-left: 4px;
+              "
+              >vs Apr 4 - Apr 10</span
+            >
+          </div>
+          <div id="sparkline-signups" class="sparkline"></div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-header">
+            <i data-lucide="table-2" style="color: #eab308"></i>
+            Total Titles
+          </div>
+          <div class="stats-value">2,842</div>
+          <div class="stats-change up">
+            <i data-lucide="plus" style="width: 14px"></i>
+            45
+            <span
+              style="
+                color: var(--text-muted);
+                font-size: 10px;
+                margin-left: 4px;
+              "
+              >vs last 30 days</span
+            >
+          </div>
+          <div id="sparkline-titles" class="sparkline"></div>
+        </div>
+
+        <!-- Main Charts -->
+        <div class="widget-trend">
+          <div class="widget-header">
+            <h3 class="widget-title">Subscribers & Watch Time Trend</h3>
+            <div class="widget-actions">
+              <div
+                class="filter-btn"
+                style="padding: 4px 12px; font-size: 11px"
+              >
+                Daily <i data-lucide="chevron-down" style="width: 12px"></i>
+              </div>
+              <div
+                class="filter-btn"
+                style="padding: 4px 12px; font-size: 11px"
+              >
+                30 Days <i data-lucide="chevron-down" style="width: 12px"></i>
+              </div>
+              <i
+                data-lucide="more-horizontal"
+                style="width: 18px; color: var(--text-muted); cursor: pointer"
+              ></i>
+            </div>
+          </div>
+          <div id="main-trend-chart" style="height: 350px"></div>
+        </div>
+
+        <div class="widget-top-titles">
+          <div class="widget-header">
+            <h3 class="widget-title">Top Performing Titles</h3>
+            <a href="#" class="view-all">View all</a>
+          </div>
+          <div class="top-table-header">
+            <span></span>
+            <span>Title</span>
+            <span>Views</span>
+            <span>Completion</span>
+            <span>Retention</span>
+          </div>
+          <div class="title-list">
+            <div class="top-title-row">
+              <span class="rank-cell">1</span>
+              <div class="title-cell">
+                <img
+                  src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&q=80&w=100"
+                  class="title-poster"
+                  alt="The Last Horizon poster"
+                />
+                <div class="title-info">
+                  <span class="title-name">The Last Horizon</span
+                  ><span class="title-meta">S1 • Drama</span>
+                </div>
+              </div>
+              <span class="metric-cell">2.4M</span>
+              <div class="progress-pair">
+                78%
+                <span class="mini-bar"><span style="width: 78%"></span></span>
+              </div>
+              <div class="progress-pair">
+                92%
+                <span class="mini-bar blue"
+                  ><span style="width: 92%"></span
+                ></span>
+              </div>
+            </div>
+            <div class="top-title-row">
+              <span class="rank-cell">2</span>
+              <div class="title-cell">
+                <img
+                  src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=100"
+                  class="title-poster"
+                  alt="Nightfall poster"
+                />
+                <div class="title-info">
+                  <span class="title-name">Nightfall</span
+                  ><span class="title-meta">Movie • Thriller</span>
+                </div>
+              </div>
+              <span class="metric-cell">1.8M</span>
+              <div class="progress-pair">
+                72%
+                <span class="mini-bar"><span style="width: 72%"></span></span>
+              </div>
+              <div class="progress-pair">
+                89%
+                <span class="mini-bar blue"
+                  ><span style="width: 89%"></span
+                ></span>
+              </div>
+            </div>
+            <div class="top-title-row">
+              <span class="rank-cell">3</span>
+              <div class="title-cell">
+                <img
+                  src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&q=80&w=100"
+                  class="title-poster"
+                  alt="Echoes of Us poster"
+                />
+                <div class="title-info">
+                  <span class="title-name">Echoes of Us</span
+                  ><span class="title-meta">S1 • Romance</span>
+                </div>
+              </div>
+              <span class="metric-cell">1.6M</span>
+              <div class="progress-pair">
+                68%
+                <span class="mini-bar"><span style="width: 68%"></span></span>
+              </div>
+              <div class="progress-pair">
+                87%
+                <span class="mini-bar blue"
+                  ><span style="width: 87%"></span
+                ></span>
+              </div>
+            </div>
+            <div class="top-title-row">
+              <span class="rank-cell">4</span>
+              <div class="title-cell">
+                <img
+                  src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=100"
+                  class="title-poster"
+                  alt="Beyond the Stars poster"
+                />
+                <div class="title-info">
+                  <span class="title-name">Beyond the Stars</span
+                  ><span class="title-meta">Movie • Sci-Fi</span>
+                </div>
+              </div>
+              <span class="metric-cell">1.2M</span>
+              <div class="progress-pair">
+                65%
+                <span class="mini-bar"><span style="width: 65%"></span></span>
+              </div>
+              <div class="progress-pair">
+                84%
+                <span class="mini-bar blue"
+                  ><span style="width: 84%"></span
+                ></span>
+              </div>
+            </div>
+            <div class="top-title-row">
+              <span class="rank-cell">5</span>
+              <div class="title-cell">
+                <img
+                  src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&q=80&w=100"
+                  class="title-poster"
+                  alt="The Silent Code poster"
+                />
+                <div class="title-info">
+                  <span class="title-name">The Silent Code</span
+                  ><span class="title-meta">S1 • Crime</span>
+                </div>
+              </div>
+              <span class="metric-cell">1.1M</span>
+              <div class="progress-pair">
+                64%
+                <span class="mini-bar"><span style="width: 64%"></span></span>
+              </div>
+              <div class="progress-pair">
+                82%
+                <span class="mini-bar blue"
+                  ><span style="width: 82%"></span
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audience Insights -->
+        <div class="widget-audience">
+          <div class="widget-header">
+            <h3 class="widget-title">
+              Audience Insights
+              <i
+                data-lucide="info"
+                style="width: 13px; color: var(--text-muted)"
+              ></i>
+            </h3>
+          </div>
+          <div class="tabs">
+            <span class="tab active">Demographics</span>
+            <span class="tab">Devices</span>
+          </div>
+          <div class="audience-grid">
+            <div id="audience-chart" style="width: 150px"></div>
+            <div>
+              <div class="legend-row">
+                <span class="legend-left"
+                  ><span class="legend-dot" style="background: #7047ff"></span
+                  >18-24</span
+                ><strong>22.3%</strong>
+              </div>
+              <div class="legend-row">
+                <span class="legend-left"
+                  ><span class="legend-dot" style="background: #1976f3"></span
+                  >25-34</span
+                ><strong>28.7%</strong>
+              </div>
+              <div class="legend-row">
+                <span class="legend-left"
+                  ><span class="legend-dot" style="background: #a6adb9"></span
+                  >35-44</span
+                ><strong>21.1%</strong>
+              </div>
+              <div class="legend-row">
+                <span class="legend-left"
+                  ><span class="legend-dot" style="background: #84909f"></span
+                  >45-54</span
+                ><strong>12.1%</strong>
+              </div>
+              <div class="legend-row">
+                <span class="legend-left"
+                  ><span class="legend-dot" style="background: #f06745"></span
+                  >55+</span
+                ><strong>6.2%</strong>
+              </div>
+            </div>
+            <div>
+              <div
+                class="title-meta"
+                style="margin-bottom: 10px; font-weight: 700"
+              >
+                Device / Platform
+              </div>
+              <div class="device-row">
+                <span class="device-left"
+                  ><i data-lucide="smartphone" style="width: 13px"></i
+                  >Mobile</span
+                ><span class="device-bar"
+                  ><span style="width: 48.6%"></span></span
+                ><strong>48.6%</strong>
+              </div>
+              <div class="device-row">
+                <span class="device-left"
+                  ><i data-lucide="tv" style="width: 13px"></i>TV</span
+                ><span class="device-bar"
+                  ><span style="width: 31.2%"></span></span
+                ><strong>31.2%</strong>
+              </div>
+              <div class="device-row">
+                <span class="device-left"
+                  ><i data-lucide="monitor" style="width: 13px"></i>Web</span
+                ><span class="device-bar"
+                  ><span style="width: 14.5%"></span></span
+                ><strong>14.5%</strong>
+              </div>
+              <div class="device-row">
+                <span class="device-left"
+                  ><i data-lucide="tablet" style="width: 13px"></i>Tablet</span
+                ><span class="device-bar"
+                  ><span style="width: 4.2%"></span></span
+                ><strong>4.2%</strong>
+              </div>
+              <div class="device-row">
+                <span class="device-left"
+                  ><i data-lucide="disc-3" style="width: 13px"></i>Other</span
+                ><span class="device-bar"
+                  ><span style="width: 1.5%"></span></span
+                ><strong>1.5%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regional -->
+        <div class="widget-regional">
+          <div class="widget-header">
+            <h3 class="widget-title">
+              Regional Performance
+              <i
+                data-lucide="info"
+                style="width: 13px; color: var(--text-muted)"
+              ></i>
+            </h3>
+          </div>
+          <div class="map-panel">
+            <div
+              class="world-map"
+              aria-label="Highlighted global streaming regions"
+            ></div>
+            <div>
+              <div style="font-weight: 700; margin-bottom: 12px">
+                Top Countries
+              </div>
+              <div class="country-row">
+                <span class="country-left"><span>🇮🇩</span>Indonesia</span
+                ><strong>48.6%</strong>
+              </div>
+              <div class="country-row">
+                <span class="country-left"><span>🇲🇾</span>Malaysia</span
+                ><strong>31.2%</strong>
+              </div>
+              <div class="country-row">
+                <span class="country-left"><span>🇮🇳</span>India</span
+                ><strong>9.8%</strong>
+              </div>
+              <div class="country-row">
+                <span class="country-left"><span>🇵🇭</span>Philippines</span
+                ><strong>7.4%</strong>
+              </div>
+              <div class="country-row">
+                <span class="country-left"><span>🇸🇬</span>Singapore</span
+                ><strong>6.1%</strong>
+              </div>
+              <button class="upgrade-btn report-btn">View Full Report</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Release Calendar -->
+        <div class="widget-calendar">
+          <div class="widget-header">
+            <h3 class="widget-title">Content Release Calendar</h3>
+            <a href="#" class="view-all">View all</a>
+          </div>
+          <div class="calendar-item">
+            <img
+              src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=100"
+              class="calendar-poster"
+            />
+            <div class="calendar-info">
+              <span class="title-name"
+                >Shadows Return <span class="tag-series">SERIES</span></span
+              >
+              <span class="title-meta">Season 2 • Episode 1</span>
+            </div>
+            <div class="calendar-date">
+              <span class="day">May 16, 2025</span>
+              <span class="relative">in 6 days</span>
+            </div>
+          </div>
+          <div class="calendar-item">
+            <img
+              src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&q=80&w=100"
+              class="calendar-poster"
+            />
+            <div class="calendar-info">
+              <span class="title-name"
+                >Daybreak
+                <span class="tag-series" style="background: var(--accent-blue)"
+                  >MOVIE</span
+                ></span
+              >
+              <span class="title-meta">Premier</span>
+            </div>
+            <div class="calendar-date">
+              <span class="day">May 20, 2025</span>
+              <span class="relative">in 10 days</span>
+            </div>
+          </div>
+          <div class="calendar-item">
+            <img
+              src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&q=80&w=100"
+              class="calendar-poster"
+            />
+            <div class="calendar-info">
+              <span class="title-name"
+                >Love in Bali <span class="tag-series">SERIES</span></span
+              >
+              <span class="title-meta">Season 1 • All Episodes</span>
+            </div>
+            <div class="calendar-date">
+              <span class="day">May 28, 2025</span>
+              <span class="relative">in 18 days</span>
+            </div>
+          </div>
+          <div class="calendar-item">
+            <img
+              src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=100"
+              class="calendar-poster"
+            />
+            <div class="calendar-info">
+              <span class="title-name"
+                >Quantum Shift
+                <span class="tag-series" style="background: #7c3aed"
+                  >MOVIE</span
+                ></span
+              >
+              <span class="title-meta">Premiere</span>
+            </div>
+            <div class="calendar-date">
+              <span class="day">June 2, 2025</span>
+              <span class="relative">in 23 days</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="widget-status">
+          <div class="widget-header">
+            <h3 class="widget-title">System Status</h3>
+          </div>
+          <div class="status-overall">
+            <div class="dot-green"></div>
+            All Systems Operational
+          </div>
+          <div class="status-list">
+            <div class="status-item">
+              <i
+                data-lucide="check-circle-2"
+                style="color: var(--accent-green); width: 14px"
+              ></i>
+              Streaming Service
+            </div>
+            <div class="status-item">
+              <i
+                data-lucide="check-circle-2"
+                style="color: var(--accent-green); width: 14px"
+              ></i>
+              API Gateway
+            </div>
+            <div class="status-item">
+              <i
+                data-lucide="check-circle-2"
+                style="color: var(--accent-green); width: 14px"
+              ></i>
+              Auth Service
+            </div>
+            <div class="status-item">
+              <i
+                data-lucide="check-circle-2"
+                style="color: var(--accent-green); width: 14px"
+              ></i>
+              User Database
+            </div>
+            <div class="status-item">
+              <i
+                data-lucide="check-circle-2"
+                style="color: var(--accent-green); width: 14px"
+              ></i>
+              Video Encoding
+            </div>
+            <div class="status-item">
+              <i
+                data-lucide="check-circle-2"
+                style="color: var(--accent-green); width: 14px"
+              ></i>
+              CDN (Global)
+            </div>
+          </div>
+          <div
+            style="
+              margin-top: 24px;
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+            "
+          >
+            <div>
+              <div
+                style="
+                  font-size: 10px;
+                  color: var(--text-muted);
+                  margin-bottom: 4px;
+                "
+              >
+                Uptime
+              </div>
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 700;
+                  color: var(--accent-green);
+                "
+              >
+                99.98%
+              </div>
+            </div>
+            <a
+              href="#"
+              style="
+                font-size: 11px;
+                color: var(--primary);
+                text-decoration: none;
+              "
+              >View Status Page ></a
+            >
+          </div>
+        </div>
+
+        <!-- CDN Health -->
+        <div class="widget-cdn">
+          <div class="widget-header">
+            <h3 class="widget-title">
+              CDN Health
+              <i
+                data-lucide="info"
+                style="width: 13px; color: var(--text-muted)"
+              ></i>
+            </h3>
+          </div>
+          <div class="cdn-wrap">
+            <div class="cdn-globe" aria-label="CDN edge network globe"></div>
+            <div>
+              <div style="font-weight: 700; margin-bottom: 14px">
+                Edge Performance
+              </div>
+              <div class="edge-row">
+                <span>Asia Pacific</span
+                ><span class="edge-bar"><span style="width: 98.7%"></span></span
+                ><strong style="color: var(--accent-green)">98.7%</strong>
+              </div>
+              <div class="edge-row">
+                <span>Europe</span
+                ><span class="edge-bar"><span style="width: 98.3%"></span></span
+                ><strong style="color: var(--accent-green)">98.3%</strong>
+              </div>
+              <div class="edge-row">
+                <span>North America</span
+                ><span class="edge-bar"><span style="width: 99.1%"></span></span
+                ><strong style="color: var(--accent-green)">99.1%</strong>
+              </div>
+              <div class="edge-row">
+                <span>South America</span
+                ><span class="edge-bar"><span style="width: 97.6%"></span></span
+                ><strong style="color: var(--accent-green)">97.6%</strong>
+              </div>
+              <div class="edge-row">
+                <span>Africa</span
+                ><span class="edge-bar"><span style="width: 96.8%"></span></span
+                ><strong style="color: var(--accent-green)">96.8%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="widget-activity">
+          <div class="widget-header">
+            <h3 class="widget-title">Recent Activity</h3>
+            <a href="#" class="view-all">View all</a>
+          </div>
+          <div style="display: flex; flex-direction: column">
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i data-lucide="user-plus" style="width: 16px"></i>
+              </div>
+              <div style="flex: 1">
+                <div style="font-size: 13px; font-weight: 600">
+                  New user registered
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted)">
+                  john.doe@email.com
+                </div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted)"
+                >2 min ago</span
+              >
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i data-lucide="calendar-check" style="width: 16px"></i>
+              </div>
+              <div style="flex: 1">
+                <div style="font-size: 13px; font-weight: 600">
+                  Subscription renewed
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted)">
+                  Premium Plan • 1 Year
+                </div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted)"
+                >8 min ago</span
+              >
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i data-lucide="list-plus" style="width: 16px"></i>
+              </div>
+              <div style="flex: 1">
+                <div style="font-size: 13px; font-weight: 600">
+                  New content added
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted)">
+                  The Last Horizon • Episode 6
+                </div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted)"
+                >15 min ago</span
+              >
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i
+                  data-lucide="ban"
+                  style="width: 16px; color: var(--primary)"
+                ></i>
+              </div>
+              <div style="flex: 1">
+                <div style="font-size: 13px; font-weight: 600">
+                  Content flagged
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted)">
+                  Inappropriate thumbnail detected
+                </div>
+              </div>
+              <span style="font-size: 11px; color: var(--text-muted)"
+                >25 min ago</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // Common sparkline options
+      const sparklineOptions = {
+        chart: {
+          type: "area",
+          height: 48,
+          sparkline: { enabled: true },
+          animations: { enabled: false },
+        },
+        stroke: { curve: "smooth", width: 2 },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.4,
+            opacityTo: 0,
+            stops: [0, 100],
+          },
+        },
+        tooltip: { enabled: false },
+      };
+
+      // Revenue Sparkline
+      new ApexCharts(document.querySelector("#sparkline-revenue"), {
+        ...sparklineOptions,
+        series: [{ data: [30, 40, 35, 50, 49, 60, 70, 91, 125] }],
+        colors: ["#e50914"],
+      }).render();
+
+      // Subscribers Sparkline
+      new ApexCharts(document.querySelector("#sparkline-subscribers"), {
+        ...sparklineOptions,
+        series: [{ data: [25, 33, 41, 59, 62, 70, 82, 95, 110] }],
+        colors: ["#3b82f6"],
+      }).render();
+
+      // Watch Hours Sparkline
+      new ApexCharts(document.querySelector("#sparkline-watch"), {
+        ...sparklineOptions,
+        series: [{ data: [45, 52, 38, 24, 33, 26, 21, 20, 15].reverse() }],
+        colors: ["#22c55e"],
+      }).render();
+
+      // Churn Sparkline
+      new ApexCharts(document.querySelector("#sparkline-churn"), {
+        ...sparklineOptions,
+        series: [{ data: [10, 15, 8, 12, 7, 5, 4, 3, 2] }],
+        colors: ["#f59e0b"],
+      }).render();
+
+      // Signups Sparkline
+      new ApexCharts(document.querySelector("#sparkline-signups"), {
+        ...sparklineOptions,
+        series: [{ data: [15, 20, 18, 25, 30, 28, 35, 40, 45] }],
+        colors: ["#22c55e"],
+      }).render();
+
+      // Titles Sparkline
+      new ApexCharts(document.querySelector("#sparkline-titles"), {
+        ...sparklineOptions,
+        series: [{ data: [5, 10, 8, 15, 12, 18, 14, 22, 20] }],
+        colors: ["#f59e0b"],
+      }).render();
+
+      // Main Trend Chart
+      new ApexCharts(document.querySelector("#main-trend-chart"), {
+        chart: {
+          type: "area",
+          height: 350,
+          toolbar: { show: false },
+          background: "transparent",
+        },
+        theme: { mode: "dark" },
+        colors: ["#3b82f6", "#e50914"],
+        dataLabels: { enabled: false },
+        stroke: { curve: "smooth", width: 3 },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.3,
+            opacityTo: 0,
+            stops: [0, 90, 100],
+          },
+        },
+        series: [
+          {
+            name: "Active Subscribers",
+            data: [
+              0.78, 0.95, 0.87, 0.9, 1.04, 1.15, 1.11, 1.35, 1.43, 1.24, 1.18,
+              1.14,
+            ],
+          },
+          {
+            name: "Watch Hours",
+            data: [
+              5.0, 6.5, 5.3, 6.3, 6.1, 7.4, 10.3, 9.0, 10.8, 8.4, 8.9, 7.7,
+            ],
+          },
+        ],
+        xaxis: {
+          categories: [
+            "Apr 11",
+            "Apr 15",
+            "Apr 19",
+            "Apr 23",
+            "Apr 27",
+            "May 1",
+            "May 5",
+            "May 10",
+          ],
+          axisBorder: { show: false },
+          axisTicks: { show: false },
+        },
+        yaxis: [
+          {
+            seriesName: "Active Subscribers",
+            min: 0,
+            max: 1.5,
+            tickAmount: 5,
+            labels: {
+              style: { colors: "#1976f3" },
+              formatter: function (val) {
+                return val === 0 ? "0" : val.toFixed(1) + "M";
+              },
+            },
+          },
+          {
+            seriesName: "Watch Hours",
+            opposite: true,
+            min: 0,
+            max: 15,
+            tickAmount: 5,
+            labels: {
+              style: { colors: "#ff1f2d" },
+              formatter: function (val) {
+                return val === 0 ? "0" : val.toFixed(0) + "M";
+              },
+            },
+          },
+        ],
+        grid: {
+          borderColor: "#1c1d21",
+          strokeDashArray: 4,
+        },
+        legend: {
+          position: "top",
+          horizontalAlign: "left",
+          offsetY: -10,
+        },
+      }).render();
+
+      // Audience Donut Chart
+      new ApexCharts(document.querySelector("#audience-chart"), {
+        chart: {
+          type: "donut",
+          height: 180,
+        },
+        series: [22.3, 28.7, 21.1, 12.1, 6.2],
+        labels: ["18-24", "25-34", "35-44", "45-54", "55+"],
+        colors: ["#7047ff", "#1976f3", "#a6adb9", "#84909f", "#f06745"],
+        stroke: { show: false },
+        dataLabels: { enabled: false },
+        legend: { show: false },
+        plotOptions: {
+          pie: {
+            donut: {
+              size: "80%",
+              background: "transparent",
+              labels: {
+                show: true,
+                name: { show: false },
+                value: {
+                  show: true,
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  color: "#fff",
+                  offsetY: 5,
+                  formatter: function () {
+                    return "1.28M";
+                  },
+                },
+                total: {
+                  show: true,
+                  formatter: function () {
+                    return "1.28M";
+                  },
+                },
+              },
+            },
+          },
+        },
+      }).render();
+    </script>
+  </body>
+</html>
